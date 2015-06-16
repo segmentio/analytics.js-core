@@ -1,4 +1,5 @@
-# Analytics.js [![Build Status][ci-badge]][ci-link]
+
+# Analytics.js
 
 The hassle-free way to integrate analytics into any web application. 
 
