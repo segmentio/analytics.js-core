@@ -1,0 +1,25 @@
+
+machine:
+  node:
+    version: 0.12
+
+dependencies:
+  override:
+    - make build
+
+test:
+  override:
+    - BROWSER=chrome make test-sauce:
+        parallel: true
+    - BROWSER=firefox make test-sauce:
+        parallel: true
+    - BROWSER=safari make test-sauce:
+        parallel: true
+    - BROWSER=ie:11 make test-sauce:
+        parallel: true
+    - BROWSER=ie:10 make test-sauce:
+        parallel: true
+    - BROWSER=ie:9 make test-sauce:
+        parallel: true
+    - BROWSER=ie:8 make test-sauce:
+        parallel: true
