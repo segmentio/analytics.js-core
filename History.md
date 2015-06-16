@@ -1,4 +1,13 @@
 
+2.10.0 / 2015-06-16
+==================
+
+  * remove git hooks
+  * add circle.yml
+  * remove travis ci
+  * ignore built files
+  * remove integrations
+
 2.9.1 / 2015-06-11
 ==================
 
