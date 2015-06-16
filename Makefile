@@ -54,19 +54,6 @@ distclean: clean
 	@rm -rf components node_modules
 .PHONY: distclean
 
-# Remove git hooks.
-clean-hooks:
-	@rm $(HOOKS)
-.PHONY: clean-hooks
-
-# Install an individual Git hook.
-.git/hooks/%: bin/hooks/%
-	@ln -s $(abspath $<) $@
-
-# Install all Git hooks.
-hooks: $(HOOKS)
-.PHONY: hooks
-
 #
 # Build tasks.
 #
