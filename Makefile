@@ -101,10 +101,3 @@ test-sauce: node_modules lint $(BUILD)
 		--browsers $(BROWSER) \
 		--title analytics.js
 .PHONY: test-sauce
-
-#
-# Deprecated/legacy tasks.
-#
-
-clean-deps: distclean
-.PHONY: clean-deps
