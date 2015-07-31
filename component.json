@@ -19,7 +19,7 @@
     "component/event": "0.1.1",
     "component/inherit": "0.0.2",
     "component/object": "0.0.3",
-    "component/querystring": "1.3.0",
+    "component/querystring": "2.0.0",
     "component/url": "0.2.0",
     "gjohnson/uuid": "0.0.1",
     "ianstormtaylor/bind": "0.0.2",
