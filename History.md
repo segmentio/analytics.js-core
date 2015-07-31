@@ -1,4 +1,9 @@
 
+2.10.1 / 2015-07-30
+===================
+
+  * Bump component/querystring to 2.0.0 to fix a URL encoding issue
+
 2.10.0 / 2015-06-16
 ==================
 
