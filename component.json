@@ -26,6 +26,7 @@
     "ianstormtaylor/callback": "0.0.1",
     "ianstormtaylor/is": "0.1.0",
     "ndhoule/includes": "1.0.0",
+    "ndhoule/foldl": "1.0.3",
     "ndhoule/pick": "1.0.1",
     "segmentio/after": "0.0.1",
     "segmentio/canonical": "0.0.1",
