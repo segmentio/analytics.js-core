@@ -1,4 +1,9 @@
 
+2.11.0 / 2015-09-02
+=============
+
+  * Merge pull request #9 from segmentio/feat/props-and-traits-via-qs
+
 2.10.1 / 2015-07-30
 ===================
 
