@@ -1,6 +1,11 @@
 
+2.11.1 / 2015-10-13
+===================
+
+  * publishing new version to fix bower
+
 2.11.0 / 2015-09-02
-=============
+===================
 
   * add support for populating traits and properties in querystring-triggered calls
 
