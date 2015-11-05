@@ -21,6 +21,7 @@
     "component/object": "0.0.3",
     "component/querystring": "2.0.0",
     "component/url": "0.2.0",
+    "gjohnson/is-bot": "0.0.1",
     "gjohnson/uuid": "0.0.1",
     "ianstormtaylor/bind": "0.0.2",
     "ianstormtaylor/callback": "0.0.1",
