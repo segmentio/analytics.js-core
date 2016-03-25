@@ -3,7 +3,7 @@
   "main": "lib/index.js",
   "repo": "madkudu/analytics.js-core",
   "description": "The hassle-free way to integrate analytics into any web application.",
-  "version": "2.11.1",
+  "version": "2.11.2",
   "keywords": [
     "analytics",
     "analytics.js",
