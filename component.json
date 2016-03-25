@@ -1,7 +1,7 @@
 {
   "name": "analytics",
   "main": "lib/index.js",
-  "repo": "segmentio/analytics.js-core",
+  "repo": "madkudu/analytics.js-core",
   "description": "The hassle-free way to integrate analytics into any web application.",
   "version": "2.11.1",
   "keywords": [
