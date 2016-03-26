@@ -1,4 +1,5 @@
 
+require('./predictions.js');
 require('./analytics.js');
 require('./normalize.js');
 require('./memory.js');
