@@ -2,8 +2,6 @@ var assert = require('assert');
 var analytics = window.analytics;
 
 describe('predictions', function() {
-  var user_id = 'my_user_id';
-
   // good customer
   it('case 1: should return very good for this one ', function() {
     var traits = {
@@ -12,22 +10,22 @@ describe('predictions', function() {
       raised: 0,
       industry: 'Software'
     };
-    analytics.identify(user_id, traits);
+    analytics.identify('case1', traits);
     var score = analytics.user().predictions();
     assert.deepEqual(score, { mk_customer_fit: 'very good' });
   });
 
   // customer too small
-  it('case 2: should be not very good', function() {
+  it('case 2: should be low', function() {
     var traits = {
       employees: 30,
       alexaGlobalRank: 3000,
       raised: 0,
       industry: 'Software'
     };
-    analytics.identify(user_id, traits);
+    analytics.identify('case2', traits);
     var score = analytics.user().predictions();
-    assert.deepEqual(score, { mk_customer_fit: 'not very good' });
+    assert.deepEqual(score, { mk_customer_fit: 'low' });
   });
 
   // industry value is not one of the allowed value
@@ -38,7 +36,7 @@ describe('predictions', function() {
       raised: 0,
       industry: 'Something Strange'
     };
-    analytics.identify(user_id, traits);
+    analytics.identify('case3', traits);
     var score = analytics.user().predictions();
     assert.deepEqual(score, { mk_customer_fit: undefined });
   });
@@ -51,22 +49,22 @@ describe('predictions', function() {
       raised: 30000000000,
       industry: 'Commercial Services & Supplies'
     };
-    analytics.identify(user_id, traits);
+    analytics.identify('case4', traits);
     var score = analytics.user().predictions();
     assert.deepEqual(score, { mk_customer_fit: 'very good' });
   });
 
   // small and not a great industry
-  it('case 5: should be not very good', function() {
+  it('case 5: should be low', function() {
     var traits = {
-      employees: 60,
+      employees: 50,
       alexaGlobalRank: 3000,
       raised: 300,
       industry: 'Commercial Services & Supplies'
     };
-    analytics.identify(user_id, traits);
+    analytics.identify('case5', traits);
     var score = analytics.user().predictions();
-    assert.deepEqual(score, { mk_customer_fit: 'not very good' });
+    assert.deepEqual(score, { mk_customer_fit: 'low' });
   });
 
   // User with an unexpected trait
@@ -78,7 +76,7 @@ describe('predictions', function() {
       industry: 'Software',
       number_of_arms: 7
     };
-    analytics.identify(user_id, traits);
+    analytics.identify('case6', traits);
     var score = analytics.user().predictions();
     assert.deepEqual(score, { mk_customer_fit: 'very good' });
   });
@@ -86,12 +84,12 @@ describe('predictions', function() {
   // User with a trait in a different format
   it('case 7: should be undefined', function() {
     var traits = {
-      employees: '200',
+      employees_spectial: '200',
       alexaGlobalRank: 3000,
       raised: 0,
       industry: 'Software'
     };
-    analytics.identify(user_id, traits);
+    analytics.identify('case7', traits);
     var score = analytics.user().predictions();
     assert.deepEqual(score, { mk_customer_fit: undefined });
   });
@@ -103,14 +101,25 @@ describe('predictions', function() {
       alexaGlobalRank: 3000,
       raised: 0
     };
-    analytics.identify(user_id, traits);
+    analytics.identify('case8', traits);
     var score = analytics.user().predictions();
     assert.deepEqual(score, { mk_customer_fit: undefined });
   });
 
   // User with traits as undefined
   it('case 9: should be undefined', function() {
-    analytics.identify(user_id);
+    analytics.identify('case9');
+    var score = analytics.user().predictions();
+    assert.deepEqual(score, { mk_customer_fit: undefined });
+  });
+  // User with junk traits undefined
+  it('case 10: should be undefined', function() {
+    var junk = {
+      thisIsJunk: '200',
+      alexaGlobalRank: 3000,
+      raised: 0
+    };
+    analytics.identify('case10', junk);
     var score = analytics.user().predictions();
     assert.deepEqual(score, { mk_customer_fit: undefined });
   });
