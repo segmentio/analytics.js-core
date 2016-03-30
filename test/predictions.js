@@ -2,7 +2,6 @@ var assert = require('assert');
 var analytics = window.analytics;
 
 describe('predictions', function() {
-
   var user_id = 'my_user_id';
 
   // good customer
@@ -19,7 +18,7 @@ describe('predictions', function() {
   });
 
   // customer too small
-  it('case 2: should be undefined', function() {
+  it('case 2: should be not very good', function() {
     var traits = {
       employees: 30,
       alexaGlobalRank: 3000,
@@ -58,7 +57,7 @@ describe('predictions', function() {
   });
 
   // small and not a great industry
-  it('case 5: should be undefined', function() {
+  it('case 5: should be not very good', function() {
     var traits = {
       employees: 60,
       alexaGlobalRank: 3000,
@@ -115,5 +114,4 @@ describe('predictions', function() {
     var score = analytics.user().predictions();
     assert.deepEqual(score, { mk_customer_fit: undefined });
   });
-
 });
