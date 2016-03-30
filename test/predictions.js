@@ -114,11 +114,12 @@ describe('predictions', function() {
   });
   // User with junk traits undefined
   it('case 10: should be undefined', function() {
-    var junk = {
+    var junk = [{
       thisIsJunk: '200',
       alexaGlobalRank: 3000,
-      raised: 0
-    };
+      raised: 0,
+      junk: junk
+    }];
     analytics.identify('case10', junk);
     var score = analytics.user().predictions();
     assert.deepEqual(score, { mk_customer_fit: undefined });
