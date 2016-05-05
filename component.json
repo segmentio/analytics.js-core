@@ -31,7 +31,7 @@
     "segmentio/after": "0.0.1",
     "segmentio/canonical": "0.0.1",
     "segmentio/extend": "0.0.1",
-    "segmentio/facade": "1.x",
+    "segmentio/facade": "^2.2.2",
     "segmentio/is-email": "0.1.1",
     "segmentio/is-meta": "0.0.1",
     "segmentio/isodate-traverse": "0.3.x",
