@@ -1,8 +1,7 @@
 {
-  "name": "analytics.js-core",
-  "author": "Segment.io <friends@segment.io>",
-  "version": "2.12.2",
-  "license": "MIT",
+  "name": "@segment/analytics.js-core",
+  "author": "Segment <friends@segment.com>",
+  "version": "3.0.0",
   "description": "The hassle-free way to integrate analytics into any web application.",
   "keywords": [
     "analytics",
@@ -10,25 +9,79 @@
     "segment",
     "segment.io"
   ],
-  "repository": {
-    "url": "https://github.com/segmentio/analytics.js.git",
-    "type": "git"
-  },
-  "engines": {
-    "node": ">=0.12.0",
-    "npm": ">=2.7.0"
-  },
-  "main": "analytics.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "make test"
   },
-  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/segmentio/analytics.js-core"
+  },
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/segmentio/analytics.js-core/issues"
+  },
+  "homepage": "https://github.com/segmentio/analytics.js-core#readme",
+  "dependencies": {
+    "@ndhoule/after": "^1.0.0",
+    "@ndhoule/clone": "^1.0.0",
+    "@ndhoule/defaults": "^2.0.1",
+    "@ndhoule/each": "^2.0.1",
+    "@ndhoule/extend": "^2.0.0",
+    "@ndhoule/foldl": "^2.0.1",
+    "@ndhoule/includes": "^2.0.1",
+    "@ndhoule/keys": "^2.0.0",
+    "@ndhoule/map": "^2.0.1",
+    "@ndhoule/pick": "^2.0.0",
+    "@segment/canonical": "^1.0.0",
+    "@segment/is-meta": "^1.0.0",
+    "@segment/isodate": "^1.0.2",
+    "@segment/isodate-traverse": "^1.0.1",
+    "@segment/prevent-default": "^1.0.0",
+    "@segment/store": "^1.3.20",
+    "@segment/top-domain": "^3.0.0",
+    "bind-all": "^1.0.0",
+    "component-cookie": "^1.1.2",
+    "component-emitter": "^1.2.1",
+    "component-event": "^0.1.4",
+    "component-querystring": "^2.0.0",
+    "component-type": "^1.2.1",
+    "component-url": "^0.2.1",
+    "debug": "^0.7.4",
+    "inherits": "^2.0.1",
+    "install": "^0.7.3",
+    "is": "^3.1.0",
+    "json3": "^3.3.2",
+    "new-date": "^1.0.0",
+    "next-tick": "^0.2.2",
+    "segmentio-facade": "^3.0.2",
+    "uuid": "^2.0.2"
+  },
   "devDependencies": {
-    "duo": "^0.12.0",
-    "duo-test": "^0.4.0",
-    "eslint": "0.x",
-    "eslint-config-segment": "^1.0.7",
-    "phantomjs": "^1.9.16",
-    "uglify-js": ">= 1.3.4"
+    "@segment/analytics.js-integration": "^2.0.0",
+    "@segment/eslint-config": "^3.1.1",
+    "browserify": "^13.0.0",
+    "browserify-istanbul": "^2.0.0",
+    "compat-trigger-event": "^1.0.0",
+    "component-each": "^0.2.6",
+    "eslint": "^2.9.0",
+    "eslint-plugin-mocha": "^2.2.0",
+    "eslint-plugin-require-path-exists": "^1.1.5",
+    "istanbul": "^0.4.3",
+    "jquery": "^1.12.3",
+    "karma": "^0.13.22",
+    "karma-browserify": "^5.0.4",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-coverage": "^1.0.0",
+    "karma-junit-reporter": "^1.0.0",
+    "karma-mocha": "^1.0.1",
+    "karma-phantomjs-launcher": "^1.0.0",
+    "karma-sauce-launcher": "^1.0.0",
+    "karma-spec-reporter": "0.0.26",
+    "mocha": "^2.2.5",
+    "phantomjs-prebuilt": "^2.1.7",
+    "proclaim": "^3.4.1",
+    "sinon": "^1.7.3",
+    "watchify": "^3.7.0"
   }
 }

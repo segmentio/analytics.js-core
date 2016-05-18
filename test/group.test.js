@@ -1,13 +1,15 @@
+'use strict';
 
-var assert = require('assert');
+var Analytics = require('../lib').constructor;
+var analytics = require('../lib');
+var assert = require('proclaim');
 var sinon = require('sinon');
-var analytics = window.analytics;
-var Analytics = analytics.constructor;
+
 var cookie = Analytics.cookie;
-var memory = Analytics.memory;
-var store = Analytics.store;
 var group = analytics.group();
 var Group = group.Group;
+var memory = Analytics.memory;
+var store = Analytics.store;
 
 describe('group', function() {
   var cookieKey = group._options.cookie.key;
@@ -26,13 +28,13 @@ describe('group', function() {
     group.protocol = location.protocol;
   });
 
-  describe('()', function(){
-    beforeEach(function(){
+  describe('()', function() {
+    beforeEach(function() {
       cookie.set(cookieKey, 'gid');
       store.set(localStorageKey, { trait: true });
     });
 
-    it('should not reset group id and traits', function(){
+    it('should not reset group id and traits', function() {
       var group = new Group();
       assert(group.id() === 'gid');
       assert(group.traits().trait === true);
@@ -40,13 +42,13 @@ describe('group', function() {
   });
 
   describe('#id', function() {
-    describe('when cookies are disabled', function(){
-      beforeEach(function(){
-        sinon.stub(cookie, 'get', function(){});
+    describe('when cookies are disabled', function() {
+      beforeEach(function() {
+        sinon.stub(cookie, 'get', function() {});
         group = new Group();
       });
 
-      afterEach(function(){
+      afterEach(function() {
         cookie.get.restore();
       });
 
@@ -77,14 +79,14 @@ describe('group', function() {
       });
     });
 
-    describe('when cookies and localStorage are disabled', function(){
-      beforeEach(function(){
-        sinon.stub(cookie, 'get', function(){});
+    describe('when cookies and localStorage are disabled', function() {
+      beforeEach(function() {
+        sinon.stub(cookie, 'get', function() {});
         store.enabled = false;
         group = new Group();
       });
 
-      afterEach(function(){
+      afterEach(function() {
         store.enabled = true;
         cookie.get.restore();
       });
@@ -116,7 +118,7 @@ describe('group', function() {
       });
     });
 
-    describe('when cookies are enabled', function(){
+    describe('when cookies are enabled', function() {
       it('should get an id from the cookie', function() {
         cookie.set(cookieKey, 'id');
 

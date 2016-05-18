@@ -1,3 +1,9 @@
+vNEXT / ????-??-??
+==================
+
+  * Remove Duo support, add browserify support
+  * Modernize test harness
+
 2.12.2 / 2016-05-24
 ===================
 

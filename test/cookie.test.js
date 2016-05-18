@@ -1,9 +1,10 @@
+'use strict';
 
-var assert = require('assert');
-var cookie = window.analytics.constructor.cookie;
+var assert = require('proclaim');
+var cookie = require('../lib').constructor.cookie;
 
 describe('cookie', function() {
-  before(function(){
+  before(function() {
     // Just to make sure that
     // URIError is never thrown here.
     document.cookie = 'bad=%';
@@ -54,19 +55,19 @@ describe('cookie', function() {
       assert(cookie.options().maxage === 31536000000);
     });
 
-    it('should set the domain correctly', function(){
+    it('should set the domain correctly', function() {
       cookie.options({ domain: '' });
       assert(cookie.options().domain === '');
     });
 
-    it('should fallback to `domain=null` when it cant set the test cookie', function(){
+    it('should fallback to `domain=null` when it cant set the test cookie', function() {
       cookie.options({ domain: 'baz.com' });
       assert(cookie.options().domain === null);
       assert(cookie.get('ajs:test') === null);
     });
 
     // TODO: unskip once we don't use `window`, instead mock it :/
-    it.skip('should set domain localhost to `""`', function(){
+    it.skip('should set domain localhost to `""`', function() {
       cookie.options({});
       assert(cookie.options().domain === '');
     });

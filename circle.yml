@@ -1,17 +1,30 @@
 machine:
   node:
     version: 4
+  environment:
+    NPM_CONFIG_PROGRESS: false
+    NPM_CONFIG_SPIN: false
+    TEST_REPORTS_DIR: $CIRCLE_TEST_REPORTS
 
 dependencies:
+  pre:
+    - npm config set "//registry.npmjs.org/:_authToken" $NPM_AUTH
+#     - npm -g install codecov
   override:
-    - echo "github.com,192.30.252.*,192.30.253.*,192.30.254.*,192.30.255.* ssh-rsa $(ssh-keyscan -t rsa github.com | cut -d ' ' -f 3-)" >> ~/.ssh/known_hosts
-    - make build
+    - make install
 
 test:
   override:
-    - BROWSER=firefox make test-sauce
-    - BROWSER=safari make test-sauce
-    - BROWSER=ie:11 make test-sauce
-    - BROWSER=ie:10 make test-sauce
-    - BROWSER=ie:9 make test-sauce
-    - BROWSER=ie:8 make test-sauce
+    - make test
+# XXX(ndhoule): Coverage disabled while supporting IE7/8, see karma.conf.js
+#   post:
+#     - cp -R coverage $CIRCLE_ARTIFACTS/
+#     - codecov
+
+deployment:
+  publish:
+    owner: segmentio
+    # Works on e.g. `1.0.0-alpha.1`
+    tag: /[0-9]+(\.[0-9]+)*(-.+)?/
+    commands:
+      - npm publish .

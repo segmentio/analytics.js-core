@@ -1,6 +1,7 @@
+'use strict';
 
-var assert = require('assert');
-var store = window.analytics.constructor.store;
+var assert = require('proclaim');
+var store = require('../lib').constructor.store;
 
 describe('store', function() {
   afterEach(function() {
