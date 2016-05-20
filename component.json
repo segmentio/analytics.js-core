@@ -22,7 +22,7 @@
     "component/querystring": "2.0.0",
     "component/url": "0.2.0",
     "gjohnson/uuid": "0.0.1",
-    "ianstormtaylor/bind": "0.0.2",
+    "segmentio/bind-all": "0.0.2",
     "ianstormtaylor/callback": "0.0.1",
     "ianstormtaylor/is": "0.1.0",
     "ndhoule/includes": "1.0.0",
