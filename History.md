@@ -1,3 +1,8 @@
+2.12.2 / 2016-05-24
+===================
+
+  * Replace component/assert with segmentio/assert to fix build issues
+
 2.12.1 / 2016-05-23
 ===================
 
