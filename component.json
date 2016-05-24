@@ -44,7 +44,7 @@
   },
   "development": {
     "component/jquery": "^1.0.0",
-    "component/assert": "^0.5.0",
+    "segmentio/assert": "^0.5.0",
     "ianstormtaylor/trigger-event": "^0.1.0",
     "segmentio/analytics.js-integration": "*",
     "segmentio/protocol": "^0.0.2",
