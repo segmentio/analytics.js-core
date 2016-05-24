@@ -2,6 +2,13 @@ var assert = require('assert');
 var analytics = window.analytics;
 
 describe('predictions', function() {
+  beforeEach(function() {
+    analytics.timeout(0);
+  });
+
+  afterEach(function() {
+    analytics.reset();
+  });
   // good customer
   it('case 1: should return very good for this one ', function(done) {
     var traits = {
@@ -51,7 +58,7 @@ describe('predictions', function() {
       if (err) {
         done(err);
       }
-      assert.deepEqual(score, { mk_customer_fit: undefined });
+      assert.deepEqual(score, { mk_customer_fit: 'low' });
       done();
     });
   });
@@ -124,7 +131,7 @@ describe('predictions', function() {
       if (err) {
         done(err);
       }
-      assert.deepEqual(score, { mk_customer_fit: undefined });
+      assert.deepEqual(score, { mk_customer_fit: 'not enough information' });
       done();
     });
   });
@@ -141,7 +148,7 @@ describe('predictions', function() {
       if (err) {
         done(err);
       }
-      assert.deepEqual(score, { mk_customer_fit: undefined });
+      assert.deepEqual(score, { mk_customer_fit: 'low' });
       done();
     });
   });
@@ -172,6 +179,362 @@ describe('predictions', function() {
         done(err);
       }
       assert.deepEqual(score, { mk_customer_fit: undefined });
+      done();
+    });
+  });
+
+  it('case 11: sdr logic 1', function(done) {
+    var traits = {
+      employees: 270,
+      alexaGlobalRank: 174584,// j
+      raised: 245750000,
+      industry: 'Internet Software & Services',
+      country: 'United States'
+    };
+    analytics.identify('case00', traits);
+    analytics.user().predictions(function(err, score) {
+      if (err) {
+        done(err);
+      }
+      assert.deepEqual(score, { mk_customer_fit: 'very good' });
+      done();
+    });
+  });
+
+  it('case 12: sdr logic 2', function(done) {
+    var traits = {
+      employees: 10,
+      country: 'United States'
+    };
+    analytics.identify('case12', traits);
+    analytics.user().predictions(function(err, score) {
+      if (err) {
+        done(err);
+      }
+      assert.deepEqual(score, { mk_customer_fit: 'low' });
+      done();
+    });
+  });
+
+  it('case 13: sdr logic 3', function(done) {
+    var traits = {
+      employees: 400,
+      country: 'United States',
+      industry: 'Professional Services',
+      raised: 4E6
+    };
+    analytics.identify('case13', traits);
+    analytics.user().predictions(function(err, score) {
+      if (err) {
+        done(err);
+      }
+      assert.deepEqual(score, { mk_customer_fit: 'low' });
+      done();
+    });
+  });
+
+  it('case 14: leaf 1', function(done) {
+    var traits = {
+      employees: 3250,
+      country: 'United States',
+      industry: 'Media',
+      raised: 1E9, // 5900000000,
+      tech: [
+        'google_analytics',
+        'double_click',
+        'mixpanel',
+        'optimizely',
+        'typekit_by_adobe',
+        'nginx',
+        'google_apps'
+      ],
+      googleRank: 7,
+      alexaGlobalRank: 1071,
+      marketCap: 5900000000
+    };
+    analytics.identify('case14', traits);
+    analytics.user().predictions(function(err, score) {
+      if (err) {
+        done(err);
+      }
+      assert.deepEqual(score, { mk_customer_fit: 'very good' });
+      done();
+    });
+  });
+
+  it('case 15: leaf 2', function(done) {
+    var traits = {
+      employees: 3250,
+      country: 'United States',
+      industry: 'Media',
+      raised: 5900000000,
+      tech: ['google_analytics', 'double_click', 'mixpanel', 'optimizely', 'typekit_by_adobe', 'nginx', 'google_apps'],
+      googleRank: 7,
+      alexaGlobalRank: 1071,
+      marketCap: null
+    };
+    analytics.identify('case15', traits);
+    analytics.user().predictions(function(err, score) {
+      if (err) {
+        done(err);
+      }
+      assert.deepEqual(score, { mk_customer_fit: 'very good' });
+      done();
+    });
+  });
+
+  it('case 16: low size, low rank, biz tech', function(done) {
+    var traits = {
+      employees: 180,
+      country: 'United States',
+      industry: 'Media',
+      raised: 1E6,
+      googleRank: 2,
+      tech: ['totango'],
+      alexaGlobalRank: 10,
+      marketCap: null
+    };
+    analytics.identify('case16', traits);
+    analytics.user().predictions(function(err, score) {
+      if (err) {
+        done(err);
+      }
+      assert.deepEqual(score, { mk_customer_fit: 'good' });
+      done();
+    });
+  });
+
+  it('case 17: low size, low rank, biz tech', function(done) {
+    var traits = {
+      employees: 50,
+      country: 'United States',
+      industry: 'Media',
+      raised: 1E6,
+      googleRank: 2,
+      alexaGlobalRank: 1E7,
+      marketCap: null
+    };
+    analytics.identify('case17', traits);
+    analytics.user().predictions(function(err, score) {
+      if (err) {
+        done(err);
+      }
+      assert.deepEqual(score, { mk_customer_fit: 'very good' });
+      done();
+    });
+  });
+
+  it('case 18: low size, low grank, no biz tech, top9 ind', function(done) {
+    var traits = {
+      employees: 100,
+      country: 'Should Not Matter',
+      industry: 'Media',
+      raised: 1E6,
+      googleRank: 10,
+      tech: ['double_click'],
+      alexaGlobalRank: 10,
+      marketCap: null
+    };
+    analytics.identify('case18', traits);
+    analytics.user().predictions(function(err, score) {
+      if (err) {
+        done(err);
+      }
+      assert.deepEqual(score, { mk_customer_fit: 'very good' });
+      done();
+    });
+  });
+
+  it('case 19: low size, low grank, no biz tech, top10_11 ind', function(done) {
+    var traits = {
+      employees: 100,
+      country: 'Should Not Matter',
+      industry: 'Health Care Providers & Services',
+      raised: 1E4,
+      googleRank: 10,
+      tech: ['double_click'],
+      alexaGlobalRank: 10000,
+      marketCap: null
+    };
+    analytics.identify('case18', traits);
+    analytics.user().predictions(function(err, score) {
+      if (err) {
+        done(err);
+      }
+      assert.deepEqual(score, { mk_customer_fit: 'good' });
+      done();
+    });
+  });
+
+  it('case 20: top13 cntry, marketCap > null, low grank', function(done) {
+    var traits = {
+      employees: 100,
+      country: 'Denmark',
+      industry: 'Any Industry',
+      raised: 30000000,
+      googleRank: 5,
+      tech: ['double_click'],
+      alexaGlobalRank: 10000,
+      marketCap: 400
+    };
+    analytics.identify('case20', traits);
+    analytics.user().predictions(function(err, score) {
+      if (err) {
+        done(err);
+      }
+      assert.deepEqual(score, { mk_customer_fit: 'very good' });
+      done();
+    });
+  });
+
+  it('case 21: ctry, raised money', function(done) {
+    var traits = {
+      employees: 100,
+      country: 'United States',
+      industry: 'Any Industry',
+      raised: 25000000
+    };
+    analytics.identify('case21', traits);
+    analytics.user().predictions(function(err, score) {
+      if (err) {
+        done(err);
+      }
+      assert.deepEqual(score, { mk_customer_fit: 'good' });
+      done();
+    });
+  });
+
+
+  it('case 22: high employee count', function(done) {
+    var traits = {
+      employees: 500,
+      country: 'United States',
+      industry: 'Internet Software & Services',
+      alexaGlobalRank: 400,
+      marketCap: 10
+
+    };
+    analytics.reset();
+    analytics.identify('case32', traits);
+    analytics.user().predictions(function(err, score) {
+      if (err) {
+        done(err);
+      }
+      assert.deepEqual(score, { mk_customer_fit: 'very good' });
+      done();
+    });
+  });
+
+  it('case 23: high employee count, low ind idx', function(done) {
+    var traits = {
+      employees: 300,
+      country: 'Canada',
+      industry: 'Something',
+      alexaGlobalRank: 400,
+      marketCap: 10
+
+    };
+    analytics.identify('case23', traits);
+    analytics.user().predictions(function(err, score) {
+      if (err) {
+        done(err);
+      }
+      assert.deepEqual(score, { mk_customer_fit: 'low' });
+      done();
+    });
+  });
+
+  it('case 24: high employee count, low ind idx, with tech', function(done) {
+    var traits = {
+      employees: 300,
+      country: 'Canada',
+      industry: 'Something',
+      alexaGlobalRank: 400,
+      marketCap: 10,
+      tech: ['salesforce', 'eloqua', 'marketo', 'optimizely']
+
+    };
+    analytics.identify('case24', traits);
+    analytics.user().predictions(function(err, score) {
+      if (err) {
+        done(err);
+      }
+      assert.deepEqual(score, { mk_customer_fit: 'good' });
+      done();
+    });
+  });
+
+  it('case 25: high employee count, no raised', function(done) {
+    var traits = {
+      employees: 1000,
+      country: 'Canada',
+      industry: 'Something',
+      alexaGlobalRank: 400,
+      marketCap: 10
+    };
+    analytics.identify('case25', traits);
+    analytics.user().predictions(function(err, score) {
+      if (err) {
+        done(err);
+      }
+      assert.deepEqual(score, { mk_customer_fit: 'low' });
+      done();
+    });
+  });
+
+  it('case 26: high employee count, no raised', function(done) {
+    var traits = {
+      employees: 1000,
+      country: 'United States',
+      industry: 'Internet Software & Services',
+      alexaGlobalRank: 400,
+      marketCap: 10,
+      raised: 3E6
+    };
+    analytics.identify('case26', traits);
+    analytics.user().predictions(function(err, score) {
+      if (err) {
+        done(err);
+      }
+      assert.deepEqual(score, { mk_customer_fit: 'very good' });
+      done();
+    });
+  });
+
+  it('case 27: medium count, no raised', function(done) {
+    var traits = {
+      employees: 100,
+      country: 'United States',
+      industry: 'Internet Software & Services',
+      alexaGlobalRank: 400,
+      marketCap: 10,
+      raised: 3E6
+    };
+    analytics.identify('case27', traits);
+    analytics.user().predictions(function(err, score) {
+      if (err) {
+        done(err);
+      }
+      assert.deepEqual(score, { mk_customer_fit: 'good' });
+      done();
+    });
+  });
+
+  it('case 28: small empl', function(done) {
+    var traits = {
+      employees: 20,
+      country: 'United States',
+      industry: 'Internet Software & Services',
+      alexaGlobalRank: 400,
+      marketCap: 10,
+      raised: null
+    };
+    analytics.identify('case28', traits);
+    analytics.user().predictions(function(err, score) {
+      if (err) {
+        done(err);
+      }
+      assert.deepEqual(score, { mk_customer_fit: 'low' });
       done();
     });
   });
