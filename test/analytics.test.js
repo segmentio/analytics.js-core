@@ -1,22 +1,24 @@
+'use strict';
 
-var createIntegration = require('analytics.js-integration');
-var analytics = window.analytics;
-var Analytics = analytics.constructor;
-var assert = require('assert');
-var bind = require('event').bind;
-var cookie = Analytics.cookie;
-var extend = require('extend');
-var group = analytics.group();
-var is = require('is');
+var Analytics = require('../lib').constructor;
+var Facade = require('segmentio-facade');
+var analytics = require('../lib');
+var assert = require('proclaim');
+var bind = require('component-event').bind;
+var createIntegration = require('@segment/analytics.js-integration');
+var extend = require('@ndhoule/extend');
+var type = require('component-type');
 var jQuery = require('jquery');
 var pageDefaults = require('../lib/pageDefaults');
 var sinon = require('sinon');
-var store = Analytics.store;
 var tick = require('next-tick');
-var trigger = require('trigger-event');
-var user = analytics.user();
-var Facade = require('facade');
+var trigger = require('compat-trigger-event');
+
 var Identify = Facade.Identify;
+var cookie = Analytics.cookie;
+var group = analytics.group();
+var store = Analytics.store;
+var user = analytics.user();
 
 describe('Analytics', function() {
   var analytics;
@@ -24,7 +26,7 @@ describe('Analytics', function() {
   var Test;
   var settings;
 
-  beforeEach(function(){
+  beforeEach(function() {
     settings = {
       Test: {
         key: 'key'
@@ -45,17 +47,18 @@ describe('Analytics', function() {
     group.reset();
     user.anonymousId(null);
     // clear the hash
-    if (window.history && window.history.pushState) {
-      window.history.pushState('', '', window.location.pathname);
-    }
+    // FIXME(ndhoule): Uhhh... causes Safari 9 to freak out. Maybe Karma issue?
+    // if (window.history && window.history.pushState) {
+    //   window.history.pushState('', '', window.location.pathname);
+    // }
   });
 
   it('should setup an Integrations object', function() {
-    assert(is.object(analytics.Integrations));
+    assert(type(analytics.Integrations) === 'object');
   });
 
   it('should setup an _integrations object', function() {
-    assert(is.object(analytics._integrations));
+    assert(type(analytics._integrations) === 'object');
   });
 
   it('should set a _readied state', function() {
@@ -87,8 +90,8 @@ describe('Analytics', function() {
     });
   });
 
-  describe('#setAnonymousId', function(){
-    it('should set the user\'s anonymous id', function(){
+  describe('#setAnonymousId', function() {
+    it('should set the user\'s anonymous id', function() {
       var prev = analytics.user().anonymousId();
       assert(prev.length === 36);
       analytics.setAnonymousId('new-id');
@@ -125,7 +128,7 @@ describe('Analytics', function() {
       assert(!analytics._readied);
     });
 
-    it('should add integration instance', function(done){
+    it('should add integration instance', function(done) {
       Test.readyOnInitialize();
       analytics.addIntegration(Test);
       analytics.ready(done);
@@ -134,7 +137,7 @@ describe('Analytics', function() {
       analytics.initialize();
     });
 
-    it('should set `.analytics` to self on integration', function(done){
+    it('should set `.analytics` to self on integration', function(done) {
       Test.readyOnInitialize();
       analytics.addIntegration(Test);
       analytics.ready(done);
@@ -153,7 +156,7 @@ describe('Analytics', function() {
 
     it('should still call ready with unknown integrations', function(done) {
       analytics.ready(done);
-      analytics.initialize({ Unknown: { key: 'key' }});
+      analytics.initialize({ Unknown: { key: 'key' } });
     });
 
     it('should set analytics._readied to true', function(done) {
@@ -190,7 +193,7 @@ describe('Analytics', function() {
         done();
       };
       Test.prototype.name = 'Test';
-      Test.prototype.once = Test.prototype.initialize = function(){};
+      Test.prototype.once = Test.prototype.initialize = function() {};
       analytics.addIntegration(Test);
       analytics.initialize(settings);
     });
@@ -252,7 +255,7 @@ describe('Analytics', function() {
       analytics.initialize(settings);
     });
 
-    it('should invoke a method on integration with facade', function(){
+    it('should invoke a method on integration with facade', function() {
       var a = new Identify({ userId: 'id', traits: { trait: true } });
       analytics._invoke('identify', a);
       var b = Test.prototype.invoke.args[0][1];
@@ -275,16 +278,16 @@ describe('Analytics', function() {
       assert(!Test.prototype.invoke.called);
     });
 
-    it('should support .integrations to disable / select integrations', function(){
+    it('should support .integrations to disable / select integrations', function() {
       var opts = { integrations: { Test: false } };
       analytics.identify('123', {}, opts);
       assert(!Test.prototype.invoke.called);
     });
 
-    it('should emit "invoke" with facade', function(done){
+    it('should emit "invoke" with facade', function(done) {
       var opts = { All: false };
       var identify = new Identify({ options: opts });
-      analytics.on('invoke', function(msg){
+      analytics.on('invoke', function(msg) {
         assert(msg === identify);
         assert(msg.action() === 'identify');
         done();
@@ -309,22 +312,22 @@ describe('Analytics', function() {
     });
 
     it('should set cookie options', function() {
-      analytics._options({ cookie: { option: true }});
+      analytics._options({ cookie: { option: true } });
       assert(cookie.options.calledWith({ option: true }));
     });
 
     it('should set store options', function() {
-      analytics._options({ localStorage: { option: true }});
+      analytics._options({ localStorage: { option: true } });
       assert(store.options.calledWith({ option: true }));
     });
 
     it('should set user options', function() {
-      analytics._options({ user: { option: true }});
+      analytics._options({ user: { option: true } });
       assert(user.options.calledWith({ option: true }));
     });
 
     it('should set group options', function() {
-      analytics._options({ group: { option: true }});
+      analytics._options({ group: { option: true } });
       assert(group.options.calledWith({ option: true }));
     });
   });
@@ -408,31 +411,31 @@ describe('Analytics', function() {
       assert(analytics._invoke.calledWith('page'));
     });
 
-    it('should default .anonymousId', function(){
+    it('should default .anonymousId', function() {
       analytics.page();
       var msg = analytics._invoke.args[0][1];
       assert(msg.anonymousId().length === 36);
     });
 
-    it('should override .anonymousId', function(){
+    it('should override .anonymousId', function() {
       analytics.page('category', 'name', {}, { anonymousId: 'anon-id' });
       var msg = analytics._invoke.args[0][1];
       assert(msg.anonymousId() === 'anon-id');
     });
 
-    it('should call #_invoke with Page instance', function(){
+    it('should call #_invoke with Page instance', function() {
       analytics.page();
       var page = analytics._invoke.args[0][1];
       assert(page.action() === 'page');
     });
 
-    it('should default .url to .location.href', function(){
+    it('should default .url to .location.href', function() {
       analytics.page();
       var page = analytics._invoke.args[0][1];
       assert(page.properties().url === window.location.href);
     });
 
-    it('should respect canonical', function(){
+    it('should respect canonical', function() {
       var el = document.createElement('link');
       el.rel = 'canonical';
       el.href = 'baz.com';
@@ -537,39 +540,39 @@ describe('Analytics', function() {
       assert.deepEqual(page.properties(), defaults);
     });
 
-    it('should accept top level option .timestamp', function(){
+    it('should accept top level option .timestamp', function() {
       var date = new Date();
       analytics.page({ prop: true }, { timestamp: date });
       var page = analytics._invoke.args[0][1];
       assert.deepEqual(page.timestamp(), date);
     });
 
-    it('should accept top level option .integrations', function(){
+    it('should accept top level option .integrations', function() {
       analytics.page({ prop: true }, { integrations: { AdRoll: { opt: true } } });
       var page = analytics._invoke.args[0][1];
       assert.deepEqual(page.options('AdRoll'), { opt: true });
     });
 
-    it('should accept top level option .context', function(){
+    it('should accept top level option .context', function() {
       var app = { name: 'segment' };
       analytics.page({ prop: true }, { context: { app: app } });
       var page = analytics._invoke.args[0][1];
       assert.deepEqual(app, page.obj.context.app);
     });
 
-    it('should accept top level option .anonymousId', function(){
+    it('should accept top level option .anonymousId', function() {
       analytics.page({ prop: true }, { anonymousId: 'id' });
       var page = analytics._invoke.args[0][1];
       assert(page.obj.anonymousId === 'id');
     });
 
-    it('should include context.page', function(){
+    it('should include context.page', function() {
       analytics.page();
       var page = analytics._invoke.args[0][1];
       assert.deepEqual(page.context(), { page: defaults });
     });
 
-    it('should accept context.traits', function(){
+    it('should accept context.traits', function() {
       analytics.page({ prop: true }, { traits: { trait: true } });
       var page = analytics._invoke.args[0][1];
       assert.deepEqual(page.context(), {
@@ -617,19 +620,19 @@ describe('Analytics', function() {
       assert(analytics._invoke.calledWith('identify'));
     });
 
-    it('should default .anonymousId', function(){
+    it('should default .anonymousId', function() {
       analytics.identify('user-id');
       var msg = analytics._invoke.args[0][1];
       assert(msg.anonymousId().length === 36);
     });
 
-    it('should override .anonymousId', function(){
+    it('should override .anonymousId', function() {
       analytics.identify('user-id', {}, { anonymousId: 'anon-id' });
       var msg = analytics._invoke.args[0][1];
       assert(msg.anonymousId() === 'anon-id');
     });
 
-    it('should call #_invoke with Identify', function(){
+    it('should call #_invoke with Identify', function() {
       analytics.identify();
       var identify = analytics._invoke.getCall(0).args[1];
       assert(identify.action() === 'identify');
@@ -712,7 +715,7 @@ describe('Analytics', function() {
       var string = date.getTime().toString();
       analytics.identify({ created: string });
       var created = analytics._invoke.args[0][1].created();
-      assert(is.date(created));
+      assert(type(created) === 'date');
       assert(created.getTime() === date.getTime());
     });
 
@@ -721,7 +724,7 @@ describe('Analytics', function() {
       var milliseconds = date.getTime();
       analytics.identify({ created: milliseconds });
       var created = analytics._invoke.args[0][1].created();
-      assert(is.date(created));
+      assert(type(created) === 'date');
       assert(created.getTime() === milliseconds);
     });
 
@@ -731,67 +734,66 @@ describe('Analytics', function() {
       analytics.identify({ created: seconds });
       var identify = analytics._invoke.args[0][1];
       var created = identify.created();
-      assert(is.date(created));
+      assert(type(created) === 'date');
       assert(created.getTime() === seconds * 1000);
     });
 
     it('should parse a company created string into a date', function() {
       var date = new Date();
       var string = date.getTime() + '';
-      analytics.identify({ company: { created: string }});
+      analytics.identify({ company: { created: string } });
       var identify = analytics._invoke.args[0][1];
       var created = identify.companyCreated();
-      assert(is.date(created));
+      assert(type(created) === 'date');
       assert(created.getTime() === date.getTime());
     });
 
     it('should parse company created milliseconds into a date', function() {
       var date = new Date();
       var milliseconds = date.getTime();
-      analytics.identify({ company: { created: milliseconds }});
+      analytics.identify({ company: { created: milliseconds } });
       var identify = analytics._invoke.args[0][1];
       var created = identify.companyCreated();
-      assert(is.date(created));
+      assert(type(created) === 'date');
       assert(created.getTime() === milliseconds);
     });
 
     it('should parse company created seconds into a date', function() {
       var date = new Date();
       var seconds = Math.floor(date.getTime() / 1000);
-      analytics.identify({ company: { created: seconds }});
+      analytics.identify({ company: { created: seconds } });
       var identify = analytics._invoke.args[0][1];
       var created = identify.companyCreated();
-      assert(is.date(created));
+      assert(type(created) === 'date');
       assert(created.getTime() === seconds * 1000);
     });
 
-    it('should accept top level option .timestamp', function(){
+    it('should accept top level option .timestamp', function() {
       var date = new Date();
       analytics.identify(1, { trait: true }, { timestamp: date });
       var identify = analytics._invoke.args[0][1];
       assert.deepEqual(identify.timestamp(), date);
     });
 
-    it('should accept top level option .integrations', function(){
+    it('should accept top level option .integrations', function() {
       analytics.identify(1, { trait: true }, { integrations: { AdRoll: { opt: true } } });
       var identify = analytics._invoke.args[0][1];
       assert.deepEqual({ opt: true }, identify.options('AdRoll'));
     });
 
-    it('should accept top level option .context', function(){
-      var app = { name: 'segment' };
-      analytics.identify(1, { trait: true }, { context: { app: app } });
+    it('should accept top level option .context', function() {
+      analytics.identify(1, { trait: true }, { context: { app: { name: 'segment' } } });
       var identify = analytics._invoke.args[0][1];
-      assert.deepEqual(app, identify.obj.context.app);
+      assert.deepEqual(identify.obj.context.app, { name: 'segment' });
     });
 
-    it('should include context.page', function(){
+    it('should include context.page', function() {
       analytics.identify(1);
       var identify = analytics._invoke.args[0][1];
       assert.deepEqual(identify.context(), { page: contextPage });
     });
 
-    it('should accept context.traits', function(){
+    it('should accept context.traits', function() {
       analytics.identify(1, { trait: 1 }, { traits: { trait: true } });
       var identify = analytics._invoke.args[0][1];
       assert.deepEqual(identify.traits(), { trait: 1, id: 1 });
@@ -827,19 +829,19 @@ describe('Analytics', function() {
       assert(analytics._invoke.calledWith('group'));
     });
 
-    it('should default .anonymousId', function(){
+    it('should default .anonymousId', function() {
       analytics.group('group-id');
       var msg = analytics._invoke.args[0][1];
       assert(msg.anonymousId().length === 36);
     });
 
-    it('should override .anonymousId', function(){
+    it('should override .anonymousId', function() {
       analytics.group('group-id', {}, { anonymousId: 'anon-id' });
       var msg = analytics._invoke.args[0][1];
       assert(msg.anonymousId() === 'anon-id');
     });
 
-    it('should call #_invoke with group facade instance', function(){
+    it('should call #_invoke with group facade instance', function() {
       analytics.group('id');
       var group = analytics._invoke.args[0][1];
       assert(group.action() === 'group');
@@ -921,7 +923,7 @@ describe('Analytics', function() {
       analytics.group({ created: string });
       var g = analytics._invoke.args[0][1];
       var created = g.created();
-      assert(is.date(created));
+      assert(type(created) === 'date');
       assert(created.getTime() === date.getTime());
     });
 
@@ -931,7 +933,7 @@ describe('Analytics', function() {
       analytics.group({ created: milliseconds });
       var g = analytics._invoke.args[0][1];
       var created = g.created();
-      assert(is.date(created));
+      assert(type(created) === 'date');
       assert(created.getTime() === milliseconds);
     });
 
@@ -941,37 +943,37 @@ describe('Analytics', function() {
       analytics.group({ created: seconds });
       var g = analytics._invoke.args[0][1];
       var created = g.created();
-      assert(is.date(created));
+      assert(type(created) === 'date');
       assert(created.getTime() === seconds * 1000);
     });
 
-    it('should accept top level option .timestamp', function(){
+    it('should accept top level option .timestamp', function() {
       var date = new Date();
       analytics.group(1, { trait: true }, { timestamp: date });
       var group = analytics._invoke.args[0][1];
       assert.deepEqual(group.timestamp(), date);
     });
 
-    it('should accept top level option .integrations', function(){
+    it('should accept top level option .integrations', function() {
       analytics.group(1, { trait: true }, { integrations: { AdRoll: { opt: true } } });
       var group = analytics._invoke.args[0][1];
       assert.deepEqual(group.options('AdRoll'), { opt: true });
     });
 
-    it('should accept top level option .context', function(){
+    it('should accept top level option .context', function() {
       var app = { name: 'segment' };
       analytics.group(1, { trait: true }, { context: { app: app } });
       var group = analytics._invoke.args[0][1];
       assert.deepEqual(group.obj.context.app, app);
     });
 
-    it('should include context.page', function(){
+    it('should include context.page', function() {
       analytics.group(1);
       var group = analytics._invoke.args[0][1];
       assert.deepEqual(group.context(), { page: contextPage });
     });
 
-    it('should accept context.traits', function(){
+    it('should accept context.traits', function() {
       analytics.group(1, { trait: 1 }, { traits: { trait: true } });
       var group = analytics._invoke.args[0][1];
       assert.deepEqual(group.traits(), { trait: 1, id: 1 });
@@ -992,19 +994,19 @@ describe('Analytics', function() {
       assert(analytics._invoke.calledWith('track'));
     });
 
-    it('should default .anonymousId', function(){
+    it('should default .anonymousId', function() {
       analytics.track();
       var msg = analytics._invoke.args[0][1];
       assert(msg.anonymousId().length === 36);
     });
 
-    it('should override .anonymousId', function(){
+    it('should override .anonymousId', function() {
       analytics.track('event', {}, { anonymousId: 'anon-id' });
       var msg = analytics._invoke.args[0][1];
       assert(msg.anonymousId() === 'anon-id');
     });
 
-    it('should transform arguments into Track', function(){
+    it('should transform arguments into Track', function() {
       analytics.track();
       var track = analytics._invoke.getCall(0).args[1];
       assert(track.action() === 'track');
@@ -1058,27 +1060,27 @@ describe('Analytics', function() {
       assert(track.properties().nonDate === '2013');
     });
 
-    it('should accept top level option .timestamp', function(){
+    it('should accept top level option .timestamp', function() {
       var date = new Date();
       analytics.track('event', { prop: true }, { timestamp: date });
       var track = analytics._invoke.args[0][1];
       assert.deepEqual(date, track.timestamp());
     });
 
-    it('should accept top level option .integrations', function(){
+    it('should accept top level option .integrations', function() {
       analytics.track('event', { prop: true }, { integrations: { AdRoll: { opt: true } } });
       var track = analytics._invoke.args[0][1];
       assert.deepEqual({ opt: true }, track.options('AdRoll'));
     });
 
-    it('should accept top level option .context', function(){
+    it('should accept top level option .context', function() {
       var app = { name: 'segment' };
       analytics.track('event', { prop: true }, { context: { app: app } });
       var track = analytics._invoke.args[0][1];
       assert.deepEqual(app, track.obj.context.app);
     });
 
-    it('should not call #_invoke if the event is disabled', function(){
+    it('should not call #_invoke if the event is disabled', function() {
       analytics.options.plan = {
         track: {
           event: { enabled: false }
@@ -1088,7 +1090,7 @@ describe('Analytics', function() {
       assert(!analytics._invoke.called);
     });
 
-    it('should call #_invoke if the event is enabled', function(){
+    it('should call #_invoke if the event is enabled', function() {
       analytics.options.plan = {
         track: {
           event: { enabled: true }
@@ -1098,19 +1100,19 @@ describe('Analytics', function() {
       assert(analytics._invoke.called);
     });
 
-    it('should call the callback even if the event is disabled', function(done){
+    it('should call the callback even if the event is disabled', function(done) {
       analytics.options.plan = {
         track: {
           event: { enabled: false }
         }
       };
       assert(!analytics._invoke.called);
-      analytics.track('event', {}, {}, function(){
+      analytics.track('event', {}, {}, function() {
         done();
       });
     });
 
-    it('should default .integrations to plan.integrations', function(){
+    it('should default .integrations to plan.integrations', function() {
       analytics.options.plan = {
         track: {
           event: {
@@ -1119,26 +1121,26 @@ describe('Analytics', function() {
         }
       };
 
-      analytics.track('event', {}, { integrations: { Segment: true }});
+      analytics.track('event', {}, { integrations: { Segment: true } });
       var msg = analytics._invoke.args[0][1];
       assert(msg.event() === 'event');
       assert.deepEqual(msg.integrations(), { All: true, Segment: true });
     });
 
-    it('should not set ctx.integrations if plan.integrations is empty', function(){
+    it('should not set ctx.integrations if plan.integrations is empty', function() {
       analytics.options.plan = { track: { event: {} } };
       analytics.track('event', {}, { campaign: {} });
       var msg = analytics._invoke.args[0][1];
       assert.deepEqual({}, msg.proxy('context.campaign'));
     });
 
-    it('should include context.page', function(){
+    it('should include context.page', function() {
       analytics.track('event');
       var track = analytics._invoke.args[0][1];
       assert.deepEqual(track.context(), { page: contextPage });
     });
 
-    it('should accept context.traits', function(){
+    it('should accept context.traits', function() {
       analytics.track('event', { prop: 1 }, { traits: { trait: true } });
       var track = analytics._invoke.args[0][1];
       assert.deepEqual(track.properties(), { prop: 1 });
@@ -1154,7 +1156,7 @@ describe('Analytics', function() {
     var wrap;
     var svg;
 
-    beforeEach(function(){
+    beforeEach(function() {
       // FIXME: IE8 doesn't have createElementNS.
       if (!document.createElementNS) return;
       wrap = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -1190,9 +1192,8 @@ describe('Analytics', function() {
     });
 
     it('should not accept a string for an element', function() {
-      var str = 'a';
-      assert.throws(function(){
-        analytics.trackLink(str);
+      assert['throws'](function() {
+        analytics.trackLink('a');
       }, TypeError, 'Must pass HTMLElement to `analytics.trackLink`.');
       trigger(link, 'click');
       assert(!analytics.track.called);
@@ -1228,42 +1229,42 @@ describe('Analytics', function() {
       });
     });
 
-    it('should support svg .href attribute', function(done){
+    it('should support svg .href attribute', function(done) {
       if (!svg) return done();
       // not correct svg, but should work.
       svg.setAttribute('href', '#svg');
       analytics.trackLink(svg);
       trigger(svg, 'click');
-      tick(function(){
+      tick(function() {
         assert.equal(window.location.hash, '#svg');
         done();
       });
     });
 
-    it('should fallback to getAttributeNS', function(done){
+    it('should fallback to getAttributeNS', function(done) {
       if (!wrap) return done();
       svg.setAttributeNS('http://www.w3.org/1999/xlink', 'href', '#svg');
       analytics.trackLink(svg);
       trigger(svg, 'click');
-      tick(function(){
+      tick(function() {
         assert.equal(window.location.hash, '#svg');
         done();
       });
     });
 
-    it('should support xlink:href', function(done){
+    it('should support xlink:href', function(done) {
       if (!wrap) return done();
       svg.setAttribute('xlink:href', '#svg');
       analytics.trackLink(svg);
       trigger(svg, 'click');
-      tick(function(){
+      tick(function() {
         assert.equal(window.location.hash, '#svg');
         done();
       });
     });
 
     it('should not load an href for a link with a blank target', function(done) {
-      link.href = '/test/server/mock.html';
+      link.href = '/base/test/support/mock.html';
       link.target = '_blank';
       analytics.trackLink(link);
       trigger(link, 'click');
@@ -1289,7 +1290,7 @@ describe('Analytics', function() {
     beforeEach(function() {
       sinon.spy(analytics, 'track');
       form = document.createElement('form');
-      form.action = '/test/server/mock.html';
+      form.action = '/base/test/support/mock.html';
       form.target = '_blank';
       submit = document.createElement('input');
       submit.type = 'submit';
@@ -1316,7 +1317,7 @@ describe('Analytics', function() {
 
     it('should not accept a string for an element', function() {
       var str = 'form';
-      assert.throws(function(){
+      assert['throws'](function() {
         analytics.trackForm(str);
       }, TypeError, 'Must pass HTMLElement to `analytics.trackForm`.');
       submit.click();
@@ -1391,19 +1392,19 @@ describe('Analytics', function() {
       assert(analytics._invoke.calledWith('alias'));
     });
 
-    it('should call #_invoke with instanceof Alias', function(){
+    it('should call #_invoke with instanceof Alias', function() {
       analytics.alias();
       var alias = analytics._invoke.args[0][1];
       assert(alias.action() === 'alias');
     });
 
-    it('should default .anonymousId', function(){
+    it('should default .anonymousId', function() {
       analytics.alias('previous-id', 'user-id');
       var msg = analytics._invoke.args[0][1];
       assert(msg.anonymousId().length === 36);
     });
 
-    it('should override .anonymousId', function(){
+    it('should override .anonymousId', function() {
       analytics.alias('previous-id', 'user-id', { anonymousId: 'anon-id' });
       var msg = analytics._invoke.args[0][1];
       assert(msg.anonymousId() === 'anon-id');
@@ -1438,7 +1439,7 @@ describe('Analytics', function() {
       });
     });
 
-    it('should include context.page', function(){
+    it('should include context.page', function() {
       analytics.alias();
       var alias = analytics._invoke.args[0][1];
       assert.deepEqual(alias.context(), { page: contextPage });
@@ -1455,26 +1456,26 @@ describe('Analytics', function() {
     });
   });
 
-  describe('#push', function(){
-    beforeEach(function(){
+  describe('#push', function() {
+    beforeEach(function() {
       analytics.track = sinon.spy();
     });
 
-    it('should call methods with args', function(){
+    it('should call methods with args', function() {
       analytics.push(['track', 'event', { prop: true }]);
       assert(analytics.track.calledWith('event', { prop: true }));
     });
   });
 
-  describe('#reset', function(){
-    beforeEach(function(){
+  describe('#reset', function() {
+    beforeEach(function() {
       user.id('user-id');
       user.traits({ name: 'John Doe' });
       group.id('group-id');
       group.traits({ name: 'Example' });
     });
 
-    it('should remove persisted group and user', function(){
+    it('should remove persisted group and user', function() {
       assert(user.id() === 'user-id');
       assert(user.traits().name === 'John Doe');
       assert(group.id() === 'group-id');

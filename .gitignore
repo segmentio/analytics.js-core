@@ -1,6 +1,2 @@
-node_modules/
-test/server/pid.txt
-components
-build.js
-analytics.js
-analytics.min.js
+coverage
+node_modules

@@ -1,7 +1,0 @@
-{
-  "name": "analytics-core",
-  "version": "2.11.1",
-  "main": "analytics.js",
-  "dependencies": {},
-  "devDependencies": {}
-}
