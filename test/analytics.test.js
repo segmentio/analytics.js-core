@@ -198,6 +198,27 @@ describe('Analytics', function() {
       analytics.initialize(settings);
     });
 
+    it('should pass options.initialPageview parameters on self invoked page call', function() {
+      var options = {
+        initialPageview: {
+          category: 'pageType',
+          name: 'pageName',
+          properties: { someId: '1234' },
+          options: { option: 'a' },
+          callback: function() {}
+        }
+      };
+      sinon.spy(analytics, 'page');
+      analytics.initialize({}, options);
+      assert(analytics.page.calledWith(
+        options.initialPageview.category,
+        options.initialPageview.name,
+        options.initialPageview.properties,
+        options.initialPageview.options,
+        options.initialPageview.callback
+      ));
+    });
+
     it('should parse the query string', function() {
       sinon.stub(analytics, '_parseQuery');
       analytics.initialize();
