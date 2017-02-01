@@ -330,6 +330,13 @@ describe('Analytics', function() {
       analytics._options({ group: { option: true } });
       assert(group.options.calledWith({ option: true }));
     });
+
+    it('should merge options on multiple calls', function() {
+      analytics._options({ group: { option: true } });
+      analytics._options({ user: { option: true } });
+      assert(analytics.options.user.option);
+      assert(analytics.options.group.option);
+    });
   });
 
   describe('#_parseQuery', function() {
