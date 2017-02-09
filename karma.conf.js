@@ -1,7 +1,7 @@
 /* eslint-env node */
-'use strict';
+'use strict'
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     files: [
       { pattern: 'test/support/*.html', included: false },
@@ -14,7 +14,7 @@ module.exports = function(config) {
 
     frameworks: ['browserify', 'mocha'],
 
-    reporters: ['spec'/* , 'coverage' */],
+    reporters: ['spec'],
 
     preprocessors: {
       'test/**/*.js': 'browserify'
@@ -49,5 +49,5 @@ module.exports = function(config) {
     //     { type: 'json' }
     //   ]
     // }
-  });
-};
+  })
+}

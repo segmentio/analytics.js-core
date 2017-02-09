@@ -1,22 +1,3 @@
-##
-# Binaries
-##
-
-ESLINT := node_modules/.bin/eslint
-KARMA := node_modules/.bin/karma
-
-##
-# Files
-##
-
-LIBS = $(shell find lib -type f -name "*.js")
-TESTS = $(shell find test -type f -name "*.test.js")
-SUPPORT = $(wildcard karma.conf*.js)
-ALL_FILES = $(LIBS) $(TESTS) $(SUPPORT)
-
-##
-# Program options/flags
-##
 
 # A list of options to pass to Karma
 # Overriding this overwrites all options specified in this file (e.g. BROWSERS)
@@ -38,44 +19,27 @@ endif
 # Mocha flags.
 GREP ?= .
 
-##
-# Tasks
-##
+.DEFAULT_GOAL = test
 
-# Install node modules.
 node_modules: package.json $(wildcard node_modules/*/package.json)
-	@npm install
-	@touch $@
+	npm install
+	touch $@
 
-# Install dependencies.
-install: node_modules
-
-# Remove temporary files and build artifacts.
 clean:
 	rm -rf *.log coverage
-.PHONY: clean
 
-# Remove temporary files, build artifacts, and vendor dependencies.
 distclean: clean
 	rm -rf node_modules
-.PHONY: distclean
 
-# Lint JavaScript source files.
-lint: install
-	@$(ESLINT) $(ALL_FILES)
-.PHONY: lint
+lint: node_modules
+	./node_modules/.bin/standard
 
-# Attempt to fix linting errors.
-fmt: install
-	@$(ESLINT) --fix $(ALL_FILES)
-.PHONY: fmt
+fmt: node_modules
+	./node_modules/.bin/standard --fix
 
-# Run browser unit tests in a browser.
-test-browser: install
-	@$(KARMA) start $(KARMA_FLAGS) $(KARMA_CONF)
-.PHONY: test-browser
+test-browser: node_modules
+	./node_modules/.bin/karma start $(KARMA_FLAGS) $(KARMA_CONF)
 
-# Default test target.
 test: lint test-browser
-.PHONY: test
-.DEFAULT_GOAL = test
+
+.PHONY: clean test lint fmt distclean test-browser
