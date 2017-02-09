@@ -59,14 +59,10 @@
   },
   "devDependencies": {
     "@segment/analytics.js-integration": "^2.0.1",
-    "@segment/eslint-config": "^3.1.1",
     "browserify": "^13.0.0",
     "browserify-istanbul": "^2.0.0",
     "compat-trigger-event": "^1.0.0",
     "component-each": "^0.2.6",
-    "eslint": "^2.9.0",
-    "eslint-plugin-mocha": "^2.2.0",
-    "eslint-plugin-require-path-exists": "^1.1.5",
     "istanbul": "^0.4.3",
     "jquery": "^1.12.3",
     "karma": "^0.13.22",
@@ -82,6 +78,17 @@
     "phantomjs-prebuilt": "^2.1.7",
     "proclaim": "^3.4.1",
     "sinon": "^1.7.3",
+    "standard": "^9.0.0-beta.0",
     "watchify": "^3.7.0"
+  },
+  "standard": {
+    "globals": [
+      "before",
+      "beforeEach",
+      "after",
+      "afterEach",
+      "it",
+      "describe"
+    ]
   }
 }
