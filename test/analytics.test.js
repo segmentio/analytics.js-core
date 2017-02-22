@@ -65,6 +65,10 @@ describe('Analytics', function() {
     assert(analytics._readied === false);
   });
 
+  it('should setup a _readiedIntegrations object', function() {
+    assert(type(analytics._readiedIntegrations) === 'object');
+  });
+
   it('should set a default timeout', function() {
     analytics = new Analytics();
     assert(analytics._timeout === 300);
@@ -172,6 +176,13 @@ describe('Analytics', function() {
       assert(!analytics._readied);
     });
 
+    it('should reset analytics._readiedIntegrations to {}', function() {
+      analytics.addIntegration(Test);
+      analytics._readiedIntegrations = { Test: true };
+      analytics.initialize(settings);
+      assert(!analytics._readiedIntegrations.Test);
+    });
+
     it('should add integration instance', function(done) {
       Test.readyOnInitialize();
       analytics.addIntegration(Test);
@@ -201,6 +212,13 @@ describe('Analytics', function() {
     it('should still call ready with unknown integrations', function(done) {
       analytics.ready(done);
       analytics.initialize({ Unknown: { key: 'key' } });
+    });
+
+    it('should listen on integration ready events for integration', function(done) {
+      Test.readyOnInitialize();
+      analytics.addIntegration(Test);
+      analytics.ready('Test', done);
+      analytics.initialize(settings);
     });
 
     it('should set analytics._readied to true', function(done) {
