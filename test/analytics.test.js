@@ -37,8 +37,6 @@ describe('Analytics', function() {
   });
 
   beforeEach(function() {
-    navigator.doNotTrack = null;
-    window.doNotTrack = null;
     analytics = new Analytics();
     analytics.timeout(0);
     Test = createIntegration('Test');
@@ -143,8 +141,8 @@ describe('Analytics', function() {
       analytics.initialize();
     });
 
-    it('should not add integrations when doNotTrack enabled', function(done) {
-      navigator.doNotTrack = '1';
+    it('should not add integrations when doNotTrack enabled', sinon.test(function(done) {
+      this.stub(Analytics, '_doNotTrack').returns('1');
       Test.readyOnInitialize();
       analytics.addIntegration(Test);
       analytics.ready(function() {
@@ -152,10 +150,10 @@ describe('Analytics', function() {
         done();
       });
       analytics.initialize(settings, { doNotTrack: true });
-    });
+    }));
 
-    it('should not initialize integrations when doNotTrack enabled', function(done) {
-      navigator.doNotTrack = '1';
+    it('should not initialize integrations when doNotTrack enabled', sinon.test(function(done) {
+      this.stub(Analytics, '_doNotTrack').returns('1');
       Test.readyOnInitialize();
       analytics.addIntegration(Test);
       var test = new Test(settings.Test);
@@ -165,10 +163,10 @@ describe('Analytics', function() {
       });
       analytics.add(test);
       analytics.initialize({}, { doNotTrack: true });
-    });
+    }));
 
-    it('should initialize integrations when doNotTrack="1" but option is disabled', function(done) {
-      navigator.doNotTrack = '1';
+    it('should initialize integrations when doNotTrack="1" but option is disabled', sinon.test(function(done) {
+      this.stub(Analytics, '_doNotTrack').returns('1');
       Test.readyOnInitialize();
       analytics.addIntegration(Test);
       var test = new Test(settings.Test);
@@ -178,23 +176,10 @@ describe('Analytics', function() {
       });
       analytics.add(test);
       analytics.initialize(null, { doNotTrack: false });
-    });
+    }));
 
-    it('should fallback to window.doNotTrack', function(done) {
-      window.doNotTrack = '1';
-      Test.readyOnInitialize();
-      analytics.addIntegration(Test);
-      var test = new Test(settings.Test);
-      analytics.ready(function() {
-        assert(!test._initialized);
-        done();
-      });
-      analytics.add(test);
-      analytics.initialize(null, { doNotTrack: true });
-    });
-
-    it('should disable doNotTrack by default', function(done) {
-      navigator.doNotTrack = '1';
+    it('should disable doNotTrack by default', sinon.test(function(done) {
+      this.stub(Analytics, '_doNotTrack').returns('1');
       Test.readyOnInitialize();
       analytics.addIntegration(Test);
       var test = new Test(settings.Test);
@@ -204,7 +189,7 @@ describe('Analytics', function() {
       });
       analytics.add(test);
       analytics.initialize();
-    });
+    }));
 
     it('should set `.analytics` to self on integration', function(done) {
       Test.readyOnInitialize();
@@ -641,12 +626,12 @@ describe('Analytics', function() {
       assert.deepEqual(page.context(), { page: defaults, doNotTrack: '0' });
     });
 
-    it('should include context.doNotTrack', function() {
-      navigator.doNotTrack = '1';
+    it('should include context.doNotTrack', sinon.test(function() {
+      this.stub(Analytics, '_doNotTrack').returns('1');
       analytics.page();
       var page = analytics._invoke.args[0][1];
       assert.deepEqual(page.context(), { page: defaults, doNotTrack: '1' });
-    });
+    }));
 
     it('should accept context.traits', function() {
       analytics.page({ prop: true }, { traits: { trait: true } });
@@ -870,12 +855,12 @@ describe('Analytics', function() {
       assert.deepEqual(identify.context(), { page: contextPage, doNotTrack: '0' });
     });
 
-    it('should include context.doNotTrack', function() {
-      navigator.doNotTrack = '1';
+    it('should include context.doNotTrack', sinon.test(function() {
+      this.stub(Analytics, '_doNotTrack').returns('1');
       analytics.identify(1);
       var identify = analytics._invoke.args[0][1];
       assert.deepEqual(identify.context(), { page: contextPage, doNotTrack: '1' });
-    });
+    }));
 
     it('should accept context.traits', function() {
       analytics.identify(1, { trait: 1 }, { traits: { trait: true } });
@@ -1058,12 +1043,12 @@ describe('Analytics', function() {
       assert.deepEqual(group.context(), { page: contextPage, doNotTrack: '0' });
     });
 
-    it('should include context.doNotTrack', function() {
-      navigator.doNotTrack = '1';
+    it('should include context.doNotTrack', sinon.test(function() {
+      this.stub(Analytics, '_doNotTrack').returns('1');
       analytics.group(1);
       var group = analytics._invoke.args[0][1];
       assert.deepEqual(group.context(), { page: contextPage, doNotTrack: '1' });
-    });
+    }));
 
     it('should accept context.traits', function() {
       analytics.group(1, { trait: 1 }, { traits: { trait: true } });
@@ -1233,12 +1218,12 @@ describe('Analytics', function() {
       assert.deepEqual(track.context(), { page: contextPage, doNotTrack: '0' });
     });
 
-    it('should include context.doNotTrack', function() {
-      navigator.doNotTrack = '1';
+    it('should include context.doNotTrack', sinon.test(function() {
+      this.stub(Analytics, '_doNotTrack').returns('1');
       analytics.track('event');
       var track = analytics._invoke.args[0][1];
       assert.deepEqual(track.context(), { page: contextPage, doNotTrack: '1' });
-    });
+    }));
 
     it('should accept context.traits', function() {
       analytics.track('event', { prop: 1 }, { traits: { trait: true } });
@@ -1546,12 +1531,12 @@ describe('Analytics', function() {
       assert.deepEqual(alias.context(), { page: contextPage, doNotTrack: '0' });
     });
 
-    it('should include context.doNotTrack', function() {
-      navigator.doNotTrack = '1';
+    it('should include context.doNotTrack', sinon.test(function() {
+      this.stub(Analytics, '_doNotTrack').returns('1');
       analytics.alias();
       var alias = analytics._invoke.args[0][1];
       assert.deepEqual(alias.context(), { page: contextPage, doNotTrack: '1' });
-    });
+    }));
 
     it('should emit alias', function(done) {
       analytics.once('alias', function(newId, oldId, options) {
