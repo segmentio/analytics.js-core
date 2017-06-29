@@ -66,7 +66,7 @@ module.exports = function(config) {
 
     singleRun: true,
 
-    reporters: ['progress', 'junit'],
+    // reporters: ['progress', 'junit'],
 
     browsers: ['PhantomJS'].concat(Object.keys(customLaunchers)),
 
