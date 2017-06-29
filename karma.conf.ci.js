@@ -79,12 +79,14 @@ module.exports = function(config) {
 
     sauceLabs: {
       testName: require('./package.json').name
-    },
-
-    coverageReporter: {
-      reporters: [
-        { type: 'lcov' }
-      ]
     }
+
+    // FIXME(ndhoule): IE7/8 choke on coverage instrumentation; enable after
+    // dropping support for those browsers
+    // coverageReporter: {
+    //   reporters: [
+    //     { type: 'lcov' }
+    //   ]
+    // }
   });
 };

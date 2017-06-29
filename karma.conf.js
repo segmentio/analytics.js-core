@@ -27,25 +27,27 @@ module.exports = function(config) {
     },
 
     browserify: {
-      debug: true,
-      transform: [
-        [
-          'browserify-istanbul',
-          {
-            instrumenterConfig: {
-              embedSource: true
-            }
-          }
-        ]
-      ]
-    },
-
-    coverageReporter: {
-      reporters: [
-        { type: 'text' },
-        { type: 'html' },
-        { type: 'json' }
-      ]
+      debug: true
+      // FIXME(ndhoule): IE7/8 choke on coverage instrumentation; enable after
+      // dropping support for those browsers
+      // transform: [
+      //   [
+      //     'browserify-istanbul',
+      //     {
+      //       instrumenterConfig: {
+      //         embedSource: true
+      //       }
+      //     }
+      //   ]
+      // ]
     }
+
+    // coverageReporter: {
+    //   reporters: [
+    //     { type: 'text' },
+    //     { type: 'html' },
+    //     { type: 'json' }
+    //   ]
+    // }
   });
 };
