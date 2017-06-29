@@ -1184,7 +1184,7 @@ describe('Analytics', function() {
       assert(analytics.track.called);
     });
 
-    xit('should accept a jquery object for an element', function() {
+    it('should accept a jquery object for an element', function() {
       var $link = jQuery(link);
       analytics.trackLink($link);
       trigger(link, 'click');
@@ -1309,8 +1309,7 @@ describe('Analytics', function() {
       assert(analytics.track.called);
     });
 
-    xit('should accept a jquery object for an element', function() {
-      // This doesn't even use jQuery...
+    it('should accept a jquery object for an element', function() {
       analytics.trackForm(form);
       submit.click();
       assert(analytics.track.called);
@@ -1361,21 +1360,21 @@ describe('Analytics', function() {
       submit.click();
     });
 
-    xit('should trigger an existing jquery submit handler', function(done) {
+    it('should trigger an existing jquery submit handler', function(done) {
       var $form = jQuery(form);
       $form.submit(function() { done(); });
       analytics.trackForm(form);
       submit.click();
     });
 
-    xit('should track on a form submitted via jquery', function() {
+    it('should track on a form submitted via jquery', function() {
       var $form = jQuery(form);
       analytics.trackForm(form);
       $form.submit();
       assert(analytics.track.called);
     });
 
-    xit('should trigger an existing jquery submit handler on a form submitted via jquery', function(done) {
+    it('should trigger an existing jquery submit handler on a form submitted via jquery', function(done) {
       var $form = jQuery(form);
       $form.submit(function() { done(); });
       analytics.trackForm(form);

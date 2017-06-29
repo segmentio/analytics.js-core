@@ -64,9 +64,11 @@ module.exports = function(config) {
   config.set({
     browserDisconnectTolerance: 1,
 
+    browserDisconnectTimeout: 60000,
+
     singleRun: true,
 
-    // reporters: ['progress', 'junit'],
+    reporters: ['progress', 'junit'],
 
     browsers: ['PhantomJS'].concat(Object.keys(customLaunchers)),
 
