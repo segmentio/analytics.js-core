@@ -58,9 +58,9 @@
     "uuid": "^2.0.2"
   },
   "devDependencies": {
-    "@segment/analytics.js-integration": "^2.0.1",
+    "@segment/analytics.js-integration": "^3.2.0",
     "@segment/eslint-config": "^3.1.1",
-    "browserify": "^13.0.0",
+    "browserify": "13.0.0",
     "browserify-istanbul": "^2.0.0",
     "compat-trigger-event": "^1.0.0",
     "component-each": "^0.2.6",
