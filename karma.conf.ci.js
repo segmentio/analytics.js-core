@@ -85,10 +85,11 @@ module.exports = function(config) {
       testName: require('./package.json').name
     },
 
-    coverageReporter: {
-      reporters: [
-        { type: 'lcov' }
-      ]
-    }
+    // Edge and Safari 9 still panic with coverage. Keeping disabled.
+    // coverageReporter: {
+    //   reporters: [
+    //     { type: 'lcov' }
+    //   ]
+    // }
   });
 };

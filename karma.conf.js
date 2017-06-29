@@ -27,25 +27,27 @@ module.exports = function(config) {
     },
 
     browserify: {
-      debug: true,
-      transform: [
-        [
-          'browserify-istanbul',
-          {
-            instrumenterConfig: {
-              embedSource: true
-            }
-          }
-        ]
-      ]
-    },
-
-    coverageReporter: {
-      reporters: [
-        { type: 'text' },
-        { type: 'html' },
-        { type: 'json' }
-      ]
+      debug: true
+      // Edge and Safari 9 still panic with coverage. Keeping disabled.
+      // transform: [
+      //   [
+      //     'browserify-istanbul',
+      //     {
+      //       instrumenterConfig: {
+      //         embedSource: true
+      //       }
+      //     }
+      //   ]
+      // ]
     }
+
+    // Edge and Safari 9 still panic with coverage. Keeping disabled.
+    // coverageReporter: {
+    //   reporters: [
+    //     { type: 'text' },
+    //     { type: 'html' },
+    //     { type: 'json' }
+    //   ]
+    // }
   });
 };
