@@ -28,8 +28,7 @@ module.exports = function(config) {
 
     browserify: {
       debug: true
-      // FIXME(ndhoule): IE7/8 choke on coverage instrumentation; enable after
-      // dropping support for those browsers
+      // Edge and Safari 9 still panic with coverage. Keeping disabled.
       // transform: [
       //   [
       //     'browserify-istanbul',
@@ -42,6 +41,7 @@ module.exports = function(config) {
       // ]
     }
 
+    // Edge and Safari 9 still panic with coverage. Keeping disabled.
     // coverageReporter: {
     //   reporters: [
     //     { type: 'text' },

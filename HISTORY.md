@@ -1,3 +1,9 @@
+3.1.0 / 2017-06-29
+==================
+
+  * Deprecate IE7/8 testing support
+  * Re-modernize test dependencies
+
 3.0.0 / 2016-05-25
 ==================
 
