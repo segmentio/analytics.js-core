@@ -66,6 +66,8 @@ module.exports = function(config) {
 
     browserDisconnectTimeout: 60000,
 
+    browserNoActivityTimeout: 60000,
+
     singleRun: true,
 
     reporters: ['progress', 'junit'],
