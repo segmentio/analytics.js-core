@@ -83,7 +83,7 @@ module.exports = function(config) {
 
     sauceLabs: {
       testName: require('./package.json').name
-    },
+    }
 
     // Edge and Safari 9 still panic with coverage. Keeping disabled.
     // coverageReporter: {
