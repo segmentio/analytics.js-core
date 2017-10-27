@@ -111,6 +111,21 @@ describe('Analytics', function() {
       group.load.restore();
     });
 
+    it('should gracefully handle integrations that fail to initialize', function() {
+      Test.prototype.initialize = function() { throw new Error('Uh oh!'); };
+      analytics.add(Test);
+      analytics.initialize();
+      assert(analytics.initialized)
+    });
+
+    it('should store the names of integrations that did not initialize', function() {
+      Test.prototype.initialize = function() { throw new Error('Uh oh!'); };
+      analytics.add(Test);
+      analytics.initialize();
+      assert(analytics.failedInitializations.length === 1);
+      assert(analytics.failedInitializations[0] === Test.prototype.name);
+    });
+
     it('should not error without settings', function() {
       analytics.initialize();
     });
