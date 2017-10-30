@@ -115,7 +115,7 @@ describe('Analytics', function() {
       Test.prototype.initialize = function() { throw new Error('Uh oh!'); };
       analytics.add(Test);
       analytics.initialize();
-      assert(analytics.initialized)
+      assert(analytics.initialized);
     });
 
     it('should store the names of integrations that did not initialize', function() {
