@@ -126,6 +126,21 @@ describe('Analytics', function() {
       assert(analytics.failedInitializations[0] === Test.prototype.name);
     });
 
+    it('should handle cases where integration.initialize failes and integration.prototype is undefined', function() {
+      Test.initialize = function() { throw new Error('Uh oh!'); };
+      Test.prototype = undefined;
+      analytics.add(Test);
+      analytics.initialize();
+      assert(analytics.failedInitializations[0] === 'Unknown');
+    });
+
+    it('should handle cases where initialization fails and integration.prototype.name is undefined', function() {
+      Test.prototype.name = undefined;
+      analytics.add(Test);
+      analytics.initialize();
+      assert(analytics.failedInitializations[0] === 'Unknown');
+    });
+
     it('should not error without settings', function() {
       analytics.initialize();
     });
