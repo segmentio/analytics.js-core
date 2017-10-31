@@ -1,3 +1,9 @@
+3.1.2 / 2017-10-31
+==================
+
+  * Updates try/catch logic during initializations of integrations to look for integration.name - not integration.prototype.name
+  * Adds a check during analytics._invoke to check if the integration failed to initialize and if so, logs that it is passing and does not invoke it's corresponding method.
+
 3.1.1 / 2017-10-31
 ==================
 
