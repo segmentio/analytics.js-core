@@ -120,25 +120,24 @@ describe('Analytics', function() {
 
     it('should store the names of integrations that did not initialize', function() {
       Test.prototype.initialize = function() { throw new Error('Uh oh!'); };
-      analytics.add(Test);
+      var test = new Test();
+      analytics.use(Test);
+      analytics.add(test);
       analytics.initialize();
       assert(analytics.failedInitializations.length === 1);
       assert(analytics.failedInitializations[0] === Test.prototype.name);
     });
 
-    it('should handle cases where integration.initialize failes and integration.prototype is undefined', function() {
-      Test.initialize = function() { throw new Error('Uh oh!'); };
-      Test.prototype = undefined;
-      analytics.add(Test);
+    it('should not process events for any integrations that failed to initialize', function() {
+      Test.prototype.initialize = function() { throw new Error('Uh oh!'); };
+      Test.prototype.page = sinon.spy();
+      var test = new Test();
+      test.invoke = sinon.spy();
+      analytics.use(Test);
+      analytics.add(test);
       analytics.initialize();
-      assert(analytics.failedInitializations[0] === 'Unknown');
-    });
-
-    it('should handle cases where initialization fails and integration.prototype.name is undefined', function() {
-      Test.prototype.name = undefined;
-      analytics.add(Test);
-      analytics.initialize();
-      assert(analytics.failedInitializations[0] === 'Unknown');
+      analytics.page('Test Page Event');
+      assert(test.invoke.notCalled);
     });
 
     it('should not error without settings', function() {
