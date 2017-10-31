@@ -1080,14 +1080,16 @@ describe('Analytics', function() {
       assert.deepEqual(app, track.obj.context.app);
     });
 
-    it('should not call #_invoke if the event is disabled', function() {
+    it('should call #_invoke for Segment if the event is disabled', function() {
       analytics.options.plan = {
         track: {
           event: { enabled: false }
         }
       };
       analytics.track('event');
-      assert(!analytics._invoke.called);
+      assert(analytics._invoke.called);
+      var track = analytics._invoke.args[0][1];
+      assert.deepEqual({ All: false, 'Segment.io': true }, track.obj.integrations);
     });
 
     it('should call #_invoke if the event is enabled', function() {
