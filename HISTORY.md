@@ -3,7 +3,7 @@
 
   * Wrap initialize functions of integrations in try/catch statement.
   * Add logging of failed initializations.
-  * Add a `failedInitializations` array to prototype to capture names of any failed integrations to pass back to Segment api as part of event `_metadata`.
+  * Add a `failedInitializations` array to prototype to capture names of any failed integrations.
 
 3.1.0 / 2017-06-29
 ==================
