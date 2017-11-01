@@ -1,3 +1,8 @@
+3.1.3 / 2017-11-01
+==================
+
+  * Adds invocation of integration.ready in initialize catch statement to ensure analytics.ready callbacks are fired.
+
 3.1.2 / 2017-10-31
 ==================
 
