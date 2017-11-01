@@ -113,7 +113,9 @@ describe('Analytics', function() {
 
     it('should gracefully handle integrations that fail to initialize', function() {
       Test.prototype.initialize = function() { throw new Error('Uh oh!'); };
-      analytics.add(Test);
+      var test = new Test();
+      analytics.use(Test);
+      analytics.add(test);
       analytics.initialize();
       assert(analytics.initialized);
     });
@@ -138,6 +140,19 @@ describe('Analytics', function() {
       analytics.initialize();
       analytics.page('Test Page Event');
       assert(test.invoke.notCalled);
+    });
+
+    it('should still invoke the integrations .ready method', function(done) {
+      Test.prototype.initialize = function() { throw new Error('Uh oh!'); };
+      var spy = sinon.spy(Test.prototype, 'ready');
+      var test = new Test();
+      analytics.use(Test);
+      analytics.add(test);
+      analytics.ready(function() {
+        assert(spy.called);
+        done();
+      });
+      analytics.initialize();
     });
 
     it('should not error without settings', function() {
