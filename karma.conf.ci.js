@@ -70,6 +70,10 @@ module.exports = function(config) {
 
     singleRun: true,
 
+    concurrency: 3,
+
+    retryLimit: 3,
+
     reporters: ['progress', 'junit'],
 
     browsers: ['PhantomJS'].concat(Object.keys(customLaunchers)),
