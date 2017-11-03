@@ -11,5 +11,9 @@ To build this into a full, usable library, see the [Analytics.js](https://github
 
 Released under the [MIT license](License.md).
 
-
 [analytics.js]: https://segment.com/docs/libraries/analytics.js/
+
+## Releasing
+
+1. Update the version in `package.json`.
+2. Run `robo release x.y.z` where `x.y.z` is the new version.
