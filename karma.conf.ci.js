@@ -70,9 +70,9 @@ module.exports = function(config) {
 
     singleRun: true,
 
-    concurrency: 3,
+    concurrency: 2,
 
-    retryLimit: 3,
+    retryLimit: 5,
 
     reporters: ['progress', 'junit'],
 
