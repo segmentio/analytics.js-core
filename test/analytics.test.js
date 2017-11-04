@@ -374,6 +374,13 @@ describe('Analytics', function() {
       analytics._options({ group: { option: true } });
       assert(group.options.calledWith({ option: true }));
     });
+
+    it('should merge options on multiple calls', function() {
+      analytics._options({ group: { option: true } });
+      analytics._options({ user: { option: true } });
+      assert(analytics.options.user.option);
+      assert(analytics.options.group.option);
+    });
   });
 
   describe('#_parseQuery', function() {
@@ -1531,6 +1538,32 @@ describe('Analytics', function() {
       assert.deepEqual({}, user.traits());
       assert(group.id() === null);
       assert.deepEqual({}, group.traits());
+    });
+  });
+
+  describe('#normalize', function() {
+    describe('context handling', function() {
+      beforeEach(function() {
+        analytics.options.context = {
+          sessionId: '12345'
+        };
+      });
+
+      it('should copy in the default context', function() {
+        var msg = analytics.normalize({
+          properties: {},
+          options: {
+            context: {
+              alarm: true
+            }
+          }
+        });
+
+        var ctx = msg.context || {};
+
+        assert.equal(ctx.alarm, true);
+        assert.equal(ctx.sessionId, '12345');
+      });
     });
   });
 });
