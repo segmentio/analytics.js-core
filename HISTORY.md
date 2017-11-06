@@ -1,9 +1,15 @@
 
+3.2.2 / 2017-11-05
+==================
+
+ * Build updates on CI.
+ * This release has no application changes - it's an attempt to fix release commits on CI.
+
+
 3.2.1 / 2017-11-03
 ==================
- 
- * Fix release commit in 3.2.0
 
+ * Fix release commit in 3.2.0
 
 3.2.0 / 2017-11-03
 ==================
@@ -89,7 +95,7 @@
 ==================
 
  * Pull integrations from individual repositories, located in the [segment-integrations GitHub organization](https://github.com/segment-integrations/). This change should be unnoticeable from a user perspective, but has huge benefits in that excluding integrations from custom builds is now much, much easier, and one integration's test failures will no longer prevent another integration's tests from running.
-  
+
   A noteworthy part of this change: All integrations are now pulled into Analytics.js in `component.json`, using an explicit version number.
 In the future this part of the build process is very likely to change to be more of an automatic process, but for now--baby steps.
 
@@ -230,7 +236,7 @@ In the future this part of the build process is very likely to change to be more
   * entity: fallback to localstorage when cookies are disabled
   * tests: add localstorage fallback tests
   * dist: rebuild
-  
+
 2.7.1 / 2015-03-05
 ==================
 

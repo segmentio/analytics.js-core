@@ -1,7 +1,7 @@
 {
   "name": "@segment/analytics.js-core",
   "author": "Segment <friends@segment.com>",
-  "version": "3.2.1",
+  "version": "3.2.2",
   "description": "The hassle-free way to integrate analytics into any web application.",
   "keywords": [
     "analytics",
