@@ -1173,6 +1173,56 @@ describe('Analytics', function() {
       assert.deepEqual(msg.integrations(), { All: true, Segment: true });
     });
 
+    it('should call #_invoke if new events are enabled', function() {
+      analytics.options.plan = {
+        track: {
+          __default: { enabled: true }
+        }
+      };
+      analytics.track('event');
+      assert(analytics._invoke.called);
+      var track = analytics._invoke.args[0][1];
+      assert.deepEqual({}, track.obj.integrations);
+    });
+
+    it('should call #_invoke for Segment if new events are disabled', function() {
+      analytics.options.plan = {
+        track: {
+          __default: { enabled: false }
+        }
+      };
+      analytics.track('even');
+      assert(analytics._invoke.called);
+      var track = analytics._invoke.args[0][1];
+      assert.deepEqual({ All: false, 'Segment.io': true }, track.obj.integrations);
+    });
+
+    it('should use the event plan if it exists and ignore defaults', function() {
+      analytics.options.plan = {
+        track: {
+          event: { enabled: true },
+          __default: { enabled: false }
+        }
+      };
+      analytics.track('event');
+      assert(analytics._invoke.called);
+      var track = analytics._invoke.args[0][1];
+      assert.deepEqual({}, track.obj.integrations);
+    });
+
+    it('should merge the event plan if it exists and ignore defaults', function() {
+      analytics.options.plan = {
+        track: {
+          event: { enabled: true, integrations: { Mixpanel: false } },
+          __default: { enabled: false }
+        }
+      };
+      analytics.track('event');
+      assert(analytics._invoke.called);
+      var track = analytics._invoke.args[0][1];
+      assert.deepEqual({ Mixpanel: false }, track.obj.integrations);
+    });
+
     it('should not set ctx.integrations if plan.integrations is empty', function() {
       analytics.options.plan = { track: { event: {} } };
       analytics.track('event', {}, { campaign: {} });
