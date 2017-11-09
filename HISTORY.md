@@ -1,10 +1,14 @@
 
+3.2.3 / 2017-11-09
+==================
+
+  * Add support for schema defaults (#50).
+
 3.2.2 / 2017-11-05
 ==================
 
  * Build updates on CI.
  * This release has no application changes - it's an attempt to fix release commits on CI.
-
 
 3.2.1 / 2017-11-03
 ==================
