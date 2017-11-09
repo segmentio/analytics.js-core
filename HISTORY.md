@@ -1,4 +1,10 @@
 
+
+3.2.5 / 2017-11-09
+==================
+
+  * This release has no application changes - it's an attempt to fix release commits on CI.
+
 3.2.4 / 2017-11-09
 ==================
 
