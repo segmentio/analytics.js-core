@@ -175,11 +175,65 @@ describe('Analytics', function() {
     it('should add integration instance', function(done) {
       Test.readyOnInitialize();
       analytics.addIntegration(Test);
-      analytics.ready(done);
       var test = new Test(settings.Test);
+      analytics.ready(function() {
+        assert(analytics._integrations.Test === test);
+        assert(test._initialized);
+        done();
+      });
       analytics.add(test);
       analytics.initialize();
     });
+
+    it('should not add integrations when doNotTrack enabled', sinon.test(function(done) {
+      this.stub(Analytics, '_doNotTrack').returns('1');
+      Test.readyOnInitialize();
+      analytics.addIntegration(Test);
+      analytics.ready(function() {
+        assert.deepEqual(analytics._integrations, {});
+        done();
+      });
+      analytics.initialize(settings, { doNotTrack: true });
+    }));
+
+    it('should not initialize integrations when doNotTrack enabled', sinon.test(function(done) {
+      this.stub(Analytics, '_doNotTrack').returns('1');
+      Test.readyOnInitialize();
+      analytics.addIntegration(Test);
+      var test = new Test(settings.Test);
+      analytics.ready(function() {
+        assert(!test._initialized);
+        done();
+      });
+      analytics.add(test);
+      analytics.initialize({}, { doNotTrack: true });
+    }));
+
+    it('should initialize integrations when doNotTrack="1" but option is disabled', sinon.test(function(done) {
+      this.stub(Analytics, '_doNotTrack').returns('1');
+      Test.readyOnInitialize();
+      analytics.addIntegration(Test);
+      var test = new Test(settings.Test);
+      analytics.ready(function() {
+        assert(test._initialized);
+        done();
+      });
+      analytics.add(test);
+      analytics.initialize(null, { doNotTrack: false });
+    }));
+
+    it('should disable doNotTrack by default', sinon.test(function(done) {
+      this.stub(Analytics, '_doNotTrack').returns('1');
+      Test.readyOnInitialize();
+      analytics.addIntegration(Test);
+      var test = new Test(settings.Test);
+      analytics.ready(function() {
+        assert(test._initialized);
+        done();
+      });
+      analytics.add(test);
+      analytics.initialize();
+    }));
 
     it('should set `.analytics` to self on integration', function(done) {
       Test.readyOnInitialize();
@@ -613,15 +667,23 @@ describe('Analytics', function() {
     it('should include context.page', function() {
       analytics.page();
       var page = analytics._invoke.args[0][1];
-      assert.deepEqual(page.context(), { page: defaults });
+      assert.deepEqual(page.context(), { page: defaults, doNotTrack: '0' });
     });
+
+    it('should include context.doNotTrack', sinon.test(function() {
+      this.stub(Analytics, '_doNotTrack').returns('1');
+      analytics.page();
+      var page = analytics._invoke.args[0][1];
+      assert.deepEqual(page.context(), { page: defaults, doNotTrack: '1' });
+    }));
 
     it('should accept context.traits', function() {
       analytics.page({ prop: true }, { traits: { trait: true } });
       var page = analytics._invoke.args[0][1];
       assert.deepEqual(page.context(), {
         page: defaults,
-        traits: { trait: true }
+        traits: { trait: true },
+        doNotTrack: '0'
       });
     });
 
@@ -629,7 +691,7 @@ describe('Analytics', function() {
       analytics.once('page', function(category, name, props, opts) {
         assert(category === 'category');
         assert(name === 'name');
-        assert.deepEqual(opts, { context: { page: defaults } });
+        assert.deepEqual(opts, { context: { page: defaults, doNotTrack: '0' } });
         assert.deepEqual(props, extend(defaults, { category: 'category', name: 'name' }));
         done();
       });
@@ -834,8 +896,15 @@ describe('Analytics', function() {
     it('should include context.page', function() {
       analytics.identify(1);
       var identify = analytics._invoke.args[0][1];
-      assert.deepEqual(identify.context(), { page: contextPage });
+      assert.deepEqual(identify.context(), { page: contextPage, doNotTrack: '0' });
     });
+
+    it('should include context.doNotTrack', sinon.test(function() {
+      this.stub(Analytics, '_doNotTrack').returns('1');
+      analytics.identify(1);
+      var identify = analytics._invoke.args[0][1];
+      assert.deepEqual(identify.context(), { page: contextPage, doNotTrack: '1' });
+    }));
 
     it('should accept context.traits', function() {
       analytics.identify(1, { trait: 1 }, { traits: { trait: true } });
@@ -843,7 +912,8 @@ describe('Analytics', function() {
       assert.deepEqual(identify.traits(), { trait: 1, id: 1 });
       assert.deepEqual(identify.context(), {
         page: contextPage,
-        traits: { trait: true }
+        traits: { trait: true },
+        doNotTrack: '0'
       });
     });
   });
@@ -1014,8 +1084,15 @@ describe('Analytics', function() {
     it('should include context.page', function() {
       analytics.group(1);
       var group = analytics._invoke.args[0][1];
-      assert.deepEqual(group.context(), { page: contextPage });
+      assert.deepEqual(group.context(), { page: contextPage, doNotTrack: '0' });
     });
+
+    it('should include context.doNotTrack', sinon.test(function() {
+      this.stub(Analytics, '_doNotTrack').returns('1');
+      analytics.group(1);
+      var group = analytics._invoke.args[0][1];
+      assert.deepEqual(group.context(), { page: contextPage, doNotTrack: '1' });
+    }));
 
     it('should accept context.traits', function() {
       analytics.group(1, { trait: 1 }, { traits: { trait: true } });
@@ -1023,7 +1100,8 @@ describe('Analytics', function() {
       assert.deepEqual(group.traits(), { trait: 1, id: 1 });
       assert.deepEqual(group.context(), {
         page: contextPage,
-        traits: { trait: true }
+        traits: { trait: true },
+        doNotTrack: '0'
       });
     });
   });
@@ -1233,8 +1311,15 @@ describe('Analytics', function() {
     it('should include context.page', function() {
       analytics.track('event');
       var track = analytics._invoke.args[0][1];
-      assert.deepEqual(track.context(), { page: contextPage });
+      assert.deepEqual(track.context(), { page: contextPage, doNotTrack: '0' });
     });
+
+    it('should include context.doNotTrack', sinon.test(function() {
+      this.stub(Analytics, '_doNotTrack').returns('1');
+      analytics.track('event');
+      var track = analytics._invoke.args[0][1];
+      assert.deepEqual(track.context(), { page: contextPage, doNotTrack: '1' });
+    }));
 
     it('should accept context.traits', function() {
       analytics.track('event', { prop: 1 }, { traits: { trait: true } });
@@ -1242,7 +1327,8 @@ describe('Analytics', function() {
       assert.deepEqual(track.properties(), { prop: 1 });
       assert.deepEqual(track.context(), {
         page: contextPage,
-        traits: { trait: true }
+        traits: { trait: true },
+        doNotTrack: '0'
       });
     });
   });
@@ -1538,8 +1624,15 @@ describe('Analytics', function() {
     it('should include context.page', function() {
       analytics.alias();
       var alias = analytics._invoke.args[0][1];
-      assert.deepEqual(alias.context(), { page: contextPage });
+      assert.deepEqual(alias.context(), { page: contextPage, doNotTrack: '0' });
     });
+
+    it('should include context.doNotTrack', sinon.test(function() {
+      this.stub(Analytics, '_doNotTrack').returns('1');
+      analytics.alias();
+      var alias = analytics._invoke.args[0][1];
+      assert.deepEqual(alias.context(), { page: contextPage, doNotTrack: '1' });
+    }));
 
     it('should emit alias', function(done) {
       analytics.once('alias', function(newId, oldId, options) {
