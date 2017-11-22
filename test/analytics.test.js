@@ -599,9 +599,11 @@ describe('Analytics', function() {
 
     it('should accept top level option .context', function() {
       var app = { name: 'segment' };
-      analytics.page({ prop: true }, { context: { app: app } });
+      var campaign = { name: 'segment' };
+      analytics.page({ prop: true }, { context: { app: app, campaign: campaign } });
       var page = analytics._invoke.args[0][1];
       assert.deepEqual(app, page.obj.context.app);
+      assert.deepEqual(campaign, page.obj.context.campaign);
     });
 
     it('should accept top level option .anonymousId', function() {
