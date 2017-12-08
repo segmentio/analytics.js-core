@@ -1,3 +1,11 @@
 {
-  "extends": "@segment/eslint-config/browser/legacy"
+  "parser": "babel-eslint",
+  "extends": [
+    "plugin:import/errors",
+    "plugin:import/warnings"
+  ],
+  "rules": {
+    "import/default": 0,
+    "no-warning-comments": 0
+  }
 }
