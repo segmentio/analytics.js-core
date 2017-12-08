@@ -38,7 +38,6 @@
     "@segment/isodate": "^1.0.2",
     "@segment/isodate-traverse": "^1.0.1",
     "@segment/prevent-default": "^1.0.0",
-    "@segment/store": "^1.3.20",
     "@segment/top-domain": "^3.0.0",
     "bind-all": "^1.0.0",
     "component-cookie": "^1.1.2",
@@ -51,10 +50,10 @@
     "inherits": "^2.0.1",
     "install": "^0.7.3",
     "is": "^3.1.0",
-    "json3": "^3.3.2",
     "new-date": "^1.0.0",
     "next-tick": "^0.2.2",
     "segmentio-facade": "^3.0.2",
+    "store": "^2.0.12",
     "uuid": "^2.0.2"
   },
   "devDependencies": {
@@ -80,6 +79,8 @@
     "phantomjs-prebuilt": "^2.1.7",
     "proclaim": "^3.4.1",
     "sinon": "^1.7.3",
-    "watchify": "^3.7.0"
+    "watchify": "^3.7.0",
+    "webpack": "^3.10.0",
+    "webpack-bundle-analyzer": "^2.9.1"
   }
 }
