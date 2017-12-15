@@ -635,6 +635,15 @@ describe('Analytics', function() {
       });
       analytics.page('category', 'name', {}, {});
     });
+
+    it('should only attach an isFirstPageCall flag if its the first page call', function() {
+      analytics.page();
+      analytics.page();
+      var page = analytics._invoke.args[0][1];
+      var page2 = analytics._invoke.args[1][1];
+      assert(page.isFirstPageCall === true);
+      assert(page2.isFirstPageCall === false);
+    });
   });
 
   describe('#pageview', function() {
