@@ -1301,6 +1301,12 @@ describe('Analytics', function() {
       assert(analytics.track.calledWith('event', { property: true }));
     });
 
+    it('should send an event, properties and options', function() {
+      analytics.trackLink(link, 'event', { property: true }, { option: true });
+      trigger(link, 'click');
+      assert(analytics.track.calledWith('event', { property: true }, { option: true }));
+    });
+
     it('should accept an event function', function() {
       function event(el) { return el.nodeName; }
       analytics.trackLink(link, event);
@@ -1308,11 +1314,19 @@ describe('Analytics', function() {
       assert(analytics.track.calledWith('A'));
     });
 
+
     it('should accept a properties function', function() {
       function properties(el) { return { type: el.nodeName }; }
       analytics.trackLink(link, 'event', properties);
       trigger(link, 'click');
       assert(analytics.track.calledWith('event', { type: 'A' }));
+    });
+
+    it('should accept a options function', function() {
+      function options(el) { return { type: el.nodeName }; }
+      analytics.trackLink(link, 'event', {}, options);
+      trigger(link, 'click');
+      assert(analytics.track.calledWith('event', {}, { type: 'A' }));
     });
 
     it('should load an href on click', function(done) {
@@ -1420,10 +1434,10 @@ describe('Analytics', function() {
       assert(!analytics.track.called);
     });
 
-    it('should send an event and properties', function() {
-      analytics.trackForm(form, 'event', { property: true });
+    it('should send an event, properties and options', function() {
+      analytics.trackForm(form, 'event', { property: true }, { option: true });
       submit.click();
-      assert(analytics.track.calledWith('event', { property: true }));
+      assert(analytics.track.calledWith('event', { property: true }, { option: true }));
     });
 
     it('should accept an event function', function() {
@@ -1438,6 +1452,13 @@ describe('Analytics', function() {
       analytics.trackForm(form, 'event', properties);
       submit.click();
       assert(analytics.track.calledWith('event', { property: true }));
+    });
+
+    it('should accept a options function', function() {
+      function options() { return { option: true }; }
+      analytics.trackForm(form, 'event', {}, options);
+      submit.click();
+      assert(analytics.track.calledWith('event', {}, { option: true }));
     });
 
     it('should call submit after a timeout', function(done) {
