@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/segmentio/analytics.js-core#readme",
   "dependencies": {
-    "lodash.clonedeep": "4.5.0",    
     "@ndhoule/after": "^1.0.0",
     "@ndhoule/clone": "^1.0.0",
     "@ndhoule/defaults": "^2.0.1",
