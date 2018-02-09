@@ -1,5 +1,5 @@
 
-3.2.6 / 2018-02-09
+3.2.7 / 2018-02-09
 ==================
 
   * Replace lodash deepclone with extend to lower ajs size
