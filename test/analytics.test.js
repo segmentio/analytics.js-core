@@ -986,6 +986,28 @@ describe('Analytics', function() {
       assert.deepEqual({ name: 'Joe Bloggs', email: 'joe@example.com' }, identify2.obj.traits);
     });
 
+    it('should not modify the original traits object', function() {
+      analytics.options.plan = {
+        identify: {
+          name: { enabled: false }
+        }
+      };
+
+      var traits = { name: 'Joe Bloggs', email: 'joe@example.com' };
+
+      analytics.identify(
+        '123',
+        traits,
+        { integrations: { Mixpanel: true } }
+      );
+
+      assert(analytics._invoke.calledTwice);
+
+      var identify1 = analytics._invoke.args[0][1];
+      assert.deepEqual({ email: 'joe@example.com' }, identify1.obj.traits);
+      assert.deepEqual({ name: 'Joe Bloggs', email: 'joe@example.com' }, traits);
+    });
+
     it('should include context.page', function() {
       analytics.identify(1);
       var identify = analytics._invoke.args[0][1];
@@ -1310,6 +1332,28 @@ describe('Analytics', function() {
       var group2 = analytics._invoke.args[1][1];
       assert.deepEqual({ Mixpanel: true, All: false, 'Segment.io': true }, group2.obj.integrations);
       assert.deepEqual({ name: 'Joe Bloggs', email: 'joe@example.com' }, group2.obj.traits);
+    });
+
+    it('should not modify the original traits object', function() {
+      analytics.options.plan = {
+        group: {
+          name: { enabled: false }
+        }
+      };
+
+      var traits = { name: 'Joe Bloggs', email: 'joe@example.com' };
+
+      analytics.group(
+        '123',
+        traits,
+        { integrations: { Mixpanel: true } }
+      );
+
+      assert(analytics._invoke.calledTwice);
+
+      var group1 = analytics._invoke.args[0][1];
+      assert.deepEqual({ email: 'joe@example.com' }, group1.obj.traits);
+      assert.deepEqual({ name: 'Joe Bloggs', email: 'joe@example.com' }, traits);
     });
 
     it('should include context.page', function() {
