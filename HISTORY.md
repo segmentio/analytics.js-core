@@ -1,4 +1,9 @@
 
+3.3.0 / 2018-03-01
+==================
+
+  * Add tracking plan support to identify and group traits (#61)
+
 3.2.7 / 2018-02-09
 ==================
 
