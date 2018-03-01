@@ -328,15 +328,24 @@ describe('Analytics', function() {
       assert(!Test.prototype.invoke.called);
     });
 
-    it('should emit "invoke" with facade', function(done) {
+    it('should emit "invoke" with facade', function() {
       var opts = { All: false };
       var identify = new Identify({ options: opts });
-      analytics.on('invoke', function(msg) {
-        assert(msg === identify);
-        assert(msg.action() === 'identify');
-        done();
-      });
+      var invoke = sinon.spy();
+      analytics.once('invoke', invoke);
       analytics._invoke('identify', identify);
+      assert(invoke.called);
+      assert(invoke.args[0][0] === identify);
+      assert(invoke.args[0][0].action() === 'identify');
+    });
+
+    it('should allow emitting "invoke" to be disabled with facade', function() {
+      var opts = { All: false };
+      var identify = new Identify({ options: opts });
+      var invoke = sinon.spy();
+      analytics.once('invoke', invoke);
+      analytics._invoke('identify', identify, true);
+      assert(!invoke.called);
     });
   });
 
@@ -831,6 +840,174 @@ describe('Analytics', function() {
       assert.deepEqual(identify.obj.context.app, { name: 'segment' });
     });
 
+    it('should strip disabled traits for all integrations except Segment', function() {
+      analytics.options.plan = {
+        identify: {
+          name: { enabled: false }
+        }
+      };
+
+      analytics.identify(
+        '123',
+        { name: 'Joe Bloggs' },
+        { integrations: { Mixpanel: true } }
+      );
+
+      assert(analytics._invoke.calledTwice);
+
+      var identify1 = analytics._invoke.args[0][1];
+      assert.deepEqual({ Mixpanel: true, 'Segment.io': false }, identify1.obj.integrations);
+      assert.deepEqual({}, identify1.obj.traits);
+
+      var identify2 = analytics._invoke.args[1][1];
+      assert.deepEqual({ Mixpanel: true, All: false, 'Segment.io': true }, identify2.obj.integrations);
+      assert.deepEqual({ name: 'Joe Bloggs' }, identify2.obj.traits);
+    });
+
+    it('should not strip enabled traits', function() {
+      analytics.options.plan = {
+        identify: {
+          name: { enabled: true }
+        }
+      };
+
+      analytics.identify(
+        '123',
+        { name: 'Joe Bloggs' },
+        { integrations: { Mixpanel: true } }
+      );
+
+      assert(analytics._invoke.calledTwice);
+
+      var identify1 = analytics._invoke.args[0][1];
+      assert.deepEqual({ Mixpanel: true, 'Segment.io': false }, identify1.obj.integrations);
+      assert.deepEqual({ name: 'Joe Bloggs' }, identify1.obj.traits);
+
+      var identify2 = analytics._invoke.args[1][1];
+      assert.deepEqual({ Mixpanel: true, All: false, 'Segment.io': true }, identify2.obj.integrations);
+      assert.deepEqual({ name: 'Joe Bloggs' }, identify2.obj.traits);
+    });
+
+    it('should not strip new traits when default is enabled', function() {
+      analytics.options.plan = {
+        identify: {
+          __default: { enabled: true }
+        }
+      };
+
+      analytics.identify(
+        '123',
+        { name: 'Joe Bloggs' },
+        { integrations: { Mixpanel: true } }
+      );
+
+      assert(analytics._invoke.calledTwice);
+
+      var identify1 = analytics._invoke.args[0][1];
+      assert.deepEqual({ Mixpanel: true, 'Segment.io': false }, identify1.obj.integrations);
+      assert.deepEqual({ name: 'Joe Bloggs' }, identify1.obj.traits);
+
+      var identify2 = analytics._invoke.args[1][1];
+      assert.deepEqual({ Mixpanel: true, All: false, 'Segment.io': true }, identify2.obj.integrations);
+      assert.deepEqual({ name: 'Joe Bloggs' }, identify2.obj.traits);
+    });
+
+    it('should strip new traits when default is disabled', function() {
+      analytics.options.plan = {
+        identify: {
+          __default: { enabled: false }
+        }
+      };
+
+      analytics.identify(
+        '123',
+        { name: 'Joe Bloggs' },
+        { integrations: { Mixpanel: true } }
+      );
+
+      assert(analytics._invoke.calledTwice);
+
+      var identify1 = analytics._invoke.args[0][1];
+      assert.deepEqual({ Mixpanel: true, 'Segment.io': false }, identify1.obj.integrations);
+      assert.deepEqual({}, identify1.obj.traits);
+
+      var identify2 = analytics._invoke.args[1][1];
+      assert.deepEqual({ Mixpanel: true, All: false, 'Segment.io': true }, identify2.obj.integrations);
+      assert.deepEqual({ name: 'Joe Bloggs' }, identify2.obj.traits);
+    });
+
+    it('should not strip enabled traits when default is disabled', function() {
+      analytics.options.plan = {
+        identify: {
+          name: { enabled: true },
+          __default: { enabled: false }
+        }
+      };
+
+      analytics.identify(
+        '123',
+        { name: 'Joe Bloggs', email: 'joe@example.com' },
+        { integrations: { Mixpanel: true } }
+      );
+
+      assert(analytics._invoke.calledTwice);
+
+      var identify1 = analytics._invoke.args[0][1];
+      assert.deepEqual({ Mixpanel: true, 'Segment.io': false }, identify1.obj.integrations);
+      assert.deepEqual({ name: 'Joe Bloggs' }, identify1.obj.traits);
+
+      var identify2 = analytics._invoke.args[1][1];
+      assert.deepEqual({ Mixpanel: true, All: false, 'Segment.io': true }, identify2.obj.integrations);
+      assert.deepEqual({ name: 'Joe Bloggs', email: 'joe@example.com' }, identify2.obj.traits);
+    });
+
+    it('should strip disabled traits when default is enabled', function() {
+      analytics.options.plan = {
+        identify: {
+          name: { enabled: false },
+          __default: { enabled: true }
+        }
+      };
+
+      analytics.identify(
+        '123',
+        { name: 'Joe Bloggs', email: 'joe@example.com' },
+        { integrations: { Mixpanel: true } }
+      );
+
+      assert(analytics._invoke.calledTwice);
+
+      var identify1 = analytics._invoke.args[0][1];
+      assert.deepEqual({ Mixpanel: true, 'Segment.io': false }, identify1.obj.integrations);
+      assert.deepEqual({ email: 'joe@example.com' }, identify1.obj.traits);
+
+      var identify2 = analytics._invoke.args[1][1];
+      assert.deepEqual({ Mixpanel: true, All: false, 'Segment.io': true }, identify2.obj.integrations);
+      assert.deepEqual({ name: 'Joe Bloggs', email: 'joe@example.com' }, identify2.obj.traits);
+    });
+
+    it('should not modify the original traits object', function() {
+      analytics.options.plan = {
+        identify: {
+          name: { enabled: false }
+        }
+      };
+
+      var traits = { name: 'Joe Bloggs', email: 'joe@example.com' };
+
+      analytics.identify(
+        '123',
+        traits,
+        { integrations: { Mixpanel: true } }
+      );
+
+      assert(analytics._invoke.calledTwice);
+
+      var identify1 = analytics._invoke.args[0][1];
+      assert.deepEqual({ email: 'joe@example.com' }, identify1.obj.traits);
+      assert.deepEqual({ name: 'Joe Bloggs', email: 'joe@example.com' }, traits);
+    });
+
     it('should include context.page', function() {
       analytics.identify(1);
       var identify = analytics._invoke.args[0][1];
@@ -1009,6 +1186,174 @@ describe('Analytics', function() {
       analytics.group(1, { trait: true }, { context: { app: app } });
       var group = analytics._invoke.args[0][1];
       assert.deepEqual(group.obj.context.app, app);
+    });
+
+    it('should strip disabled traits for all integrations except Segment', function() {
+      analytics.options.plan = {
+        group: {
+          name: { enabled: false }
+        }
+      };
+
+      analytics.group(
+        '123',
+        { name: 'Joe Bloggs' },
+        { integrations: { Mixpanel: true } }
+      );
+
+      assert(analytics._invoke.calledTwice);
+
+      var group1 = analytics._invoke.args[0][1];
+      assert.deepEqual({ Mixpanel: true, 'Segment.io': false }, group1.obj.integrations);
+      assert.deepEqual({}, group1.obj.traits);
+
+      var group2 = analytics._invoke.args[1][1];
+      assert.deepEqual({ Mixpanel: true, All: false, 'Segment.io': true }, group2.obj.integrations);
+      assert.deepEqual({ name: 'Joe Bloggs' }, group2.obj.traits);
+    });
+
+    it('should not strip enabled traits', function() {
+      analytics.options.plan = {
+        group: {
+          name: { enabled: true }
+        }
+      };
+
+      analytics.group(
+        '123',
+        { name: 'Joe Bloggs' },
+        { integrations: { Mixpanel: true } }
+      );
+
+      assert(analytics._invoke.calledTwice);
+
+      var group1 = analytics._invoke.args[0][1];
+      assert.deepEqual({ Mixpanel: true, 'Segment.io': false }, group1.obj.integrations);
+      assert.deepEqual({ name: 'Joe Bloggs' }, group1.obj.traits);
+
+      var group2 = analytics._invoke.args[1][1];
+      assert.deepEqual({ Mixpanel: true, All: false, 'Segment.io': true }, group2.obj.integrations);
+      assert.deepEqual({ name: 'Joe Bloggs' }, group2.obj.traits);
+    });
+
+    it('should not strip new traits when default is enabled', function() {
+      analytics.options.plan = {
+        group: {
+          __default: { enabled: true }
+        }
+      };
+
+      analytics.group(
+        '123',
+        { name: 'Joe Bloggs' },
+        { integrations: { Mixpanel: true } }
+      );
+
+      assert(analytics._invoke.calledTwice);
+
+      var group1 = analytics._invoke.args[0][1];
+      assert.deepEqual({ Mixpanel: true, 'Segment.io': false }, group1.obj.integrations);
+      assert.deepEqual({ name: 'Joe Bloggs' }, group1.obj.traits);
+
+      var group2 = analytics._invoke.args[1][1];
+      assert.deepEqual({ Mixpanel: true, All: false, 'Segment.io': true }, group2.obj.integrations);
+      assert.deepEqual({ name: 'Joe Bloggs' }, group2.obj.traits);
+    });
+
+    it('should strip new traits when default is disabled', function() {
+      analytics.options.plan = {
+        group: {
+          __default: { enabled: false }
+        }
+      };
+
+      analytics.group(
+        '123',
+        { name: 'Joe Bloggs' },
+        { integrations: { Mixpanel: true } }
+      );
+
+      assert(analytics._invoke.calledTwice);
+
+      var group1 = analytics._invoke.args[0][1];
+      assert.deepEqual({ Mixpanel: true, 'Segment.io': false }, group1.obj.integrations);
+      assert.deepEqual({}, group1.obj.traits);
+
+      var group2 = analytics._invoke.args[1][1];
+      assert.deepEqual({ Mixpanel: true, All: false, 'Segment.io': true }, group2.obj.integrations);
+      assert.deepEqual({ name: 'Joe Bloggs' }, group2.obj.traits);
+    });
+
+    it('should not strip enabled traits when default is disabled', function() {
+      analytics.options.plan = {
+        group: {
+          name: { enabled: true },
+          __default: { enabled: false }
+        }
+      };
+
+      analytics.group(
+        '123',
+        { name: 'Joe Bloggs', email: 'joe@example.com' },
+        { integrations: { Mixpanel: true } }
+      );
+
+      assert(analytics._invoke.calledTwice);
+
+      var group1 = analytics._invoke.args[0][1];
+      assert.deepEqual({ Mixpanel: true, 'Segment.io': false }, group1.obj.integrations);
+      assert.deepEqual({ name: 'Joe Bloggs' }, group1.obj.traits);
+
+      var group2 = analytics._invoke.args[1][1];
+      assert.deepEqual({ Mixpanel: true, All: false, 'Segment.io': true }, group2.obj.integrations);
+      assert.deepEqual({ name: 'Joe Bloggs', email: 'joe@example.com' }, group2.obj.traits);
+    });
+
+    it('should strip disabled traits when default is enabled', function() {
+      analytics.options.plan = {
+        group: {
+          name: { enabled: false },
+          __default: { enabled: true }
+        }
+      };
+
+      analytics.group(
+        '123',
+        { name: 'Joe Bloggs', email: 'joe@example.com' },
+        { integrations: { Mixpanel: true } }
+      );
+
+      assert(analytics._invoke.calledTwice);
+
+      var group1 = analytics._invoke.args[0][1];
+      assert.deepEqual({ Mixpanel: true, 'Segment.io': false }, group1.obj.integrations);
+      assert.deepEqual({ email: 'joe@example.com' }, group1.obj.traits);
+
+      var group2 = analytics._invoke.args[1][1];
+      assert.deepEqual({ Mixpanel: true, All: false, 'Segment.io': true }, group2.obj.integrations);
+      assert.deepEqual({ name: 'Joe Bloggs', email: 'joe@example.com' }, group2.obj.traits);
+    });
+
+    it('should not modify the original traits object', function() {
+      analytics.options.plan = {
+        group: {
+          name: { enabled: false }
+        }
+      };
+
+      var traits = { name: 'Joe Bloggs', email: 'joe@example.com' };
+
+      analytics.group(
+        '123',
+        traits,
+        { integrations: { Mixpanel: true } }
+      );
+
+      assert(analytics._invoke.calledTwice);
+
+      var group1 = analytics._invoke.args[0][1];
+      assert.deepEqual({ email: 'joe@example.com' }, group1.obj.traits);
+      assert.deepEqual({ name: 'Joe Bloggs', email: 'joe@example.com' }, traits);
     });
 
     it('should include context.page', function() {
