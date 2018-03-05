@@ -1,4 +1,9 @@
 
+3.4.0 / 2018-03-05
+==================
+
+  * Revert "[SCH-297][SCH-298] Add tracking plan support to identify and group traits" (#63)
+
 3.3.0 / 2018-03-01
 ==================
 
