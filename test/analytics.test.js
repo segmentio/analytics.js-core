@@ -635,6 +635,111 @@ describe('Analytics', function() {
       });
       analytics.page('category', 'name', {}, {});
     });
+
+    it('should call #_invoke for Segment if Page Viewed is disabled', function() {
+      analytics.options.plan = {
+        track: {
+          'Page Viewed': { enabled: false }
+        }
+      };
+      analytics.page('name');
+      assert(analytics._invoke.called);
+      var msg = analytics._invoke.args[0][1];
+      assert.deepEqual({ All: false, 'Segment.io': true }, msg.obj.integrations);
+    });
+
+    it('should call #_invoke if Page Viewed is enabled', function() {
+      analytics.options.plan = {
+        track: {
+          'Page Viewed': { enabled: true }
+        }
+      };
+      analytics.page('name');
+      assert(analytics._invoke.called);
+    });
+
+    it('should call the callback even if Page Viewed is disabled', function(done) {
+      analytics.options.plan = {
+        track: {
+          'Page Viewed': { enabled: false }
+        }
+      };
+      assert(!analytics._invoke.called);
+      analytics.page('category', 'name', {}, function() {
+        done();
+      });
+    });
+
+    it('should default .integrations to plan.integrations', function() {
+      analytics.options.plan = {
+        track: {
+          'Page Viewed': {
+            integrations: { All: true }
+          }
+        }
+      };
+
+      analytics.page('category', 'name', {}, { integrations: { Segment: true } });
+      var msg = analytics._invoke.args[0][1];
+      assert.deepEqual(msg.integrations(), { All: true, Segment: true });
+    });
+
+    it('should call #_invoke if new events are enabled', function() {
+      analytics.options.plan = {
+        track: {
+          __default: { enabled: true }
+        }
+      };
+      analytics.page('name');
+      assert(analytics._invoke.called);
+      var msg = analytics._invoke.args[0][1];
+      assert.deepEqual({}, msg.obj.integrations);
+    });
+
+    it('should call #_invoke for Segment if new events are disabled', function() {
+      analytics.options.plan = {
+        track: {
+          __default: { enabled: false }
+        }
+      };
+      analytics.page('name');
+      assert(analytics._invoke.called);
+      var msg = analytics._invoke.args[0][1];
+      assert.deepEqual({ All: false, 'Segment.io': true }, msg.obj.integrations);
+    });
+
+    it('should use the event plan if it exists and ignore defaults', function() {
+      analytics.options.plan = {
+        track: {
+          'Page Viewed': { enabled: true },
+          __default: { enabled: false }
+        }
+      };
+      analytics.page('name');
+      assert(analytics._invoke.called);
+      var msg = analytics._invoke.args[0][1];
+      assert.deepEqual({}, msg.obj.integrations);
+    });
+
+    it('should merge the Page Viewed plan if it exists and ignore defaults', function() {
+      analytics.options.plan = {
+        track: {
+          'Page Viewed': { enabled: true, integrations: { Mixpanel: false } },
+          __default: { enabled: false }
+        }
+      };
+      analytics.page('name');
+      assert(analytics._invoke.called);
+      var msg = analytics._invoke.args[0][1];
+      assert.deepEqual({ Mixpanel: false }, msg.obj.integrations);
+    });
+
+    it('should not set ctx.integrations if plan.integrations is empty', function() {
+      analytics.options.plan = { track: { 'Page Viewed': {} } };
+      analytics.page('category', 'name', {}, { campaign: {} });
+      var msg = analytics._invoke.args[0][1];
+      assert.deepEqual({}, msg.proxy('context.campaign'));
+    });
   });
 
   describe('#pageview', function() {
