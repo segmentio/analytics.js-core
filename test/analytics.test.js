@@ -245,6 +245,35 @@ describe('Analytics', function() {
       });
     });
 
+    it('should not load any integrations when integrations.All === false', function(done) {
+      Test.readyOnInitialize();
+      analytics.addIntegration(Test);
+      analytics.ready(function() {
+        assert(!analytics._integrations.Test);
+        done();
+      });
+      analytics.initialize(settings, {
+        integrations: {
+          All: false
+        }
+      });
+    });
+
+    it('should load explicitly enabled integrations when integrations.All === false', function(done) {
+      Test.readyOnInitialize();
+      analytics.addIntegration(Test);
+      analytics.ready(function() {
+        assert(analytics._integrations.Test);
+        done();
+      });
+      analytics.initialize(settings, {
+        integrations: {
+          All: false,
+          Test: {}
+        }
+      });
+    });
+
     it('should send settings to an integration', function(done) {
       Test = function(options) {
         assert.deepEqual(settings.Test, options);
