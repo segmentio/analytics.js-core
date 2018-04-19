@@ -23,6 +23,16 @@ describe('cookie', function() {
 
     it('should get an existing cookie', function() {
       cookie.set('x', { a: 'b' });
+      // This test has a tendency to fail on IE. We retry upto 5 times in a
+      // loop.
+      for (var i = 0; i < 5; i++) {
+        var x = cookie.get('x');
+        if (x === { a: 'b' }) {
+          return;
+        }
+      }
+      // Run a final assertion. Using assert here so we can print a helpful
+      // error message.
       assert.deepEqual(cookie.get('x'), { a: 'b' });
     });
 
@@ -35,6 +45,16 @@ describe('cookie', function() {
   describe('#set', function() {
     it('should set a cookie', function() {
       cookie.set('x', { a: 'b' });
+      // This test has a tendency to fail on IE. We retry upto 5 times in a
+      // loop.
+      for (var i = 0; i < 5; i++) {
+        var x = cookie.get('x');
+        if (x === { a: 'b' }) {
+          return;
+        }
+      }
+      // Run a final assertion. Using assert here so we can print a helpful
+      // error message.
       assert.deepEqual(cookie.get('x'), { a: 'b' });
     });
   });
