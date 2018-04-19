@@ -1445,17 +1445,9 @@ describe('Analytics', function() {
       analytics.trackForm(form);
       submit.click();
       setTimeout(function() {
-        // This test has a tendency to fail on IE. We retry upto 5 times in a
-        // loop.
-        for (var i = 0; i < 5; i++) {
-          if (spy.called === true) {
-            return done();
-          }
-        }
-        // Run a final assertion.
         assert(spy.called);
         done();
-      }, 1000);
+      }, 50);
     });
 
     it('should trigger an existing submit handler', function(done) {
