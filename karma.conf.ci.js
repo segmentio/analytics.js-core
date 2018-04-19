@@ -70,7 +70,7 @@ module.exports = function(config) {
 
     singleRun: true,
 
-    concurrency: 2,
+    concurrency: Object.keys(customLaunchers).length,
 
     retryLimit: 5,
 
