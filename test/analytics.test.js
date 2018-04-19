@@ -365,6 +365,11 @@ describe('Analytics', function() {
       assert(!Test.prototype.invoke.called);
     });
 
+    it('should not crash when invoking integration fails', function() {
+      Test.prototype.invoke = function() { throw new Error('Uh oh!'); };
+      analytics.track('Test Event');
+    });
+
     it('should support .integrations to disable / select integrations', function() {
       var opts = { integrations: { Test: false } };
       analytics.identify('123', {}, opts);
