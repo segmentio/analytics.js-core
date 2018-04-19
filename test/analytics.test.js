@@ -1235,6 +1235,56 @@ describe('Analytics', function() {
       assert.deepEqual(track.obj.integrations, { Test: true });
     });
 
+    it('should allow tracking plan to disable integrations explicitly enabled via initialize .integrations option', function() {
+      analytics.initialize(settings, {
+        integrations: {
+          Test: true
+        }
+      });
+      analytics.options.plan = {
+        track: {
+          event1: { enabled: false },
+          event2: {
+            enabled: true,
+            integrations: { Test: false }
+          }
+        }
+      };
+
+      analytics.track('event1', { prop: true });
+      var track = analytics._invoke.args[0][1];
+      assert.deepEqual(track.obj.integrations, { All: false, 'Segment.io': true });
+
+      analytics.track('event2', { prop: true });
+      var track2 = analytics._invoke.args[1][1];
+      assert.deepEqual(track2.obj.integrations, { Test: false });
+    });
+
+    it('should prevent tracking plan from enabling integrations disabled via initialize .integrations option', function() {
+      analytics.initialize(settings, {
+        integrations: {
+          Test: false
+        }
+      });
+      analytics.options.plan = {
+        track: {
+          event1: { enabled: true },
+          event2: {
+            enabled: true,
+            integrations: { Test: true }
+          }
+        }
+      };
+
+      analytics.track('event1', { prop: true });
+      var track1 = analytics._invoke.args[0][1];
+      assert.deepEqual(track1.obj.integrations, { Test: false });
+
+      analytics.track('event2', { prop: true });
+      var track2 = analytics._invoke.args[1][1];
+      assert.deepEqual(track2.obj.integrations, { Test: false });
+    });
+
     it('should accept top level option .context', function() {
       var app = { name: 'segment' };
       analytics.track('event', { prop: true }, { context: { app: app } });
