@@ -1239,17 +1239,17 @@ describe('Analytics', function() {
       analytics.initialize(settings, {
         integrations: {
           Test: true
-        }
-      });
-      analytics.options.plan = {
-        track: {
-          event1: { enabled: false },
-          event2: {
-            enabled: true,
-            integrations: { Test: false }
+        },
+        plan: {
+          track: {
+            event1: { enabled: false },
+            event2: {
+              enabled: true,
+              integrations: { Test: false }
+            }
           }
         }
-      };
+      });
 
       analytics.track('event1', { prop: true });
       var track = analytics._invoke.args[0][1];
@@ -1264,17 +1264,17 @@ describe('Analytics', function() {
       analytics.initialize(settings, {
         integrations: {
           Test: false
-        }
-      });
-      analytics.options.plan = {
-        track: {
-          event1: { enabled: true },
-          event2: {
-            enabled: true,
-            integrations: { Test: true }
+        },
+        plan: {
+          track: {
+            event1: { enabled: true },
+            event2: {
+              enabled: true,
+              integrations: { Test: true }
+            }
           }
         }
-      };
+      });
 
       analytics.track('event1', { prop: true });
       var track1 = analytics._invoke.args[0][1];
