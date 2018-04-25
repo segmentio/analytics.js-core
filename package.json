@@ -56,7 +56,8 @@
     "new-date": "^1.0.0",
     "next-tick": "^0.2.2",
     "segmentio-facade": "^3.0.2",
-    "uuid": "^2.0.2"
+    "uuid": "^2.0.2",
+    "@segment/send-json": "^3.0.0"
   },
   "devDependencies": {
     "@segment/analytics.js-integration": "^3.2.1",
