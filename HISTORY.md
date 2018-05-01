@@ -1,8 +1,13 @@
 
+3.5.2 / 2018-05-01
+==================
+
+  * Fix metrics payload, send `Counter` in titlecase, and send `value`.
+
 3.5.1 / 2018-05-01
 ==================
 
-  * Fix Metrics Client Payload
+  * Fix Metrics Client Payload, send `series` instead of `metrics`.
 
 3.5.0 / 2018-04-25
 ==================
