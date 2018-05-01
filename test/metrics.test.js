@@ -59,7 +59,7 @@ describe('metrics', function() {
       sinon.assert.calledOnce(spy);
       var req = spy.getCall(0).args[0];
       assert.strictEqual(req.url, 'https://api.segment.io/v1/m');
-      assert.strictEqual(req.requestBody, '{"metrics":[{"type":"counter","metric":"foo","tags":{}}]}');
+      assert.strictEqual(req.requestBody, '{"series":[{"type":"counter","metric":"foo","tags":{}}]}');
     });
 
     it('should make a request if queue has multiple items and supports xhr', function() {
@@ -73,7 +73,7 @@ describe('metrics', function() {
       sinon.assert.calledOnce(spy);
       var req = spy.getCall(0).args[0];
       assert.strictEqual(req.url, 'https://api.segment.io/v1/m');
-      assert.strictEqual(req.requestBody, '{"metrics":[{"type":"counter","metric":"test1","tags":{"foo":"bar"}},{"type":"counter","metric":"test2","tags":{}}]}');
+      assert.strictEqual(req.requestBody, '{"series":[{"type":"counter","metric":"test1","tags":{"foo":"bar"}},{"type":"counter","metric":"test2","tags":{}}]}');
     });
 
     it('should not make a request if queue has an item and does not support xhr', function() {
@@ -141,7 +141,7 @@ describe('metrics', function() {
         sinon.assert.calledOnce(spy);
         var req = spy.getCall(0).args[0];
         assert.strictEqual(req.url, 'https://api.segment.io/v1/m');
-        assert.strictEqual(req.requestBody, '{"metrics":[{"type":"counter","metric":"test1","tags":{"foo":"bar"}}]}');
+        assert.strictEqual(req.requestBody, '{"series":[{"type":"counter","metric":"test1","tags":{"foo":"bar"}}]}');
 
         assert.deepEqual(metrics.queue, []);
 
