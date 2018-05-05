@@ -930,6 +930,78 @@ describe('Analytics', function() {
         traits: { trait: true }
       });
     });
+
+    it('should block traits', function(done) {
+      analytics.options.plan = {
+        identify: {
+          trait1: { enabled: false }
+        }
+      };
+      analytics.once('identify', function(id, traits, options) {
+        assert.deepEqual(traits, { trait2: 2 });
+        assert.deepEqual(options.blockedTraits, { trait1: 1 });
+        done();
+      });
+      analytics.identify(1, { trait1: 1, trait2: 2 });
+      var identify = analytics._invoke.args[0][1];
+      assert.deepEqual(identify.traits(), { id: 1, trait2: 2 });
+      assert.deepEqual(identify.options().blockedTraits, { trait1: 1 });
+    });
+
+    it('should not modify the passed in traits object', function() {
+      analytics.options.plan = {
+        identify: {
+          trait1: { enabled: false }
+        }
+      };
+      var traits = { trait1: 1, trait2: 2 };
+      analytics.identify(1, traits);
+      assert.deepEqual(traits, { trait1: 1, trait2: 2 });
+    });
+
+    it('should not modify the passed in options object', function() {
+      analytics.options.plan = {
+        identify: {
+          trait1: { enabled: false }
+        }
+      };
+      var options = {};
+      analytics.identify(1, { trait1: 1, trait2: 2 }, options);
+      assert.deepEqual(options, {});
+    });
+
+    it('should use default plan when no trait plan exists', function() {
+      analytics.options.plan = {
+        identify: {
+          __default: { enabled: false }
+        }
+      };
+      analytics.identify(1, { trait1: 1, trait2: 2 });
+      var identify = analytics._invoke.args[0][1];
+      assert.deepEqual(identify.traits(), { id: 1 });
+      assert.deepEqual(identify.options().blockedTraits, { trait1: 1, trait2: 2 });
+    });
+
+    it('should override default plan with trait plan', function() {
+      analytics.options.plan = {
+        identify: {
+          trait1: { enabled: true },
+          __default: { enabled: false }
+        }
+      };
+      analytics.identify(1, { trait1: 1, trait2: 2 });
+      var identify = analytics._invoke.args[0][1];
+      assert.deepEqual(identify.traits(), { id: 1, trait1: 1 });
+      assert.deepEqual(identify.options().blockedTraits, { trait2: 2 });
+    });
+
+    it('should do nothing when there is no plan', function() {
+      analytics.options.plan = {};
+      analytics.identify(1, { trait1: 1, trait2: 2 });
+      var identify = analytics._invoke.args[0][1];
+      assert.deepEqual(identify.traits(), { id: 1, trait1: 1, trait2: 2 });
+      assert(!identify.options().blockedTraits);
+    });
   });
 
   describe('#user', function() {
@@ -1109,6 +1181,78 @@ describe('Analytics', function() {
         page: contextPage,
         traits: { trait: true }
       });
+    });
+
+    it('should block traits', function(done) {
+      analytics.options.plan = {
+        group: {
+          trait1: { enabled: false }
+        }
+      };
+      analytics.once('group', function(id, traits, options) {
+        assert.deepEqual(traits, { trait2: 2 });
+        assert.deepEqual(options.blockedTraits, { trait1: 1 });
+        done();
+      });
+      analytics.group(1, { trait1: 1, trait2: 2 });
+      var group = analytics._invoke.args[0][1];
+      assert.deepEqual(group.traits(), { id: 1, trait2: 2 });
+      assert.deepEqual(group.options().blockedTraits, { trait1: 1 });
+    });
+
+    it('should not modify the passed in traits object', function() {
+      analytics.options.plan = {
+        group: {
+          trait1: { enabled: false }
+        }
+      };
+      var traits = { trait1: 1, trait2: 2 };
+      analytics.group(1, traits);
+      assert.deepEqual(traits, { trait1: 1, trait2: 2 });
+    });
+
+    it('should not modify the passed in options object', function() {
+      analytics.options.plan = {
+        group: {
+          trait1: { enabled: false }
+        }
+      };
+      var options = {};
+      analytics.group(1, { trait1: 1, trait2: 2 }, options);
+      assert.deepEqual(options, {});
+    });
+
+    it('should use default plan when no trait plan exists', function() {
+      analytics.options.plan = {
+        group: {
+          __default: { enabled: false }
+        }
+      };
+      analytics.group(1, { trait1: 1, trait2: 2 });
+      var group = analytics._invoke.args[0][1];
+      assert.deepEqual(group.traits(), { id: 1 });
+      assert.deepEqual(group.options().blockedTraits, { trait1: 1, trait2: 2 });
+    });
+
+    it('should override default plan with trait plan', function() {
+      analytics.options.plan = {
+        group: {
+          trait1: { enabled: true },
+          __default: { enabled: false }
+        }
+      };
+      analytics.group(1, { trait1: 1, trait2: 2 });
+      var group = analytics._invoke.args[0][1];
+      assert.deepEqual(group.traits(), { id: 1, trait1: 1 });
+      assert.deepEqual(group.options().blockedTraits, { trait2: 2 });
+    });
+
+    it('should do nothing when there is no plan', function() {
+      analytics.options.plan = {};
+      analytics.group(1, { trait1: 1, trait2: 2 });
+      var group = analytics._invoke.args[0][1];
+      assert.deepEqual(group.traits(), { id: 1, trait1: 1, trait2: 2 });
+      assert(!group.options().blockedTraits);
     });
   });
 
