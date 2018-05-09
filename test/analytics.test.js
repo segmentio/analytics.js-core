@@ -1351,6 +1351,7 @@ describe('Analytics', function() {
     it('should allow tracking plan to disable integrations explicitly enabled via initialize .integrations option', function() {
       analytics.initialize(settings, {
         integrations: {
+          All: false,
           Test: true
         },
         plan: {
@@ -1370,7 +1371,7 @@ describe('Analytics', function() {
 
       analytics.track('event2', { prop: true });
       var track2 = analytics._invoke.args[1][1];
-      assert.deepEqual(track2.obj.integrations, { Test: false });
+      assert.deepEqual(track2.obj.integrations, { All: false, Test: false });
     });
 
     it('should prevent tracking plan from enabling integrations disabled via initialize .integrations option', function() {
