@@ -1,4 +1,9 @@
 
+3.6.0-alpha / 2018-05-09
+==================
+
+  * Add support for disabling integrations at runtime (#70).
+
 3.5.2 / 2018-05-01
 ==================
 
