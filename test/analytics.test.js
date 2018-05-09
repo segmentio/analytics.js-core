@@ -266,6 +266,49 @@ describe('Analytics', function() {
       analytics.initialize(settings);
     });
 
+    it('should not load disabled integrations', function(done) {
+      Test.readyOnInitialize();
+      analytics.addIntegration(Test);
+      analytics.ready(function() {
+        assert(!analytics._integrations.Test);
+        done();
+      });
+      analytics.initialize(settings, {
+        integrations: {
+          Test: false
+        }
+      });
+    });
+
+    it('should not load any integrations when integrations.All === false', function(done) {
+      Test.readyOnInitialize();
+      analytics.addIntegration(Test);
+      analytics.ready(function() {
+        assert(!analytics._integrations.Test);
+        done();
+      });
+      analytics.initialize(settings, {
+        integrations: {
+          All: false
+        }
+      });
+    });
+
+    it('should load explicitly enabled integrations when integrations.All === false', function(done) {
+      Test.readyOnInitialize();
+      analytics.addIntegration(Test);
+      analytics.ready(function() {
+        assert(analytics._integrations.Test);
+        done();
+      });
+      analytics.initialize(settings, {
+        integrations: {
+          All: false,
+          Test: {}
+        }
+      });
+    });
+
     it('should send settings to an integration', function(done) {
       Test = function(options) {
         assert.deepEqual(settings.Test, options);
@@ -681,6 +724,32 @@ describe('Analytics', function() {
       assert.deepEqual(page.options('AdRoll'), { opt: true });
     });
 
+    it('should use the initialize .integrations option', function() {
+      analytics.initialize(settings, {
+        integrations: {
+          Test: false
+        }
+      });
+      analytics.page({ prop: true });
+      var page = analytics._invoke.args[0][1];
+      assert.deepEqual(page.obj.integrations, { Test: false });
+    });
+
+    it('should be able to override the initialize .integrations option', function() {
+      analytics.initialize(settings, {
+        integrations: {
+          Test: false
+        }
+      });
+      analytics.page({ prop: true }, {
+        integrations: {
+          Test: true
+        }
+      });
+      var page = analytics._invoke.args[0][1];
+      assert.deepEqual(page.obj.integrations, { Test: true });
+    });
+
     it('should accept top level option .context', function() {
       var app = { name: 'segment' };
       analytics.page({ prop: true }, { context: { app: app } });
@@ -909,6 +978,32 @@ describe('Analytics', function() {
       assert.deepEqual({ opt: true }, identify.options('AdRoll'));
     });
 
+    it('should use the initialize .integrations option', function() {
+      analytics.initialize(settings, {
+        integrations: {
+          Test: false
+        }
+      });
+      analytics.identify(1, { trait: true });
+      var identify = analytics._invoke.args[0][1];
+      assert.deepEqual(identify.obj.integrations, { Test: false });
+    });
+
+    it('should be able to override the initialize .integrations option', function() {
+      analytics.initialize(settings, {
+        integrations: {
+          Test: false
+        }
+      });
+      analytics.identify(1, { trait: true }, {
+        integrations: {
+          Test: true
+        }
+      });
+      var identify = analytics._invoke.args[0][1];
+      assert.deepEqual(identify.obj.integrations, { Test: true });
+    });
+
     it('should accept top level option .context', function() {
       analytics.identify(1, { trait: true }, { context: { app: { name: 'segment' } } });
       var identify = analytics._invoke.args[0][1];
@@ -1088,6 +1183,32 @@ describe('Analytics', function() {
       assert.deepEqual(group.options('AdRoll'), { opt: true });
     });
 
+    it('should use the initialize .integrations option', function() {
+      analytics.initialize(settings, {
+        integrations: {
+          Test: false
+        }
+      });
+      analytics.group(1, { trait: true });
+      var group = analytics._invoke.args[0][1];
+      assert.deepEqual(group.obj.integrations, { Test: false });
+    });
+
+    it('should be able to override the initialize .integrations option', function() {
+      analytics.initialize(settings, {
+        integrations: {
+          Test: false
+        }
+      });
+      analytics.group(1, { trait: true }, {
+        integrations: {
+          Test: true
+        }
+      });
+      var group = analytics._invoke.args[0][1];
+      assert.deepEqual(group.obj.integrations, { Test: true });
+    });
+
     it('should accept top level option .context', function() {
       var app = { name: 'segment' };
       analytics.group(1, { trait: true }, { context: { app: app } });
@@ -1199,6 +1320,82 @@ describe('Analytics', function() {
       analytics.track('event', { prop: true }, { integrations: { AdRoll: { opt: true } } });
       var track = analytics._invoke.args[0][1];
       assert.deepEqual({ opt: true }, track.options('AdRoll'));
+    });
+
+    it('should use the initialize .integrations option', function() {
+      analytics.initialize(settings, {
+        integrations: {
+          Test: false
+        }
+      });
+      analytics.track('event', { prop: true });
+      var track = analytics._invoke.args[0][1];
+      assert.deepEqual(track.obj.integrations, { Test: false });
+    });
+
+    it('should be able to override the initialize .integrations option', function() {
+      analytics.initialize(settings, {
+        integrations: {
+          Test: false
+        }
+      });
+      analytics.track('event', { prop: true }, {
+        integrations: {
+          Test: true
+        }
+      });
+      var track = analytics._invoke.args[0][1];
+      assert.deepEqual(track.obj.integrations, { Test: true });
+    });
+
+    it('should allow tracking plan to disable integrations explicitly enabled via initialize .integrations option', function() {
+      analytics.initialize(settings, {
+        integrations: {
+          Test: true
+        },
+        plan: {
+          track: {
+            event1: { enabled: false },
+            event2: {
+              enabled: true,
+              integrations: { Test: false }
+            }
+          }
+        }
+      });
+
+      analytics.track('event1', { prop: true });
+      var track = analytics._invoke.args[0][1];
+      assert.deepEqual(track.obj.integrations, { All: false, 'Segment.io': true });
+
+      analytics.track('event2', { prop: true });
+      var track2 = analytics._invoke.args[1][1];
+      assert.deepEqual(track2.obj.integrations, { Test: false });
+    });
+
+    it('should prevent tracking plan from enabling integrations disabled via initialize .integrations option', function() {
+      analytics.initialize(settings, {
+        integrations: {
+          Test: false
+        },
+        plan: {
+          track: {
+            event1: { enabled: true },
+            event2: {
+              enabled: true,
+              integrations: { Test: true }
+            }
+          }
+        }
+      });
+
+      analytics.track('event1', { prop: true });
+      var track1 = analytics._invoke.args[0][1];
+      assert.deepEqual(track1.obj.integrations, { Test: false });
+
+      analytics.track('event2', { prop: true });
+      var track2 = analytics._invoke.args[1][1];
+      assert.deepEqual(track2.obj.integrations, { Test: false });
     });
 
     it('should accept top level option .context', function() {
@@ -1633,6 +1830,38 @@ describe('Analytics', function() {
         done();
       });
       analytics.alias('new', 'old', { opt: true });
+    });
+
+    it('should accept top level option .integrations', function() {
+      analytics.alias('new', 'old', { integrations: { AdRoll: { opt: true } } });
+      var alias = analytics._invoke.args[0][1];
+      assert.deepEqual({ opt: true }, alias.options('AdRoll'));
+    });
+
+    it('should use the initialize .integrations option', function() {
+      analytics.initialize(settings, {
+        integrations: {
+          Test: false
+        }
+      });
+      analytics.alias('new', 'old');
+      var alias = analytics._invoke.args[0][1];
+      assert.deepEqual(alias.obj.integrations, { Test: false });
+    });
+
+    it('should be able to override the initialize .integrations option', function() {
+      analytics.initialize(settings, {
+        integrations: {
+          Test: false
+        }
+      });
+      analytics.alias('new', 'old', {
+        integrations: {
+          Test: true
+        }
+      });
+      var alias = analytics._invoke.args[0][1];
+      assert.deepEqual(alias.obj.integrations, { Test: true });
     });
   });
 
