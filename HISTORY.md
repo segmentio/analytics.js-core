@@ -1,4 +1,9 @@
 
+3.6.0-alpha.2 / 2018-05-09
+==================
+
+  * Fix the tracking plan when load options are specified (#74).
+
 3.6.0-alpha / 2018-05-09
 ==================
 
