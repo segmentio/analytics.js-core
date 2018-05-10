@@ -1,4 +1,10 @@
 
+3.6.0 / 2018-05-09
+==================
+
+  * Add support for disabling integrations at runtime (#70).
+  * Fix the tracking plan when load options are specified (#74).
+
 3.6.0-alpha.2 / 2018-05-09
 ==================
 
