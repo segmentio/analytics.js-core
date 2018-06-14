@@ -5,8 +5,7 @@ module.exports = function(config) {
   config.set({
     files: [
       { pattern: 'test/support/*.html', included: false },
-      // NOTE: This must run before all tests
-      'test/support/global.js',
+      'test/support/global.js', // NOTE: This must run before all tests
       'test/**/*.test.js'
     ],
 
@@ -14,7 +13,7 @@ module.exports = function(config) {
 
     frameworks: ['browserify', 'mocha'],
 
-    reporters: ['spec'/* , 'coverage' */],
+    reporters: ['spec'],
 
     preprocessors: {
       'test/**/*.js': 'browserify'
@@ -28,26 +27,6 @@ module.exports = function(config) {
 
     browserify: {
       debug: true
-      // Edge and Safari 9 still panic with coverage. Keeping disabled.
-      // transform: [
-      //   [
-      //     'browserify-istanbul',
-      //     {
-      //       instrumenterConfig: {
-      //         embedSource: true
-      //       }
-      //     }
-      //   ]
-      // ]
     }
-
-    // Edge and Safari 9 still panic with coverage. Keeping disabled.
-    // coverageReporter: {
-    //   reporters: [
-    //     { type: 'text' },
-    //     { type: 'html' },
-    //     { type: 'json' }
-    //   ]
-    // }
   });
 };
