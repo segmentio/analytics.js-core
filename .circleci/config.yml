@@ -13,12 +13,12 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - node_modules
-    publish:
-      docker:
-        - image: circleci/node:4-browsers
-      steps:
-        - attach_workspace: { at: . }
-        - run: npm publish .
+  publish:
+    docker:
+      - image: circleci/node:4-browsers
+    steps:
+      - attach_workspace: { at: . }
+      - run: npm publish .
 workflows:
   version: 2
   test_and_publish:
