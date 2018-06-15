@@ -8,6 +8,10 @@ describe('cookie', function() {
     // Just to make sure that
     // URIError is never thrown here.
     document.cookie = 'bad=%';
+
+    // enable debugging for cookie package so we can better
+    // observe flaky tests on IE/Edge.
+    window.localStorage.setItem('debug', 'cookie');
   });
 
   afterEach(function() {
@@ -34,7 +38,10 @@ describe('cookie', function() {
 
   describe('#set', function() {
     it('should set a cookie', function() {
+      // Logging so we can better observe flaky tests on IE/Edge.
+      console.log('setting cookie. document.cookie is', document.cookie);
       cookie.set('x', { a: 'b' });
+      console.log('cookie set. document.cookie is', document.cookie);
       assert.deepEqual(cookie.get('x'), { a: 'b' });
     });
   });
