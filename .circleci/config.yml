@@ -13,6 +13,8 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - node_modules
+      - store_test_results:
+          path: coverage            
   publish:
     docker:
       - image: circleci/node:4-browsers
