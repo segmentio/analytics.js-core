@@ -8,6 +8,7 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run: npm config set "//registry.npmjs.org/:_authToken" $NPM_AUTH
+      - run: make install
       - run: make test
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
