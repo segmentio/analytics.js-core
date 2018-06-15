@@ -81,7 +81,8 @@ module.exports = function(config) {
     customLaunchers: customLaunchers,
 
     junitReporter: {
-      outputDir: process.env.TEST_REPORTS_DIR,
+      outputDir: process.env.JUNIT_REPORT_PATH,
+      outputFile: process.env.JUNIT_REPORT_NAME,
       suite: require('./package.json').name
     },
 

@@ -3,6 +3,9 @@ jobs:
   test:
     docker:
       - image: circleci/node:4-browsers
+    environment:
+      - JUNIT_REPORT_PATH: $CIRCLE_TEST_REPORTS/junit/
+      - JUNIT_REPORT_NAME: test-results.xml
     steps:
       - checkout
       - restore_cache:
@@ -14,7 +17,7 @@ jobs:
           paths:
             - node_modules
       - store_test_results:
-          path: coverage            
+          path: coverage
   publish:
     docker:
       - image: circleci/node:4-browsers
