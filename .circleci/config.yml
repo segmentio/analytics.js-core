@@ -5,15 +5,15 @@ jobs:
       - image: circleci/node:4-browsers
     steps:
       - checkout
+      - run: npm config set "//registry.npmjs.org/:_authToken" $NPM_AUTH
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
-      - run: npm config set "//registry.npmjs.org/:_authToken" $NPM_AUTH
       - run: make install
-      - run: make test
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - node_modules
+      - run: make test
   publish:
     docker:
       - image: circleci/node:4-browsers
