@@ -4,7 +4,7 @@ var assert = require('proclaim');
 var cookie = require('../lib').constructor.cookie;
 
 describe('cookie', function() {
-  before(function() {
+  beforeEach(function() {
     // Just to make sure that
     // URIError is never thrown here.
     document.cookie = 'bad=%';
