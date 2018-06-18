@@ -42,13 +42,9 @@ GREP ?= .
 # Tasks
 ##
 
-# Install node modules.
-node_modules: package.json $(wildcard node_modules/*/package.json)
-	@npm install
-	@touch $@
-
 # Install dependencies.
-install: node_modules
+install:
+	yarn
 
 # Remove temporary files and build artifacts.
 clean:
