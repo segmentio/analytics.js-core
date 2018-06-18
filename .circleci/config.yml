@@ -14,6 +14,8 @@ jobs:
           paths:
             - node_modules
       - run: make test
+      - store_test_results:
+          path: junit-reports
   publish:
     docker:
       - image: circleci/node:4-browsers
