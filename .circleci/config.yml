@@ -7,10 +7,10 @@ jobs:
       - checkout
       - run: npm config set "//registry.npmjs.org/:_authToken" $NPM_AUTH
       - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run: make install
+          key: yarn-dependency-cache-{{ checksum "yarn.lock" }}
+      - run: yarn install --frozen-lockfile
       - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          key: yarn-dependency-cache-{{ checksum "yarn.lock" }}
           paths:
             - node_modules
       - run: make test
