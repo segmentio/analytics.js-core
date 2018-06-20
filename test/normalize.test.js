@@ -27,7 +27,7 @@ describe('normalize', function() {
 
   describe('options', function() {
     it('should move all toplevel keys to the message', function() {
-      var date = opts.timestamp = new Date();
+      var date = (opts.timestamp = new Date());
       opts.anonymousId = 'anonymous-id';
       opts.integrations = { foo: 1 };
       opts.context = { context: 1 };

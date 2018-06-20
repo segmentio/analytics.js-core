@@ -92,7 +92,7 @@ describe('Analytics', function() {
   });
 
   describe('#setAnonymousId', function() {
-    it('should set the user\'s anonymous id', function() {
+    it("should set the user's anonymous id", function() {
       var prev = analytics.user().anonymousId();
       assert(prev.length === 36);
       analytics.setAnonymousId('new-id');
@@ -115,7 +115,9 @@ describe('Analytics', function() {
     });
 
     it('should gracefully handle integrations that fail to initialize', function() {
-      Test.prototype.initialize = function() { throw new Error('Uh oh!'); };
+      Test.prototype.initialize = function() {
+        throw new Error('Uh oh!');
+      };
       var test = new Test();
       analytics.use(Test);
       analytics.add(test);
@@ -124,7 +126,9 @@ describe('Analytics', function() {
     });
 
     it('should store the names of integrations that did not initialize', function() {
-      Test.prototype.initialize = function() { throw new Error('Uh oh!'); };
+      Test.prototype.initialize = function() {
+        throw new Error('Uh oh!');
+      };
       var test = new Test();
       analytics.use(Test);
       analytics.add(test);
@@ -134,7 +138,9 @@ describe('Analytics', function() {
     });
 
     it('should not process events for any integrations that failed to initialize', function() {
-      Test.prototype.initialize = function() { throw new Error('Uh oh!'); };
+      Test.prototype.initialize = function() {
+        throw new Error('Uh oh!');
+      };
       Test.prototype.page = sinon.spy();
       var test = new Test();
       test.invoke = sinon.spy();
@@ -146,7 +152,9 @@ describe('Analytics', function() {
     });
 
     it('should still invoke the integrations .ready method', function(done) {
-      Test.prototype.initialize = function() { throw new Error('Uh oh!'); };
+      Test.prototype.initialize = function() {
+        throw new Error('Uh oh!');
+      };
       var spy = sinon.spy(Test.prototype, 'ready');
       var test = new Test();
       analytics.use(Test);
@@ -159,7 +167,9 @@ describe('Analytics', function() {
     });
 
     it('should record a metric for integration errors', function() {
-      Test.prototype.initialize = function() { throw new Error('Uh oh!'); };
+      Test.prototype.initialize = function() {
+        throw new Error('Uh oh!');
+      };
       var test = new Test();
       analytics.use(Test);
       analytics.add(test);
@@ -167,14 +177,22 @@ describe('Analytics', function() {
       assert(analytics.initialized);
 
       sinon.assert.calledTwice(metrics.increment);
-      sinon.assert.calledWith(metrics.increment, 'analytics_js.integration.invoke', {
-        method: 'initialize',
-        integration_name: 'Test'
-      });
-      sinon.assert.calledWith(metrics.increment, 'analytics_js.integration.invoke.error', {
-        method: 'initialize',
-        integration_name: 'Test'
-      });
+      sinon.assert.calledWith(
+        metrics.increment,
+        'analytics_js.integration.invoke',
+        {
+          method: 'initialize',
+          integration_name: 'Test'
+        }
+      );
+      sinon.assert.calledWith(
+        metrics.increment,
+        'analytics_js.integration.invoke.error',
+        {
+          method: 'initialize',
+          integration_name: 'Test'
+        }
+      );
     });
 
     it('should not error without settings', function() {
@@ -227,10 +245,14 @@ describe('Analytics', function() {
       analytics.initialize(settings);
 
       sinon.assert.calledOnce(metrics.increment);
-      sinon.assert.calledWith(metrics.increment, 'analytics_js.integration.invoke', {
-        method: 'initialize',
-        integration_name: 'Test'
-      });
+      sinon.assert.calledWith(
+        metrics.increment,
+        'analytics_js.integration.invoke',
+        {
+          method: 'initialize',
+          integration_name: 'Test'
+        }
+      );
     });
 
     it('should still call ready with unknown integrations', function(done) {
@@ -407,7 +429,9 @@ describe('Analytics', function() {
     });
 
     it('should not crash when invoking integration fails', function() {
-      Test.prototype.invoke = function() { throw new Error('Uh oh!'); };
+      Test.prototype.invoke = function() {
+        throw new Error('Uh oh!');
+      };
       analytics.track('Test Event');
     });
 
@@ -418,28 +442,42 @@ describe('Analytics', function() {
       sinon.assert.calledWith(metrics.increment, 'analytics_js.invoke', {
         method: 'track'
       });
-      sinon.assert.calledWith(metrics.increment, 'analytics_js.integration.invoke', {
-        method: 'track',
-        integration_name: 'Test'
-      });
+      sinon.assert.calledWith(
+        metrics.increment,
+        'analytics_js.integration.invoke',
+        {
+          method: 'track',
+          integration_name: 'Test'
+        }
+      );
     });
 
     it('should record a metric when invoking an integration', function() {
-      Test.prototype.invoke = function() { throw new Error('Uh oh!'); };
+      Test.prototype.invoke = function() {
+        throw new Error('Uh oh!');
+      };
       analytics.identify('prateek');
 
       sinon.assert.calledThrice(metrics.increment);
       sinon.assert.calledWith(metrics.increment, 'analytics_js.invoke', {
         method: 'identify'
       });
-      sinon.assert.calledWith(metrics.increment, 'analytics_js.integration.invoke', {
-        method: 'identify',
-        integration_name: 'Test'
-      });
-      sinon.assert.calledWith(metrics.increment, 'analytics_js.integration.invoke.error', {
-        method: 'identify',
-        integration_name: 'Test'
-      });
+      sinon.assert.calledWith(
+        metrics.increment,
+        'analytics_js.integration.invoke',
+        {
+          method: 'identify',
+          integration_name: 'Test'
+        }
+      );
+      sinon.assert.calledWith(
+        metrics.increment,
+        'analytics_js.integration.invoke.error',
+        {
+          method: 'identify',
+          integration_name: 'Test'
+        }
+      );
     });
 
     it('should support .integrations to disable / select integrations', function() {
@@ -719,7 +757,10 @@ describe('Analytics', function() {
     });
 
     it('should accept top level option .integrations', function() {
-      analytics.page({ prop: true }, { integrations: { AdRoll: { opt: true } } });
+      analytics.page(
+        { prop: true },
+        { integrations: { AdRoll: { opt: true } } }
+      );
       var page = analytics._invoke.args[0][1];
       assert.deepEqual(page.options('AdRoll'), { opt: true });
     });
@@ -741,11 +782,14 @@ describe('Analytics', function() {
           Test: false
         }
       });
-      analytics.page({ prop: true }, {
-        integrations: {
-          Test: true
+      analytics.page(
+        { prop: true },
+        {
+          integrations: {
+            Test: true
+          }
         }
-      });
+      );
       var page = analytics._invoke.args[0][1];
       assert.deepEqual(page.obj.integrations, { Test: true });
     });
@@ -783,7 +827,10 @@ describe('Analytics', function() {
         assert(category === 'category');
         assert(name === 'name');
         assert.deepEqual(opts, { context: { page: defaults } });
-        assert.deepEqual(props, extend(defaults, { category: 'category', name: 'name' }));
+        assert.deepEqual(
+          props,
+          extend(defaults, { category: 'category', name: 'name' })
+        );
         done();
       });
       analytics.page('category', 'name', {}, {});
@@ -973,7 +1020,11 @@ describe('Analytics', function() {
     });
 
     it('should accept top level option .integrations', function() {
-      analytics.identify(1, { trait: true }, { integrations: { AdRoll: { opt: true } } });
+      analytics.identify(
+        1,
+        { trait: true },
+        { integrations: { AdRoll: { opt: true } } }
+      );
       var identify = analytics._invoke.args[0][1];
       assert.deepEqual({ opt: true }, identify.options('AdRoll'));
     });
@@ -995,17 +1046,25 @@ describe('Analytics', function() {
           Test: false
         }
       });
-      analytics.identify(1, { trait: true }, {
-        integrations: {
-          Test: true
+      analytics.identify(
+        1,
+        { trait: true },
+        {
+          integrations: {
+            Test: true
+          }
         }
-      });
+      );
       var identify = analytics._invoke.args[0][1];
       assert.deepEqual(identify.obj.integrations, { Test: true });
     });
 
     it('should accept top level option .context', function() {
-      analytics.identify(1, { trait: true }, { context: { app: { name: 'segment' } } });
+      analytics.identify(
+        1,
+        { trait: true },
+        { context: { app: { name: 'segment' } } }
+      );
       var identify = analytics._invoke.args[0][1];
       assert.deepEqual(identify.obj.context.app, { name: 'segment' });
     });
@@ -1178,7 +1237,11 @@ describe('Analytics', function() {
     });
 
     it('should accept top level option .integrations', function() {
-      analytics.group(1, { trait: true }, { integrations: { AdRoll: { opt: true } } });
+      analytics.group(
+        1,
+        { trait: true },
+        { integrations: { AdRoll: { opt: true } } }
+      );
       var group = analytics._invoke.args[0][1];
       assert.deepEqual(group.options('AdRoll'), { opt: true });
     });
@@ -1200,11 +1263,15 @@ describe('Analytics', function() {
           Test: false
         }
       });
-      analytics.group(1, { trait: true }, {
-        integrations: {
-          Test: true
+      analytics.group(
+        1,
+        { trait: true },
+        {
+          integrations: {
+            Test: true
+          }
         }
-      });
+      );
       var group = analytics._invoke.args[0][1];
       assert.deepEqual(group.obj.integrations, { Test: true });
     });
@@ -1317,7 +1384,11 @@ describe('Analytics', function() {
     });
 
     it('should accept top level option .integrations', function() {
-      analytics.track('event', { prop: true }, { integrations: { AdRoll: { opt: true } } });
+      analytics.track(
+        'event',
+        { prop: true },
+        { integrations: { AdRoll: { opt: true } } }
+      );
       var track = analytics._invoke.args[0][1];
       assert.deepEqual({ opt: true }, track.options('AdRoll'));
     });
@@ -1339,11 +1410,15 @@ describe('Analytics', function() {
           Test: false
         }
       });
-      analytics.track('event', { prop: true }, {
-        integrations: {
-          Test: true
+      analytics.track(
+        'event',
+        { prop: true },
+        {
+          integrations: {
+            Test: true
+          }
         }
-      });
+      );
       var track = analytics._invoke.args[0][1];
       assert.deepEqual(track.obj.integrations, { Test: true });
     });
@@ -1367,7 +1442,10 @@ describe('Analytics', function() {
 
       analytics.track('event1', { prop: true });
       var track = analytics._invoke.args[0][1];
-      assert.deepEqual(track.obj.integrations, { All: false, 'Segment.io': true });
+      assert.deepEqual(track.obj.integrations, {
+        All: false,
+        'Segment.io': true
+      });
 
       analytics.track('event2', { prop: true });
       var track2 = analytics._invoke.args[1][1];
@@ -1415,7 +1493,10 @@ describe('Analytics', function() {
       analytics.track('event');
       assert(analytics._invoke.called);
       var track = analytics._invoke.args[0][1];
-      assert.deepEqual({ All: false, 'Segment.io': true }, track.obj.integrations);
+      assert.deepEqual(
+        { All: false, 'Segment.io': true },
+        track.obj.integrations
+      );
     });
 
     it('should call #_invoke if the event is enabled', function() {
@@ -1476,7 +1557,10 @@ describe('Analytics', function() {
       analytics.track('even');
       assert(analytics._invoke.called);
       var track = analytics._invoke.args[0][1];
-      assert.deepEqual({ All: false, 'Segment.io': true }, track.obj.integrations);
+      assert.deepEqual(
+        { All: false, 'Segment.io': true },
+        track.obj.integrations
+      );
     });
 
     it('should use the event plan if it exists and ignore defaults', function() {
@@ -1570,9 +1654,13 @@ describe('Analytics', function() {
     });
 
     it('should not accept a string for an element', function() {
-      assert['throws'](function() {
-        analytics.trackLink('a');
-      }, TypeError, 'Must pass HTMLElement to `analytics.trackLink`.');
+      assert['throws'](
+        function() {
+          analytics.trackLink('a');
+        },
+        TypeError,
+        'Must pass HTMLElement to `analytics.trackLink`.'
+      );
       trigger(link, 'click');
       assert(!analytics.track.called);
     });
@@ -1584,14 +1672,18 @@ describe('Analytics', function() {
     });
 
     it('should accept an event function', function() {
-      function event(el) { return el.nodeName; }
+      function event(el) {
+        return el.nodeName;
+      }
       analytics.trackLink(link, event);
       trigger(link, 'click');
       assert(analytics.track.calledWith('A'));
     });
 
     it('should accept a properties function', function() {
-      function properties(el) { return { type: el.nodeName }; }
+      function properties(el) {
+        return { type: el.nodeName };
+      }
       analytics.trackLink(link, 'event', properties);
       trigger(link, 'click');
       assert(analytics.track.calledWith('event', { type: 'A' }));
@@ -1695,9 +1787,13 @@ describe('Analytics', function() {
 
     it('should not accept a string for an element', function() {
       var str = 'form';
-      assert['throws'](function() {
-        analytics.trackForm(str);
-      }, TypeError, 'Must pass HTMLElement to `analytics.trackForm`.');
+      assert['throws'](
+        function() {
+          analytics.trackForm(str);
+        },
+        TypeError,
+        'Must pass HTMLElement to `analytics.trackForm`.'
+      );
       submit.click();
       assert(!analytics.track.called);
     });
@@ -1709,21 +1805,25 @@ describe('Analytics', function() {
     });
 
     it('should accept an event function', function() {
-      function event() { return 'event'; }
+      function event() {
+        return 'event';
+      }
       analytics.trackForm(form, event);
       submit.click();
       assert(analytics.track.calledWith('event'));
     });
 
     it('should accept a properties function', function() {
-      function properties() { return { property: true }; }
+      function properties() {
+        return { property: true };
+      }
       analytics.trackForm(form, 'event', properties);
       submit.click();
       assert(analytics.track.calledWith('event', { property: true }));
     });
 
     it('should call submit after a timeout', function(done) {
-      var spy = form.submit = sinon.spy();
+      var spy = (form.submit = sinon.spy());
       analytics.trackForm(form);
       submit.click();
       setTimeout(function() {
@@ -1733,14 +1833,18 @@ describe('Analytics', function() {
     });
 
     it('should trigger an existing submit handler', function(done) {
-      bind(form, 'submit', function() { done(); });
+      bind(form, 'submit', function() {
+        done();
+      });
       analytics.trackForm(form);
       submit.click();
     });
 
     it('should trigger an existing jquery submit handler', function(done) {
       var $form = jQuery(form);
-      $form.submit(function() { done(); });
+      $form.submit(function() {
+        done();
+      });
       analytics.trackForm(form);
       submit.click();
     });
@@ -1754,7 +1858,9 @@ describe('Analytics', function() {
 
     it('should trigger an existing jquery submit handler on a form submitted via jquery', function(done) {
       var $form = jQuery(form);
-      $form.submit(function() { done(); });
+      $form.submit(function() {
+        done();
+      });
       analytics.trackForm(form);
       $form.submit();
     });
@@ -1834,7 +1940,9 @@ describe('Analytics', function() {
     });
 
     it('should accept top level option .integrations', function() {
-      analytics.alias('new', 'old', { integrations: { AdRoll: { opt: true } } });
+      analytics.alias('new', 'old', {
+        integrations: { AdRoll: { opt: true } }
+      });
       var alias = analytics._invoke.args[0][1];
       assert.deepEqual({ opt: true }, alias.options('AdRoll'));
     });

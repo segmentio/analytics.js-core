@@ -15,7 +15,10 @@ describe('analytics', function() {
     beforeEach(function() {
       // Defined in test/support/global.js
       previousAnalyticsGlobal = window.analytics;
-      assert(previousAnalyticsGlobal, 'test harness expected global.analytics to be defined but it is not');
+      assert(
+        previousAnalyticsGlobal,
+        'test harness expected global.analytics to be defined but it is not'
+      );
     });
 
     afterEach(function() {
