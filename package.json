@@ -102,6 +102,7 @@
     "prettier-eslint-cli": "^4.7.1",
     "proclaim": "^3.4.1",
     "sinon": "^1.7.3",
+    "snyk": "^1.83.0",
     "watchify": "^3.7.0"
   }
 }
