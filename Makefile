@@ -2,7 +2,6 @@
 # Binaries
 ##
 
-ESLINT := node_modules/.bin/eslint
 KARMA := node_modules/.bin/karma
 
 ##
