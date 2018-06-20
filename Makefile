@@ -2,7 +2,6 @@
 # Binaries
 ##
 
-ESLINT := node_modules/.bin/eslint
 KARMA := node_modules/.bin/karma
 
 ##
@@ -58,12 +57,13 @@ distclean: clean
 
 # Lint JavaScript source files.
 lint: install
-	@$(ESLINT) $(ALL_FILES)
+	yarn lint
+
 .PHONY: lint
 
 # Attempt to fix linting errors.
 fmt: install
-	@$(ESLINT) --fix $(ALL_FILES)
+	yarn format
 .PHONY: fmt
 
 # Run browser unit tests in a browser.

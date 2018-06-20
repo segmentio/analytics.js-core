@@ -265,7 +265,9 @@ describe('user', function() {
       });
 
       it('should return anonymousId using the store', function() {
-        user.storage = function() { return noop; };
+        user.storage = function() {
+          return noop;
+        };
         assert(user.anonymousId() === undefined);
       });
     });
@@ -293,7 +295,9 @@ describe('user', function() {
       });
 
       it('should return anonymousId using the store', function() {
-        user.storage = function() { return noop; };
+        user.storage = function() {
+          return noop;
+        };
         assert(user.anonymousId() === undefined);
       });
     });
@@ -310,7 +314,9 @@ describe('user', function() {
       });
 
       it('should return anonymousId using the store', function() {
-        user.storage = function() { return noop; };
+        user.storage = function() {
+          return noop;
+        };
         assert(user.anonymousId() === undefined);
       });
     });
@@ -499,7 +505,10 @@ describe('user', function() {
     });
 
     it('should load from an old cookie', function() {
-      cookie.set(user._options.cookie.oldKey, { id: 'old', traits: { trait: true } });
+      cookie.set(user._options.cookie.oldKey, {
+        id: 'old',
+        traits: { trait: true }
+      });
       user.load();
       assert(user.id() === 'old');
       assert.deepEqual(user.traits(), { trait: true });

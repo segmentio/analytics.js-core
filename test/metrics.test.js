@@ -30,11 +30,13 @@ describe('metrics', function() {
     });
 
     it('should enqueue items when sampleRate is set', function() {
-      metrics.options({ sampleRate : 1 });
+      metrics.options({ sampleRate: 1 });
 
       metrics.increment('test', []);
 
-      assert.deepEqual(metrics.queue, [ { type: 'Counter', metric: 'test', value: 1, tags: [] } ]);
+      assert.deepEqual(metrics.queue, [
+        { type: 'Counter', metric: 'test', value: 1, tags: [] }
+      ]);
     });
   });
 
@@ -59,7 +61,10 @@ describe('metrics', function() {
       sinon.assert.calledOnce(spy);
       var req = spy.getCall(0).args[0];
       assert.strictEqual(req.url, 'https://api.segment.io/v1/m');
-      assert.strictEqual(req.requestBody, '{"series":[{"type":"Counter","metric":"foo","value":1,"tags":{}}]}');
+      assert.strictEqual(
+        req.requestBody,
+        '{"series":[{"type":"Counter","metric":"foo","value":1,"tags":{}}]}'
+      );
     });
 
     it('should make a request if queue has multiple items and supports xhr', function() {
@@ -73,7 +78,10 @@ describe('metrics', function() {
       sinon.assert.calledOnce(spy);
       var req = spy.getCall(0).args[0];
       assert.strictEqual(req.url, 'https://api.segment.io/v1/m');
-      assert.strictEqual(req.requestBody, '{"series":[{"type":"Counter","metric":"test1","value":1,"tags":{"foo":"bar"}},{"type":"Counter","metric":"test2","value":1,"tags":{}}]}');
+      assert.strictEqual(
+        req.requestBody,
+        '{"series":[{"type":"Counter","metric":"test1","value":1,"tags":{"foo":"bar"}},{"type":"Counter","metric":"test2","value":1,"tags":{}}]}'
+      );
     });
 
     it('should not make a request if queue has an item and does not support xhr', function() {
@@ -141,7 +149,10 @@ describe('metrics', function() {
         sinon.assert.calledOnce(spy);
         var req = spy.getCall(0).args[0];
         assert.strictEqual(req.url, 'https://api.segment.io/v1/m');
-        assert.strictEqual(req.requestBody, '{"series":[{"type":"Counter","metric":"test1","value":1,"tags":{"foo":"bar"}}]}');
+        assert.strictEqual(
+          req.requestBody,
+          '{"series":[{"type":"Counter","metric":"test1","value":1,"tags":{"foo":"bar"}}]}'
+        );
 
         assert.deepEqual(metrics.queue, []);
 
