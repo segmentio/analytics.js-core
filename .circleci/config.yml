@@ -16,6 +16,23 @@ jobs:
       - run: make test
       - store_test_results:
           path: junit-reports
+  coverage:
+    docker:
+      - image: circleci/node:8-browsers
+    steps:
+      - checkout
+      - run: npm config set "//registry.npmjs.org/:_authToken" $NPM_AUTH
+      - restore_cache:
+          key: yarn-dependency-cache-{{ checksum "yarn.lock" }}
+      - run: yarn install --frozen-lockfile
+      - save_cache:
+          key: yarn-dependency-cache-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+      - run: yarn run karma start karma.conf.coverage.js
+      - store_test_results:
+          path: junit-reports
+      - run: yarn run codecov
   publish:
     docker:
       - image: circleci/node:8-browsers
@@ -28,6 +45,10 @@ workflows:
   test_and_publish:
     jobs:
       - test:
+          filters:
+            tags:
+              only: /.*/
+      - coverage:
           filters:
             tags:
               only: /.*/

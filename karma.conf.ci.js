@@ -58,7 +58,9 @@ module.exports = function(config) {
   baseConfig(config);
 
   if (!process.env.SAUCE_USERNAME || !process.env.SAUCE_ACCESS_KEY) {
-    throw new Error('SAUCE_USERNAME and SAUCE_ACCESS_KEY environment variables are required but are missing');
+    throw new Error(
+      'SAUCE_USERNAME and SAUCE_ACCESS_KEY environment variables are required but are missing'
+    );
   }
 
   config.set({
@@ -80,24 +82,17 @@ module.exports = function(config) {
       suppressPassed: true
     },
 
-    browsers: ['PhantomJS'].concat(Object.keys(customLaunchers)),
-
-    customLaunchers: customLaunchers,
-
     junitReporter: {
       outputDir: 'junit-reports',
       suite: require('./package.json').name
     },
 
+    browsers: ['PhantomJS'].concat(Object.keys(customLaunchers)),
+
+    customLaunchers: customLaunchers,
+
     sauceLabs: {
       testName: require('./package.json').name
     }
-
-    // Edge and Safari 9 still panic with coverage. Keeping disabled.
-    // coverageReporter: {
-    //   reporters: [
-    //     { type: 'lcov' }
-    //   ]
-    // }
   });
 };

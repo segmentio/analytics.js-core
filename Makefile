@@ -74,4 +74,5 @@ test-browser: install
 # Default test target.
 test: lint test-browser
 .PHONY: test
+
 .DEFAULT_GOAL = test
