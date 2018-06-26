@@ -13,6 +13,7 @@ describe('cookie', function() {
   afterEach(function() {
     // reset to defaults
     cookie.options({});
+    // remove all cookies
     document.cookie.split(';').forEach(function(entry) {
       cookie.remove(entry.split('=')[0]);
     });
