@@ -4,16 +4,25 @@ var assert = require('proclaim');
 var cookie = require('../lib').constructor.cookie;
 
 describe('cookie', function() {
+  // Use a random key for cookies
+  // Workaround for flaky concurrent tests on Edge
+  var testKey;
+
   beforeEach(function() {
     // Just to make sure that
     // URIError is never thrown here.
     document.cookie = 'bad=%';
+    testKey =
+      '_' +
+      Math.random()
+        .toString(36)
+        .slice(2);
   });
 
   afterEach(function() {
     // reset to defaults
     cookie.options({});
-    cookie.remove('x');
+    cookie.remove(testKey);
   });
 
   describe('#get', function() {
@@ -22,39 +31,29 @@ describe('cookie', function() {
     });
 
     it('should get an existing cookie', function() {
-      cookie.set('x', { a: 'b' });
-      assert.deepEqual(cookie.get('x'), { a: 'b' });
+      cookie.set(testKey, { a: 'b' });
+      assert.deepEqual(cookie.get(testKey), { a: 'b' });
     });
 
     it('should not throw an error on a malformed cookie', function() {
-      document.cookie = 'x=y';
-      assert(cookie.get('x') === null);
+      document.cookie = testKey + '=y';
+      assert(cookie.get(testKey) === null);
     });
   });
 
   describe('#set', function() {
     it('should set a cookie', function() {
-      // Use a random key for the cookie
-      // Workaround for flaky concurrent tests on Edge
-      var key = Math.random()
-        .toString(36)
-        .slice(2);
-
-      try {
-        cookie.set(key, { a: 'b' });
-        assert.deepEqual(cookie.get(key), { a: 'b' });
-      } finally {
-        cookie.remove(key);
-      }
+      cookie.set(testKey, { a: 'b' });
+      assert.deepEqual(cookie.get(testKey), { a: 'b' });
     });
   });
 
   describe('#remove', function() {
     it('should remove a cookie', function() {
-      cookie.set('x', { a: 'b' });
-      assert.deepEqual(cookie.get('x'), { a: 'b' });
-      cookie.remove('x');
-      assert(cookie.get('x') === null);
+      cookie.set(testKey, { a: 'b' });
+      assert.deepEqual(cookie.get(testKey), { a: 'b' });
+      cookie.remove(testKey);
+      assert(cookie.get(testKey) === null);
     });
   });
 
