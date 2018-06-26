@@ -13,6 +13,9 @@ describe('cookie', function() {
   afterEach(function() {
     // reset to defaults
     cookie.options({});
+    document.cookie.split(';').forEach(function(entry) {
+      cookie.remove(entry.split('=')[0]);
+    });
   });
 
   describe('#get', function() {
