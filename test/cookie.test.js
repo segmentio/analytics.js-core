@@ -4,25 +4,15 @@ var assert = require('proclaim');
 var cookie = require('../lib').constructor.cookie;
 
 describe('cookie', function() {
-  // Use a random key for cookies
-  // Workaround for flaky concurrent tests on Edge
-  var testKey;
-
   beforeEach(function() {
     // Just to make sure that
     // URIError is never thrown here.
     document.cookie = 'bad=%';
-    testKey =
-      '_' +
-      Math.random()
-        .toString(36)
-        .slice(2);
   });
 
   afterEach(function() {
     // reset to defaults
     cookie.options({});
-    cookie.remove(testKey);
   });
 
   describe('#get', function() {
@@ -31,29 +21,29 @@ describe('cookie', function() {
     });
 
     it('should get an existing cookie', function() {
-      cookie.set(testKey, { a: 'b' });
-      assert.deepEqual(cookie.get(testKey), { a: 'b' });
+      cookie.set('cookie-get', { a: 'b' });
+      assert.deepEqual(cookie.get('cookie-get'), { a: 'b' });
     });
 
     it('should not throw an error on a malformed cookie', function() {
-      document.cookie = testKey + '=y';
-      assert(cookie.get(testKey) === null);
+      document.cookie = 'cookie-bad=y';
+      assert(cookie.get('cookie-bad') === null);
     });
   });
 
   describe('#set', function() {
     it('should set a cookie', function() {
-      cookie.set(testKey, { a: 'b' });
-      assert.deepEqual(cookie.get(testKey), { a: 'b' });
+      cookie.set('cookie-set', { a: 'b' });
+      assert.deepEqual(cookie.get('cookie-set'), { a: 'b' });
     });
   });
 
   describe('#remove', function() {
     it('should remove a cookie', function() {
-      cookie.set(testKey, { a: 'b' });
-      assert.deepEqual(cookie.get(testKey), { a: 'b' });
-      cookie.remove(testKey);
-      assert(cookie.get(testKey) === null);
+      cookie.set('cookie-remove', { a: 'b' });
+      assert.deepEqual(cookie.get('cookie-remove'), { a: 'b' });
+      cookie.remove('cookie-remove');
+      assert(cookie.get('cookie-remove') === null);
     });
   });
 
