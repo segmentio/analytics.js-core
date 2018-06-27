@@ -8,16 +8,15 @@ describe('cookie', function() {
     // Just to make sure that
     // URIError is never thrown here.
     document.cookie = 'bad=%';
-
-    // enable debugging for cookie package so we can better
-    // observe flaky tests on IE/Edge.
-    window.localStorage.setItem('debug', 'cookie');
   });
 
   afterEach(function() {
     // reset to defaults
     cookie.options({});
-    cookie.remove('x');
+    // remove all cookies
+    document.cookie.split(';').forEach(function(entry) {
+      cookie.remove(entry.split('=')[0]);
+    });
   });
 
   describe('#get', function() {
@@ -26,32 +25,29 @@ describe('cookie', function() {
     });
 
     it('should get an existing cookie', function() {
-      cookie.set('x', { a: 'b' });
-      assert.deepEqual(cookie.get('x'), { a: 'b' });
+      cookie.set('cookie-get', { a: 'b' });
+      assert.deepEqual(cookie.get('cookie-get'), { a: 'b' });
     });
 
     it('should not throw an error on a malformed cookie', function() {
-      document.cookie = 'x=y';
-      assert(cookie.get('x') === null);
+      document.cookie = 'cookie-bad=y';
+      assert(cookie.get('cookie-bad') === null);
     });
   });
 
   describe('#set', function() {
     it('should set a cookie', function() {
-      // Logging so we can better observe flaky tests on IE/Edge.
-      console.log('setting cookie. document.cookie is', document.cookie);
-      cookie.set('x', { a: 'b' });
-      console.log('cookie set. document.cookie is', document.cookie);
-      assert.deepEqual(cookie.get('x'), { a: 'b' });
+      cookie.set('cookie-set', { a: 'b' });
+      assert.deepEqual(cookie.get('cookie-set'), { a: 'b' });
     });
   });
 
   describe('#remove', function() {
     it('should remove a cookie', function() {
-      cookie.set('x', { a: 'b' });
-      assert.deepEqual(cookie.get('x'), { a: 'b' });
-      cookie.remove('x');
-      assert(cookie.get('x') === null);
+      cookie.set('cookie-remove', { a: 'b' });
+      assert.deepEqual(cookie.get('cookie-remove'), { a: 'b' });
+      cookie.remove('cookie-remove');
+      assert(cookie.get('cookie-remove') === null);
     });
   });
 
