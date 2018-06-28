@@ -163,7 +163,12 @@ describe('metrics', function() {
 
         var req = spy.lastCall.args[0];
         // Decompress the data
-        var data = zlib.gunzipSync(req.requestBody).toString('utf-8');
+        var buffer = req.requestBody;
+
+        console.log('Buffer', buffer);
+        assert(buffer instanceof Uint8Array);
+
+        var data = zlib.gunzipSync(buffer).toString('utf-8');
 
         assert.strictEqual(req.url, 'https://api.segment.io/v1/m');
         assert.strictEqual(
