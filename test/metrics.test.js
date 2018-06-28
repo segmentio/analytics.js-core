@@ -2,14 +2,33 @@
 
 var assert = require('proclaim');
 var metrics = require('../lib').constructor.metrics;
+var gzip = require('../lib/gzip');
 var sinon = require('sinon');
 var send = require('@segment/send-json');
+var zlib = require('browserify-zlib');
 
 describe('metrics', function() {
   var xhr;
   var spy;
+  var compress = gzip.compress;
+
+  gzip.compress = function(data, cb) {
+    if (compress.enabled && gzip.supported) {
+      compress(data, function(err, data, headers) {
+        cb(err, data, headers);
+
+        if (compress.done) {
+          compress.done();
+        }
+      });
+    } else {
+      cb(new Error('Not supported'), data, {});
+    }
+  };
 
   beforeEach(function() {
+    compress.enabled = false;
+    compress.done = null;
     xhr = sinon.useFakeXMLHttpRequest();
 
     spy = sinon.spy();
@@ -129,6 +148,35 @@ describe('metrics', function() {
       }
 
       assert.deepEqual(metrics.queue.length, 1000);
+    });
+
+    it('should compress metrics if supported', function(done) {
+      if (!gzip.supported || send.type !== 'xhr') {
+        return;
+      }
+
+      compress.enabled = true;
+
+      // The compression is done asynchronously
+      compress.done = function() {
+        sinon.assert.calledOnce(spy);
+
+        var req = spy.lastCall.args[0];
+        // Decompress the data
+        var data = zlib.gunzipSync(req.requestBody).toString('utf-8');
+
+        assert.strictEqual(req.url, 'https://api.segment.io/v1/m');
+        assert.strictEqual(
+          data,
+          '{"series":[{"type":"Counter","metric":"test1","value":1,"tags":{"foo":"bar"}},{"type":"Counter","metric":"test2","value":1,"tags":{}}]}'
+        );
+
+        done();
+      };
+
+      metrics.increment('test1', { foo: 'bar' });
+      metrics.increment('test2', {});
+      metrics._flush();
     });
   });
 
