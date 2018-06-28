@@ -166,6 +166,7 @@ describe('metrics', function() {
         var buffer = req.requestBody;
 
         console.log('Buffer', buffer);
+        /* global Uint8Array */
         assert(buffer instanceof Uint8Array);
 
         var data = zlib.gunzipSync(buffer).toString('utf-8');
