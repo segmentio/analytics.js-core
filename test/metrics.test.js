@@ -152,7 +152,7 @@ describe('metrics', function() {
 
     it('should compress metrics if supported', function(done) {
       if (!gzip.supported || send.type !== 'xhr') {
-        return;
+        return done();
       }
 
       compress.enabled = true;
@@ -162,14 +162,7 @@ describe('metrics', function() {
         sinon.assert.calledOnce(spy);
 
         var req = spy.lastCall.args[0];
-        // Decompress the data
-        var buffer = req.requestBody;
-
-        console.log('Buffer', buffer);
-        /* global Uint8Array */
-        assert(buffer instanceof Uint8Array);
-
-        var data = zlib.gunzipSync(buffer).toString('utf-8');
+        var data = zlib.gunzipSync(req.requestBody).toString('utf-8');
 
         assert.strictEqual(req.url, 'https://api.segment.io/v1/m');
         assert.strictEqual(
