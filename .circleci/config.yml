@@ -1,8 +1,12 @@
+defaults: &defaults
+  working_directory: ~/analytics.js-core
+  docker:
+    - image: circleci/node:8-browsers
+
 version: 2
 jobs:
   test:
-    docker:
-      - image: circleci/node:8-browsers
+    <<: *defaults
     steps:
       - checkout
       - run: npm config set "//registry.npmjs.org/:_authToken" $NPM_AUTH
@@ -17,8 +21,7 @@ jobs:
       - store_test_results:
           path: junit-reports
   coverage:
-    docker:
-      - image: circleci/node:8-browsers
+    <<: *defaults
     steps:
       - checkout
       - run: npm config set "//registry.npmjs.org/:_authToken" $NPM_AUTH
@@ -33,6 +36,17 @@ jobs:
       - store_test_results:
           path: junit-reports
       - run: yarn run codecov
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  snyk:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace: { at: . }
+      - run: yarn run snyk test --severity-threshold=high
+      - run: yarn run snyk monitor
   publish:
     docker:
       - image: circleci/node:8-browsers
@@ -52,6 +66,10 @@ workflows:
           filters:
             tags:
               only: /.*/
+      - snyk:
+          context: snyk
+          requires:
+            - coverage
       - deploy:
           requires:
             - test
