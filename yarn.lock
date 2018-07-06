@@ -109,7 +109,7 @@
 
 "@segment/base64-encode@^2.0.2":
   version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@segment/base64-encode/-/base64-encode-2.0.2.tgz#3ac90b9c28678dfd467e76191f7b1d063673034f"
+  resolved "https://registry.npmjs.org/@segment/base64-encode/-/base64-encode-2.0.2.tgz#3ac90b9c28678dfd467e76191f7b1d063673034f"
   dependencies:
     utf8-encode "1"
 
@@ -157,9 +157,9 @@
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@segment/prevent-default/-/prevent-default-1.0.0.tgz#2ac896ee8c0249dc7af4ac032f8df900fe31892e"
 
-"@segment/send-json@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@segment/send-json/-/send-json-3.0.0.tgz#f79e70efbd01b62361f5a2cf3fb67e91de43135e"
+"@segment/send-json@segmentio/send-json#fix/ignore-buffers":
+  version "4.0.1"
+  resolved "https://codeload.github.com/segmentio/send-json/tar.gz/60b8f8dc0afbb5dda1666358011a09fc2d20bf92"
   dependencies:
     "@segment/base64-encode" "^2.0.2"
     has-cors "^1.1.0"
@@ -760,17 +760,17 @@ browserify-sign@^4.0.0:
     inherits "^2.0.1"
     parse-asn1 "^5.0.0"
 
+browserify-zlib@^0.2.0, browserify-zlib@~0.2.0:
+  version "0.2.0"
+  resolved "https://registry.npmjs.org/browserify-zlib/-/browserify-zlib-0.2.0.tgz#2869459d9aa3be245fe8fe2ca1f46e2e7f54d73f"
+  dependencies:
+    pako "~1.0.5"
+
 browserify-zlib@~0.1.2:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/browserify-zlib/-/browserify-zlib-0.1.4.tgz#bb35f8a519f600e0fa6b8485241c979d0141fb2d"
   dependencies:
     pako "~0.2.0"
-
-browserify-zlib@~0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/browserify-zlib/-/browserify-zlib-0.2.0.tgz#2869459d9aa3be245fe8fe2ca1f46e2e7f54d73f"
-  dependencies:
-    pako "~1.0.5"
 
 browserify@13.0.0:
   version "13.0.0"
@@ -3176,7 +3176,7 @@ jsonify@~0.0.0:
 
 jsonp@^0.2.0:
   version "0.2.1"
-  resolved "https://registry.yarnpkg.com/jsonp/-/jsonp-0.2.1.tgz#a65b4fa0f10bda719a05441ea7b94c55f3e15bae"
+  resolved "https://registry.npmjs.org/jsonp/-/jsonp-0.2.1.tgz#a65b4fa0f10bda719a05441ea7b94c55f3e15bae"
   dependencies:
     debug "^2.1.3"
 
@@ -5981,7 +5981,7 @@ useragent@^2.1.9:
 
 utf8-encode@1:
   version "1.0.0"
-  resolved "https://registry.yarnpkg.com/utf8-encode/-/utf8-encode-1.0.0.tgz#3ad61542bc1da8a2723c82d20617d21b64b0d0d4"
+  resolved "https://registry.npmjs.org/utf8-encode/-/utf8-encode-1.0.0.tgz#3ad61542bc1da8a2723c82d20617d21b64b0d0d4"
 
 utf8@2.1.0:
   version "2.1.0"
