@@ -1,7 +1,7 @@
 # analytics.js-core
 
-[![CircleCI](https://circleci.com/gh/segmentio/analytics.js-core.svg?style=shield&circle-token=802e83e9a76e911d83be24df8497b6283ee5dfeb)](https://circleci.com/gh/segmentio/analytics.js-core)
-[![Codecov](https://img.shields.io/codecov/c/github/segmentio/analytics.js-core/master.svg?maxAge=2592000)](https://codecov.io/gh/segmentio/analytics.js-core)
+[![CircleCI](https://circleci.com/gh/segmentio/analytics.js-core.svg?style=shield)](https://circleci.com/gh/segmentio/analytics.js-core)
+[![Codecov](https://img.shields.io/codecov/c/github/segmentio/analytics.js-core/master.svg)](https://codecov.io/gh/segmentio/analytics.js-core)
 
 This is the core of [Analytics.js][], the open-source library that powers data collection at [Segment](https://segment.com).
 
