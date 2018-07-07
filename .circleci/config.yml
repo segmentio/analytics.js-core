@@ -70,7 +70,7 @@ workflows:
           context: snyk
           requires:
             - coverage
-      - deploy:
+      - publish:
           requires:
             - test
           filters:
