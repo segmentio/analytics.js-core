@@ -14,7 +14,8 @@
     "test": "make test",
     "lint": "eslint \"./{lib,test}/**/*.js\"",
     "format": "prettier-eslint --write --list-different \"./{lib,test}/**/*.{js,json,md}\"",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "np": "np --no-publish"
   },
   "lint-staged": {
     "linters": {
@@ -98,6 +99,7 @@
     "karma-summary-reporter": "^1.5.0",
     "lint-staged": "^7.2.0",
     "mocha": "^2.2.5",
+    "np": "^3.0.4",
     "phantomjs-prebuilt": "^2.1.7",
     "prettier-eslint-cli": "^4.7.1",
     "proclaim": "^3.4.1",
