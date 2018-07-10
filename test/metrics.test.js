@@ -38,6 +38,21 @@ describe('metrics', function() {
         { type: 'Counter', metric: 'test', value: 1, tags: [] }
       ]);
     });
+
+    it('should support default tags', function() {
+      metrics.options({ sampleRate: 1, defaultTags: { foo: 'bar' } });
+
+      metrics.increment('test', { baz: 'boz' });
+
+      assert.deepEqual(metrics.queue, [
+        {
+          type: 'Counter',
+          metric: 'test',
+          value: 1,
+          tags: { foo: 'bar', baz: 'boz' }
+        }
+      ]);
+    });
   });
 
   describe('#_flush', function() {
