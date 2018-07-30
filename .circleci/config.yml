@@ -47,13 +47,15 @@ jobs:
       - attach_workspace: { at: . }
       - run: yarn run snyk test --severity-threshold=high
       - run: yarn run snyk monitor
+
   publish:
-    docker:
-      - image: circleci/node:8-browsers
+    <<: *defaults
     steps:
       - checkout
       - attach_workspace: { at: . }
+      - run: npm config set "//registry.npmjs.org/:_authToken" $NPM_AUTH
       - run: npm publish .
+
 workflows:
   version: 2
   test_and_publish:
