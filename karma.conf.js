@@ -13,6 +13,8 @@ module.exports = function(config) {
     ],
     browsers: ['PhantomJS'],
 
+    singleRun: true,
+
     frameworks: ['browserify', 'mocha'],
 
     reporters: ['spec'],
