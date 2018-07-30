@@ -1,4 +1,4 @@
-# 3.6.1 / 2018-07-30
+# 3.7.0 / 2018-07-30
 
 - ci: Fix publish step in circle config (https://github.com/segmentio/analytics.js-core/pull/97)
 - build: Replace robo with np for releasing (https://github.com/segmentio/analytics.js-core/pull/96)
