@@ -43,6 +43,24 @@ describe('user', function() {
       assert(user.traits().trait === true);
     });
 
+    it('id() should fallback to localStorage', function() {
+      var user = new User();
+
+      user.id('id');
+
+      // delete the cookie.
+      cookie.remove(cookieKey);
+
+      // verify cookie is deleted.
+      assert.equal(cookie.get(cookieKey), null);
+
+      // verify id() returns the id even when cookie is deleted.
+      assert.equal(user.id(), 'id');
+
+      // verify cookie value is retored from localStorage.
+      assert.equal(cookie.get(cookieKey), 'id');
+    });
+
     it('should pick the old "_sio" anonymousId', function() {
       rawCookie('_sio', 'anonymous-id----user-id');
       var user = new User();
@@ -400,6 +418,12 @@ describe('user', function() {
       assert(cookie.get(cookieKey) === 'id');
     });
 
+    it('should save an id to localStorage', function() {
+      user.id('id');
+      user.save();
+      assert.equal(store.get(cookieKey), 'id');
+    });
+
     it('should save traits to local storage', function() {
       user.traits({ trait: true });
       user.save();
@@ -425,14 +449,21 @@ describe('user', function() {
       assert(user.traits(), {});
     });
 
-    it('should clear a cookie', function() {
+    it('should clear id in cookie', function() {
       user.id('id');
       user.save();
       user.logout();
       assert(cookie.get(cookieKey) === null);
     });
 
-    it('should clear local storage', function() {
+    it('should clear id in local storage', function() {
+      user.id('id');
+      user.save();
+      user.logout();
+      assert(store.get(cookieKey) === undefined);
+    });
+
+    it('should clear traits in local storage', function() {
       user.traits({ trait: true });
       user.save();
       user.logout();
