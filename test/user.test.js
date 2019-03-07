@@ -64,11 +64,6 @@ describe('user', function() {
       cookie.set('ajs_anonymous_id', 'anonymous');
       assert(new User().anonymousId() === 'anonymous');
     });
-
-    it('should get anonymous id from localStorage if not in cookie', function() {
-      store.set(localStorageKey, { ajs_anonymous_id: 'anon12' });
-      assert.equal(new User().anonymousId(), 'anon12');
-    });
   });
 
   describe('#id', function() {
@@ -323,6 +318,45 @@ describe('user', function() {
           return noop;
         };
         assert(user.anonymousId() === undefined);
+      });
+
+      it('should set anonymousId in both cookie and localStorage', function() {
+        var user = new User();
+        user.anonymousId('anon0');
+        assert.equal(cookie.get('ajs_anonymous_id'), 'anon0');
+        assert.equal(store.get('ajs_anonymous_id'), 'anon0');
+      });
+
+      it('should copy value from cookie to localStorage', function() {
+        var user = new User();
+        cookie.set('ajs_anonymous_id', 'anon1');
+        assert.equal(user.anonymousId(), 'anon1');
+        assert.equal(store.get('ajs_anonymous_id'), 'anon1');
+      });
+
+      it('should fall back to localStorage when cookie is not set', function() {
+        var user = new User();
+
+        user.anonymousId('anon12');
+        assert.equal(cookie.get('ajs_anonymous_id'), 'anon12');
+
+        // delete the cookie
+        cookie.remove('ajs_anonymous_id');
+        assert.equal(cookie.get('ajs_anonymous_id'), null);
+
+        // verify anonymousId() returns the correct id even when there's no cookie
+        assert.equal(user.anonymousId(), 'anon12');
+
+        // verify cookie value is retored from localStorage
+        assert.equal(cookie.get('ajs_anonymous_id'), 'anon12');
+      });
+
+      it('should write to both cookie and localStorage when generating a new anonymousId', function() {
+        var user = new User();
+        var anonId = user.anonymousId();
+        assert.notEqual(anonId, null);
+        assert.equal(cookie.get('ajs_anonymous_id'), anonId);
+        assert.equal(store.get('ajs_anonymous_id'), anonId);
       });
     });
   });
