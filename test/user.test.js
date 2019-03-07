@@ -64,6 +64,11 @@ describe('user', function() {
       cookie.set('ajs_anonymous_id', 'anonymous');
       assert(new User().anonymousId() === 'anonymous');
     });
+
+    it('should get anonymous id from localStorage if not in cookie', function() {
+      store.set(localStorageKey, { ajs_anonymous_id: 'anon12' });
+      assert.equal(new User().anonymousId(), 'anon12');
+    });
   });
 
   describe('#id', function() {
