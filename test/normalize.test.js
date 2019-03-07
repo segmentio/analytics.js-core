@@ -17,7 +17,12 @@ describe('normalize', function() {
     it('should merge original with normalized', function() {
       msg.userId = 'user-id';
       opts.integrations = { Segment: true };
-      assert.deepEqual(normalize(msg, list), {
+      var normalized = normalize(msg, list);
+
+      assert.lengthEquals(normalized.messageId, 36);
+      delete normalized.messageId;
+
+      assert.deepEqual(normalized, {
         integrations: { Segment: true },
         userId: 'user-id',
         context: {}
@@ -44,7 +49,12 @@ describe('normalize', function() {
       opts.campaign = { name: 'campaign-name' };
       opts.library = 'analytics-wordpress';
       opts.traits = { trait: true };
-      assert.deepEqual(normalize(msg, list), {
+      var normalized = normalize(msg, list);
+
+      assert.lengthEquals(normalized.messageId, 36);
+      delete normalized.messageId;
+
+      assert.deepEqual(normalized, {
         integrations: {},
         context: {
           campaign: { name: 'campaign-name' },
@@ -61,7 +71,12 @@ describe('normalize', function() {
       it('should move to .integrations', function() {
         opts.Segment = true;
         opts.KISSmetrics = false;
-        assert.deepEqual(normalize(msg, list), {
+        var normalized = normalize(msg, list);
+
+        assert.lengthEquals(normalized.messageId, 36);
+        delete normalized.messageId;
+
+        assert.deepEqual(normalized, {
           context: {},
           integrations: {
             Segment: true,
@@ -73,7 +88,12 @@ describe('normalize', function() {
       it('should match integration names', function() {
         opts.segment = true;
         opts.KissMetrics = false;
-        assert.deepEqual(normalize(msg, list), {
+        var normalized = normalize(msg, list);
+
+        assert.lengthEquals(normalized.messageId, 36);
+        delete normalized.messageId;
+
+        assert.deepEqual(normalized, {
           context: {},
           integrations: {
             segment: true,
@@ -84,7 +104,12 @@ describe('normalize', function() {
 
       it('should move .All', function() {
         opts.All = true;
-        assert.deepEqual(normalize(msg, list), {
+        var normalized = normalize(msg, list);
+
+        assert.lengthEquals(normalized.messageId, 36);
+        delete normalized.messageId;
+
+        assert.deepEqual(normalized, {
           context: {},
           integrations: {
             All: true
@@ -94,7 +119,12 @@ describe('normalize', function() {
 
       it('should move .all', function() {
         opts.all = true;
-        assert.deepEqual(normalize(msg, list), {
+        var normalized = normalize(msg, list);
+
+        assert.lengthEquals(normalized.messageId, 36);
+        delete normalized.messageId;
+
+        assert.deepEqual(normalized, {
           context: {},
           integrations: {
             all: true
@@ -108,7 +138,12 @@ describe('normalize', function() {
         opts.integrations = {};
         opts.integrations.all = true;
         opts.integrations.Segment = true;
-        assert.deepEqual(normalize(msg, list), {
+        var normalized = normalize(msg, list);
+
+        assert.lengthEquals(normalized.messageId, 36);
+        delete normalized.messageId;
+
+        assert.deepEqual(normalized, {
           context: {},
           integrations: {
             all: true,
@@ -128,7 +163,12 @@ describe('normalize', function() {
       it('should move to .integrations', function() {
         providers.Segment = true;
         providers.KISSmetrics = false;
-        assert.deepEqual(normalize(msg, list), {
+        var normalized = normalize(msg, list);
+
+        assert.lengthEquals(normalized.messageId, 36);
+        delete normalized.messageId;
+
+        assert.deepEqual(normalized, {
           context: {},
           integrations: {
             Segment: true,
@@ -140,7 +180,12 @@ describe('normalize', function() {
       it('should match integration names', function() {
         providers.segment = true;
         providers.KissMetrics = false;
-        assert.deepEqual(normalize(msg, list), {
+        var normalized = normalize(msg, list);
+
+        assert.lengthEquals(normalized.messageId, 36);
+        delete normalized.messageId;
+
+        assert.deepEqual(normalized, {
           context: {},
           integrations: {
             segment: true,
@@ -151,7 +196,12 @@ describe('normalize', function() {
 
       it('should move .All', function() {
         providers.All = true;
-        assert.deepEqual(normalize(msg, list), {
+        var normalized = normalize(msg, list);
+
+        assert.lengthEquals(normalized.messageId, 36);
+        delete normalized.messageId;
+
+        assert.deepEqual(normalized, {
           context: {},
           integrations: {
             All: true
@@ -161,7 +211,12 @@ describe('normalize', function() {
 
       it('should move .all', function() {
         providers.all = true;
-        assert.deepEqual(normalize(msg, list), {
+        var normalized = normalize(msg, list);
+
+        assert.lengthEquals(normalized.messageId, 36);
+        delete normalized.messageId;
+
+        assert.deepEqual(normalized, {
           context: {},
           integrations: {
             all: true
@@ -175,7 +230,12 @@ describe('normalize', function() {
         opts.integrations = {};
         opts.integrations.all = true;
         opts.integrations.Segment = true;
-        assert.deepEqual(normalize(msg, list), {
+        var normalized = normalize(msg, list);
+
+        assert.lengthEquals(normalized.messageId, 36);
+        delete normalized.messageId;
+
+        assert.deepEqual(normalized, {
           context: {},
           integrations: {
             all: true,
@@ -187,7 +247,12 @@ describe('normalize', function() {
       it('should override if providers[key] is an object', function() {
         providers.Segment = {};
         opts.integrations = { Segment: true };
-        assert.deepEqual(normalize(msg, list), {
+        var normalized = normalize(msg, list);
+
+        assert.lengthEquals(normalized.messageId, 36);
+        delete normalized.messageId;
+
+        assert.deepEqual(normalized, {
           context: {},
           integrations: {
             Segment: {}
@@ -206,7 +271,12 @@ describe('normalize', function() {
       it('should move to .integrations', function() {
         providers.Segment = true;
         opts.KISSmetrics = false;
-        assert.deepEqual(normalize(msg, list), {
+        var normalized = normalize(msg, list);
+
+        assert.lengthEquals(normalized.messageId, 36);
+        delete normalized.messageId;
+
+        assert.deepEqual(normalized, {
           context: {},
           integrations: {
             Segment: true,
@@ -218,7 +288,12 @@ describe('normalize', function() {
       it('should prefer options object', function() {
         providers.Segment = { option: true };
         opts.Segment = true;
-        assert.deepEqual(normalize(msg, list), {
+        var normalized = normalize(msg, list);
+
+        assert.lengthEquals(normalized.messageId, 36);
+        delete normalized.messageId;
+
+        assert.deepEqual(normalized, {
           context: {},
           integrations: {
             Segment: { option: true }
@@ -226,5 +301,14 @@ describe('normalize', function() {
         });
       });
     });
+  });
+  it('should properly randomize .messageId', function() {
+    var set = {};
+    var count = 1000;
+    for (var i = 0; i < count; i++) {
+      var id = normalize(msg).messageId;
+      set[id] = true;
+    }
+    assert.lengthEquals(Object.keys(set), count);
   });
 });
