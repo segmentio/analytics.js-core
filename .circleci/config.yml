@@ -17,6 +17,7 @@ jobs:
           key: yarn-dependency-cache-{{ checksum "yarn.lock" }}
           paths:
             - node_modules
+      - run: yarn commitlint-circle 
       - run: make test
       - store_test_results:
           path: junit-reports
