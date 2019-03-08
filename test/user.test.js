@@ -43,6 +43,24 @@ describe('user', function() {
       assert(user.traits().trait === true);
     });
 
+    it('id() should fallback to localStorage', function() {
+      var user = new User();
+
+      user.id('id');
+
+      // delete the cookie.
+      cookie.remove(cookieKey);
+
+      // verify cookie is deleted.
+      assert.equal(cookie.get(cookieKey), null);
+
+      // verify id() returns the id even when cookie is deleted.
+      assert.equal(user.id(), 'id');
+
+      // verify cookie value is retored from localStorage.
+      assert.equal(cookie.get(cookieKey), 'id');
+    });
+
     it('should pick the old "_sio" anonymousId', function() {
       rawCookie('_sio', 'anonymous-id----user-id');
       var user = new User();
@@ -319,6 +337,45 @@ describe('user', function() {
         };
         assert(user.anonymousId() === undefined);
       });
+
+      it('should set anonymousId in both cookie and localStorage', function() {
+        var user = new User();
+        user.anonymousId('anon0');
+        assert.equal(cookie.get('ajs_anonymous_id'), 'anon0');
+        assert.equal(store.get('ajs_anonymous_id'), 'anon0');
+      });
+
+      it('should copy value from cookie to localStorage', function() {
+        var user = new User();
+        cookie.set('ajs_anonymous_id', 'anon1');
+        assert.equal(user.anonymousId(), 'anon1');
+        assert.equal(store.get('ajs_anonymous_id'), 'anon1');
+      });
+
+      it('should fall back to localStorage when cookie is not set', function() {
+        var user = new User();
+
+        user.anonymousId('anon12');
+        assert.equal(cookie.get('ajs_anonymous_id'), 'anon12');
+
+        // delete the cookie
+        cookie.remove('ajs_anonymous_id');
+        assert.equal(cookie.get('ajs_anonymous_id'), null);
+
+        // verify anonymousId() returns the correct id even when there's no cookie
+        assert.equal(user.anonymousId(), 'anon12');
+
+        // verify cookie value is retored from localStorage
+        assert.equal(cookie.get('ajs_anonymous_id'), 'anon12');
+      });
+
+      it('should write to both cookie and localStorage when generating a new anonymousId', function() {
+        var user = new User();
+        var anonId = user.anonymousId();
+        assert.notEqual(anonId, null);
+        assert.equal(cookie.get('ajs_anonymous_id'), anonId);
+        assert.equal(store.get('ajs_anonymous_id'), anonId);
+      });
     });
   });
 
@@ -400,6 +457,12 @@ describe('user', function() {
       assert(cookie.get(cookieKey) === 'id');
     });
 
+    it('should save an id to localStorage', function() {
+      user.id('id');
+      user.save();
+      assert.equal(store.get(cookieKey), 'id');
+    });
+
     it('should save traits to local storage', function() {
       user.traits({ trait: true });
       user.save();
@@ -425,14 +488,21 @@ describe('user', function() {
       assert(user.traits(), {});
     });
 
-    it('should clear a cookie', function() {
+    it('should clear id in cookie', function() {
       user.id('id');
       user.save();
       user.logout();
       assert(cookie.get(cookieKey) === null);
     });
 
-    it('should clear local storage', function() {
+    it('should clear id in local storage', function() {
+      user.id('id');
+      user.save();
+      user.logout();
+      assert(store.get(cookieKey) === undefined);
+    });
+
+    it('should clear traits in local storage', function() {
       user.traits({ trait: true });
       user.save();
       user.logout();
