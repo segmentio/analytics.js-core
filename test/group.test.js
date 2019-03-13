@@ -39,6 +39,24 @@ describe('group', function() {
       assert(group.id() === 'gid');
       assert(group.traits().trait === true);
     });
+
+    it('id() should fallback to localStorage', function() {
+      var group = new Group();
+
+      group.id('gid');
+
+      // delete the cookie.
+      cookie.remove(cookieKey);
+
+      // verify cookie is deleted.
+      assert.equal(cookie.get(cookieKey), null);
+
+      // verify id() returns the id even when cookie is deleted.
+      assert.equal(group.id(), 'gid');
+
+      // verify cookie value is retored from localStorage.
+      assert.equal(cookie.get(cookieKey), 'gid');
+    });
   });
 
   describe('#id', function() {
@@ -226,6 +244,12 @@ describe('group', function() {
       assert(cookie.get(cookieKey) === 'id');
     });
 
+    it('should save an id to localStorage', function() {
+      group.id('id');
+      group.save();
+      assert(store.get(cookieKey) === 'id');
+    });
+
     it('should save properties to local storage', function() {
       group.properties({ property: true });
       group.save();
@@ -249,14 +273,21 @@ describe('group', function() {
       assert.deepEqual(group.properties(), {});
     });
 
-    it('should clear a cookie', function() {
+    it('should clear id in cookie', function() {
       group.id('id');
       group.save();
       group.logout();
       assert(cookie.get(cookieKey) === null);
     });
 
-    it('should clear local storage', function() {
+    it('should clear id in localStorage', function() {
+      group.id('id');
+      group.save();
+      group.logout();
+      assert(store.get(cookieKey) === undefined);
+    });
+
+    it('should clear traits in local storage', function() {
       group.properties({ property: true });
       group.save();
       group.logout();
