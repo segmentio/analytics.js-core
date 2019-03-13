@@ -57,6 +57,24 @@ describe('group', function() {
       // verify cookie value is retored from localStorage.
       assert.equal(cookie.get(cookieKey), 'gid');
     });
+
+    it('id() should not fallback to localStorage when localStorage fallback is disabled', function() {
+      var group = new Group();
+      group.options({
+        localStorageFallbackDisabled: true
+      });
+
+      group.id('gid');
+
+      // delete the cookie.
+      cookie.remove(cookieKey);
+
+      // verify cookie is deleted.
+      assert.equal(cookie.get(cookieKey), null);
+
+      // verify id() does not return the id when cookie is deleted.
+      assert.equal(group.id(), null);
+    });
   });
 
   describe('#id', function() {
@@ -248,6 +266,16 @@ describe('group', function() {
       group.id('id');
       group.save();
       assert(store.get(cookieKey) === 'id');
+    });
+
+    it('should not save an id to localStorage when localStorage fallback is disabled', function() {
+      group.options({
+        localStorageFallbackDisabled: true
+      });
+
+      group.id('id');
+      group.save();
+      assert.equal(store.get(cookieKey), null);
     });
 
     it('should save properties to local storage', function() {
