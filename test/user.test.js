@@ -57,8 +57,26 @@ describe('user', function() {
       // verify id() returns the id even when cookie is deleted.
       assert.equal(user.id(), 'id');
 
-      // verify cookie value is retored from localStorage.
+      // verify cookie value is restored from localStorage.
       assert.equal(cookie.get(cookieKey), 'id');
+    });
+
+    it('id() should not fallback to localStorage when disabled', function() {
+      var user = new User();
+      user.options({
+        localStorageFallbackDisabled: true
+      });
+
+      user.id('id');
+
+      // delete the cookie.
+      cookie.remove(cookieKey);
+
+      // verify cookie is deleted.
+      assert.equal(cookie.get(cookieKey), null);
+
+      // verify id() does not return the id when cookie is deleted.
+      assert.equal(user.id(), null);
     });
 
     it('should pick the old "_sio" anonymousId', function() {
@@ -345,11 +363,31 @@ describe('user', function() {
         assert.equal(store.get('ajs_anonymous_id'), 'anon0');
       });
 
+      it('should not set anonymousId in localStorage when localStorage fallback is disabled', function() {
+        var user = new User();
+        user.options({
+          localStorageFallbackDisabled: true
+        });
+        user.anonymousId('anon0');
+        assert.equal(cookie.get('ajs_anonymous_id'), 'anon0');
+        assert.equal(store.get('ajs_anonymous_id'), null);
+      });
+
       it('should copy value from cookie to localStorage', function() {
         var user = new User();
         cookie.set('ajs_anonymous_id', 'anon1');
         assert.equal(user.anonymousId(), 'anon1');
         assert.equal(store.get('ajs_anonymous_id'), 'anon1');
+      });
+
+      it('should not copy value from cookie to localStorage when localStorage fallback is disabled', function() {
+        var user = new User();
+        user.options({
+          localStorageFallbackDisabled: true
+        });
+        cookie.set('ajs_anonymous_id', 'anon1');
+        assert.equal(user.anonymousId(), 'anon1');
+        assert.equal(store.get('ajs_anonymous_id'), null);
       });
 
       it('should fall back to localStorage when cookie is not set', function() {
@@ -365,8 +403,25 @@ describe('user', function() {
         // verify anonymousId() returns the correct id even when there's no cookie
         assert.equal(user.anonymousId(), 'anon12');
 
-        // verify cookie value is retored from localStorage
+        // verify cookie value is restored from localStorage
         assert.equal(cookie.get('ajs_anonymous_id'), 'anon12');
+      });
+
+      it('should not fall back to localStorage when cookie is not set and localStorage fallback is disabled', function() {
+        var user = new User();
+        user.options({
+          localStorageFallbackDisabled: true
+        });
+
+        user.anonymousId('anon12');
+        assert.equal(cookie.get('ajs_anonymous_id'), 'anon12');
+
+        // delete the cookie
+        cookie.remove('ajs_anonymous_id');
+        assert.equal(cookie.get('ajs_anonymous_id'), null);
+
+        // verify anonymousId() does not return the id when there's no cookie.
+        assert.notEqual(user.anonymousId(), 'anon12');
       });
 
       it('should write to both cookie and localStorage when generating a new anonymousId', function() {
@@ -375,6 +430,19 @@ describe('user', function() {
         assert.notEqual(anonId, null);
         assert.equal(cookie.get('ajs_anonymous_id'), anonId);
         assert.equal(store.get('ajs_anonymous_id'), anonId);
+      });
+
+      it('should not write to both cookie and localStorage when generating a new anonymousId and localStorage fallback is disabled', function() {
+        var user = new User();
+        user.options({
+          localStorageFallbackDisabled: true
+        });
+
+        var anonId = user.anonymousId();
+
+        assert.notEqual(anonId, null);
+        assert.equal(cookie.get('ajs_anonymous_id'), anonId);
+        assert.equal(store.get('ajs_anonymous_id'), null);
       });
     });
   });
@@ -461,6 +529,17 @@ describe('user', function() {
       user.id('id');
       user.save();
       assert.equal(store.get(cookieKey), 'id');
+    });
+
+    it('should not save an id to localStorage when localStorage fallback is disabled', function() {
+      user.options({
+        localStorageFallbackDisabled: true
+      });
+      user.id('id');
+
+      user.save();
+
+      assert.equal(store.get(cookieKey), null);
     });
 
     it('should save traits to local storage', function() {
