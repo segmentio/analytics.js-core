@@ -414,6 +414,14 @@ describe('Analytics', function() {
       assert(b.traits().trait === true);
     });
 
+    it('should emit an error event with the error object', function() {
+      var a = new Identify({ userId: 'id', traits: { trait: true } });
+      Test.prototype.invoke = function() {
+        throw new Error('Ruh Ro!');
+      };
+      analytics._invoke('identify', a);
+    });
+
     it('shouldnt call a method when the `all` option is false', function() {
       var opts = { providers: { all: false } };
       var facade = new Facade({ options: opts });
