@@ -2004,4 +2004,52 @@ describe('Analytics', function() {
       assert.deepEqual({}, group.traits());
     });
   });
+
+  describe('#addIntegrationMiddleware', function() {
+    it('should have a defined _integrationMiddlewares property', function() {
+      assert(analytics._integrationMiddlewares !== undefined);
+    });
+
+    it('should allow users to add a valid Middleware', function() {
+      try {
+        analytics.addIntegrationMiddleware(function() {});
+      } catch (e) {
+        // This assert should not run.
+        assert(false, 'error was incorrectly thrown!');
+      }
+    });
+
+    it('should throw an error if the selected Middleware is not a function', function() {
+      try {
+        analytics.addIntegrationMiddleware(7);
+
+        // This assert should not run.
+        assert(false, 'error was not thrown!');
+      } catch (e) {
+        assert(
+          e.message === 'attempted to add non-function middleware',
+          'wrong error return'
+        );
+      }
+    });
+
+    it('should throw an error if AJS has already initialized', function() {
+      analytics.init();
+      try {
+        analytics.addIntegrationMiddleware(function() {});
+
+        // This assert should not run.
+        assert(false, 'error was not thrown!');
+      } catch (e) {
+        assert(
+          e.message === 'attempted to add middleware after initialization',
+          'wrong error return'
+        );
+      }
+    });
+
+    it('should return the analytics object', function() {
+      assert(analytics === analytics.addIntegrationMiddleware(function() {}));
+    });
+  });
 });
