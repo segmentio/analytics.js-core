@@ -103,17 +103,10 @@ describe('middleware', function() {
       );
     }
 
-    try {
-      chain.applyMiddlewares(null, function() {
-        // This assert should not run.
-        assert(false, 'error was not thrown!');
-      });
-    } catch (e) {
-      assert(
-        e.message === 'applyMiddlewares requires a payload object',
-        'wrong error return'
-      );
-    }
+    chain.applyMiddlewares(null, function(payload) {
+      // This assert SHOULD run.
+      assert(payload === null, 'payload should have been null');
+    });
   });
 
   it('should apply a middleware', function() {
