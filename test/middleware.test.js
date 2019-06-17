@@ -138,4 +138,21 @@ describe('middleware', function() {
       assert.deepEqual(payload.test, [1, 2, 3]);
     });
   });
+
+  it('should stop running middlewares if payload becomes null', function() {
+    chain.add(function(payload, next) {
+      payload.test.push(1);
+      next(payload);
+    });
+    chain.add(function(payload, next) {
+      next(null);
+    });
+    chain.add(function() {
+      throw new Error('Middleware chain was not interrupted by null!');
+    });
+
+    chain.applyMiddlewares({ test: [] }, function(payload) {
+      assert(payload === null, 'payload was not nullified');
+    });
+  });
 });
