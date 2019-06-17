@@ -409,7 +409,6 @@ describe('Analytics', function() {
       var a = new Identify({ userId: 'id', traits: { trait: true } });
       analytics._invoke('identify', a);
       var b = Test.prototype.invoke.args[0][1];
-      assert(b === a);
       assert(b.userId() === 'id');
       assert(b.traits().trait === true);
     });
@@ -452,7 +451,7 @@ describe('Analytics', function() {
       );
     });
 
-    it('should record a metric when invoking an integration', function() {
+    it('should record a metric when invoking an integration and getting an error', function() {
       Test.prototype.invoke = function() {
         throw new Error('Uh oh!');
       };
