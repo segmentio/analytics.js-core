@@ -1,6 +1,7 @@
 'use strict';
 
 var assert = require('proclaim');
+var Facade = require('segmentio-facade');
 var MiddlewareChain = require('../lib/middleware').Chain;
 
 describe('middleware', function() {
@@ -80,7 +81,7 @@ describe('middleware', function() {
       }
 
       try {
-        chain.applyMiddlewares({}, ['this is not a function =(']);
+        chain.applyMiddlewares({}, 'Test', ['this is not a function =(']);
       } catch (e) {
         assert(
           e.message === 'applyMiddlewares requires a function callback',
@@ -92,7 +93,7 @@ describe('middleware', function() {
 
   it('should require a payload object', function() {
     try {
-      chain.applyMiddlewares(7, function() {
+      chain.applyMiddlewares(7, 'Test', function() {
         // This assert should not run.
         assert(false, 'error was not thrown!');
       });
@@ -103,56 +104,85 @@ describe('middleware', function() {
       );
     }
 
-    chain.applyMiddlewares(null, function(payload) {
+    chain.applyMiddlewares(null, 'Test', function(payload) {
       // This assert SHOULD run.
       assert(payload === null, 'payload should have been null');
     });
   });
 
   it('should apply a middleware', function() {
-    chain.add(function(payload, next) {
-      payload.testVal = 'success';
+    chain.add(function(payload, integration, next) {
+      payload.obj.testVal = 'success';
       next(payload);
     });
 
-    chain.applyMiddlewares({}, function(payload) {
-      assert(payload.testVal === 'success', 'payload value incorrectly set');
+    chain.applyMiddlewares({}, 'Test', function(payload) {
+      assert(
+        payload.obj.testVal === 'success',
+        'payload value incorrectly set'
+      );
     });
   });
 
   it('should apply multiple middlewares in order', function() {
-    chain.add(function(payload, next) {
-      payload.test.push(1);
+    chain.add(function(payload, integration, next) {
+      payload.obj.test.push(1);
       next(payload);
     });
-    chain.add(function(payload, next) {
-      payload.test.push(2);
+    chain.add(function(payload, integration, next) {
+      payload.obj.test.push(2);
       next(payload);
     });
-    chain.add(function(payload, next) {
-      payload.test.push(3);
+    chain.add(function(payload, integration, next) {
+      payload.obj.test.push(3);
       next(payload);
     });
 
-    chain.applyMiddlewares({ test: [] }, function(payload) {
-      assert.deepEqual(payload.test, [1, 2, 3]);
+    chain.applyMiddlewares({ test: [] }, 'Test', function(payload) {
+      assert.deepEqual(payload.obj.test, [1, 2, 3]);
     });
   });
 
   it('should stop running middlewares if payload becomes null', function() {
-    chain.add(function(payload, next) {
-      payload.test.push(1);
+    chain.add(function(payload, integration, next) {
+      payload.obj.test.push(1);
       next(payload);
     });
-    chain.add(function(payload, next) {
+    chain.add(function(payload, integration, next) {
       next(null);
     });
     chain.add(function() {
       throw new Error('Middleware chain was not interrupted by null!');
     });
 
-    chain.applyMiddlewares({ test: [] }, function(payload) {
+    chain.applyMiddlewares({ test: [] }, 'Test', function(payload) {
       assert(payload === null, 'payload was not nullified');
+    });
+  });
+
+  it('should convert non-facade objects to facades', function() {
+    chain.add(function(payload, integration, next) {
+      next(payload);
+    });
+
+    var payload = {};
+    assert(!(payload instanceof Facade), 'Payload should not be a facade yet.');
+
+    chain.applyMiddlewares(payload, 'Test', function(payload) {
+      assert(payload instanceof Facade, 'Payload should be a facade.');
+    });
+  });
+
+  it('should be able to handle facade objects as input', function() {
+    chain.add(function(payload, integration, next) {
+      next(payload);
+    });
+
+    var payload = new Facade({});
+    assert(payload instanceof Facade, 'Payload should be a facade.');
+
+    chain.applyMiddlewares(payload, 'Test', function(payload) {
+      assert(payload instanceof Facade, 'Payload should still be a facade.');
     });
   });
 });
