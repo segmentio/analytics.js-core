@@ -29,8 +29,11 @@ describe('Analytics', function() {
 
   beforeEach(function() {
     settings = {
-      Test: {
-        key: 'key'
+      configId1: {
+        name: 'Test',
+        opts: {
+          key: 'key'
+        }
       }
     };
 
@@ -145,7 +148,7 @@ describe('Analytics', function() {
       var test = new Test();
       test.invoke = sinon.spy();
       analytics.use(Test);
-      analytics.add(test);
+      analytics.add(test, 'configId', 'Test');
       analytics.initialize();
       analytics.page('Test Page Event');
       assert(test.invoke.notCalled);
@@ -216,7 +219,7 @@ describe('Analytics', function() {
       Test.readyOnInitialize();
       analytics.addIntegration(Test);
       analytics.ready(done);
-      var test = new Test(settings.Test);
+      var test = new Test(settings.configId1.Test);
       analytics.add(test);
       analytics.initialize();
     });
@@ -225,7 +228,7 @@ describe('Analytics', function() {
       Test.readyOnInitialize();
       analytics.addIntegration(Test);
       analytics.ready(done);
-      var test = new Test(settings.Test);
+      var test = new Test(settings.configId1.Test);
       analytics.add(test);
       analytics.initialize();
       assert(test.analytics === analytics);
@@ -282,7 +285,7 @@ describe('Analytics', function() {
       Test.readyOnInitialize();
       analytics.addIntegration(Test);
       analytics.ready(function() {
-        assert(analytics._integrations.Test instanceof Test);
+        assert(analytics._integrations.configId1.integration instanceof Test);
         done();
       });
       analytics.initialize(settings);
@@ -320,7 +323,7 @@ describe('Analytics', function() {
       Test.readyOnInitialize();
       analytics.addIntegration(Test);
       analytics.ready(function() {
-        assert(analytics._integrations.Test);
+        assert(analytics._integrations.configId1.integration instanceof Test);
         done();
       });
       analytics.initialize(settings, {
@@ -333,7 +336,7 @@ describe('Analytics', function() {
 
     it('should send settings to an integration', function(done) {
       Test = function(options) {
-        assert.deepEqual(settings.Test, options);
+        assert.deepEqual(settings.configId1.opts, options);
         done();
       };
       Test.prototype.name = 'Test';
