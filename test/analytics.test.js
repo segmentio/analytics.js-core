@@ -409,7 +409,6 @@ describe('Analytics', function() {
       var a = new Identify({ userId: 'id', traits: { trait: true } });
       analytics._invoke('identify', a);
       var b = Test.prototype.invoke.args[0][1];
-      assert(b === a);
       assert(b.userId() === 'id');
       assert(b.traits().trait === true);
     });
@@ -452,7 +451,7 @@ describe('Analytics', function() {
       );
     });
 
-    it('should record a metric when invoking an integration', function() {
+    it('should record a metric when invoking an integration and getting an error', function() {
       Test.prototype.invoke = function() {
         throw new Error('Uh oh!');
       };
@@ -2003,6 +2002,54 @@ describe('Analytics', function() {
       assert.deepEqual({}, user.traits());
       assert(group.id() === null);
       assert.deepEqual({}, group.traits());
+    });
+  });
+
+  describe('#addIntegrationMiddleware', function() {
+    it('should have a defined _integrationMiddlewares property', function() {
+      assert(analytics._integrationMiddlewares !== undefined);
+    });
+
+    it('should allow users to add a valid Middleware', function() {
+      try {
+        analytics.addIntegrationMiddleware(function() {});
+      } catch (e) {
+        // This assert should not run.
+        assert(false, 'error was incorrectly thrown!');
+      }
+    });
+
+    it('should throw an error if the selected Middleware is not a function', function() {
+      try {
+        analytics.addIntegrationMiddleware(7);
+
+        // This assert should not run.
+        assert(false, 'error was not thrown!');
+      } catch (e) {
+        assert(
+          e.message === 'attempted to add non-function middleware',
+          'wrong error return'
+        );
+      }
+    });
+
+    it('should throw an error if AJS has already initialized', function() {
+      analytics.init();
+      try {
+        analytics.addIntegrationMiddleware(function() {});
+
+        // This assert should not run.
+        assert(false, 'error was not thrown!');
+      } catch (e) {
+        assert(
+          e.message === 'attempted to add middleware after initialization',
+          'wrong error return'
+        );
+      }
+    });
+
+    it('should return the analytics object', function() {
+      assert(analytics === analytics.addIntegrationMiddleware(function() {}));
     });
   });
 });
