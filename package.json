@@ -47,6 +47,7 @@
     "@segment/send-json": "^3.0.0",
     "@segment/store": "^1.3.20",
     "@segment/top-domain": "^3.0.0",
+    "after": "^0.8.2",
     "bind-all": "^1.0.0",
     "component-cookie": "^1.1.2",
     "component-emitter": "^1.2.1",
