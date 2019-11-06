@@ -487,9 +487,10 @@ describe('Analytics', function() {
 
     it('should emit "invoke" with facade', function(done) {
       var opts = { All: false };
-      var identify = new Identify({ options: opts });
+      var identify = new Identify({ testVal: 'success', options: opts });
       analytics.on('invoke', function(msg) {
-        assert(msg === identify);
+        assert(msg instanceof Facade);
+        assert(msg.obj.testVal === 'success');
         assert(msg.action() === 'identify');
         done();
       });
@@ -2042,7 +2043,8 @@ describe('Analytics', function() {
         assert(false, 'error was not thrown!');
       } catch (e) {
         assert(
-          e.message === 'attempted to add middleware after initialization',
+          e.message ===
+            'attempted to add an integration middleware after initialization',
           'wrong error return'
         );
       }
@@ -2050,6 +2052,55 @@ describe('Analytics', function() {
 
     it('should return the analytics object', function() {
       assert(analytics === analytics.addIntegrationMiddleware(function() {}));
+    });
+  });
+
+  describe('#addSourceMiddleware', function() {
+    it('should have a defined _sourceMiddlewares property', function() {
+      assert(analytics._sourceMiddlewares !== undefined);
+    });
+
+    it('should allow users to add a valid Middleware', function() {
+      try {
+        analytics.addSourceMiddleware(function() {});
+      } catch (e) {
+        // This assert should not run.
+        assert(false, 'error was incorrectly thrown!');
+      }
+    });
+
+    it('should throw an error if the selected Middleware is not a function', function() {
+      try {
+        analytics.addSourceMiddleware(8);
+
+        // This assert should not run.
+        assert(false, 'error was not thrown!');
+      } catch (e) {
+        assert(
+          e.message === 'attempted to add non-function middleware',
+          'wrong error return'
+        );
+      }
+    });
+
+    it('should throw an error if AJS has already initialized', function() {
+      analytics.init();
+      try {
+        analytics.addSourceMiddleware(function() {});
+
+        // This assert should not run.
+        assert(false, 'error was not thrown!');
+      } catch (e) {
+        assert(
+          e.message ===
+            'attempted to add a source middleware after initialization',
+          'wrong error return'
+        );
+      }
+    });
+
+    it('should return the analytics object', function() {
+      assert(analytics === analytics.addSourceMiddleware(function() {}));
     });
   });
 });
