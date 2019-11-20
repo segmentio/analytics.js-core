@@ -30,7 +30,8 @@ describe('Analytics', function() {
   beforeEach(function() {
     settings = {
       Test: {
-        key: 'key'
+        key: 'key',
+        initialPageview: false
       }
     };
 
@@ -358,6 +359,14 @@ describe('Analytics', function() {
         done();
       });
       analytics.initialize();
+    });
+
+    it('should skip page call if assumepageview', function() {
+      Test.prototype.page = sinon.spy();
+      var options = { initialPageview: true };
+      analytics.addIntegration(Test);
+      analytics.initialize(settings, options);
+      assert(Test.prototype.page.notCalled);
     });
   });
 
