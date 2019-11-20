@@ -361,13 +361,11 @@ describe('Analytics', function() {
       analytics.initialize();
     });
 
-    // TODO: haven't figured out how to properly test this...
     it('should skip page call if assumepageview', function() {
       Test.prototype.page = sinon.spy();
       var options = { initialPageview: true };
       analytics.addIntegration(Test);
       analytics.initialize(settings, options);
-      // Should fail
       assert(Test.prototype.page.notCalled);
     });
   });
