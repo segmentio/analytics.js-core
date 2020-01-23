@@ -39,6 +39,7 @@
     "@ndhoule/map": "^2.0.1",
     "@ndhoule/pick": "^2.0.0",
     "@segment/canonical": "^1.0.0",
+    "@segment/cookie": "1.1.4-alpha.ajs-test",
     "@segment/is-meta": "^1.0.0",
     "@segment/isodate": "^1.0.2",
     "@segment/isodate-traverse": "^1.0.1",
