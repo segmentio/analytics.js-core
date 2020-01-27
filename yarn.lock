@@ -260,10 +260,10 @@
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@segment/canonical/-/canonical-1.0.0.tgz#9adb1a731d29ab975493bf17a4ce4952985c4920"
 
-"@segment/cookie@1.1.4-alpha.ajs-test":
-  version "1.1.4-alpha.ajs-test"
-  resolved "https://registry.yarnpkg.com/@segment/cookie/-/cookie-1.1.4-alpha.ajs-test.tgz#070104261eafbce2203cc44fd79721d6a22286b6"
-  integrity sha512-qyAanzvTaPERJ5qnA2Qo20npNFG3EEvCxLCT4sfTiz7wDEgpEGlSCVaAAL6sgRphSspAANNaOJP9qeoRwpoDOQ==
+"@segment/cookie@^1.1.5":
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/@segment/cookie/-/cookie-1.1.5.tgz#cbaaf26c73a8e34103312b5bd61ebbdb710611a8"
+  integrity sha512-Fzpqvugm5yOJLMCZ50NyKrWya6iPDlCsjWluoLPibhLQeylNjHFuNqhJa9X5okx6t/QoDLAikgOHLiNdbMOLjQ==
   dependencies:
     debug "^2.6.9"
 
