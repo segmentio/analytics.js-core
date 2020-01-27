@@ -63,6 +63,10 @@ describe('cookie', function() {
       assert(cookie.options().domain === '');
     });
 
+    it('should set SameSite=Lax by default', function() {
+      assert(cookie.options().sameSite === 'Lax');
+    });
+
     it('should fallback to `domain=null` when it cant set the test cookie', function() {
       cookie.options({ domain: 'baz.com' });
       assert(cookie.options().domain === null);
