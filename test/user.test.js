@@ -1,7 +1,7 @@
 'use strict';
 
 var assert = require('proclaim');
-var rawCookie = require('component-cookie');
+var rawCookie = require('@segment/cookie');
 var sinon = require('sinon');
 var analytics = require('../lib');
 var Analytics = require('../lib').constructor;
