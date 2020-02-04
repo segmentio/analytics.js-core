@@ -9,7 +9,6 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - run: npm config set "//registry.npmjs.org/:_authToken" $NPM_AUTH
       - restore_cache:
           key: yarn-dependency-cache-{{ checksum "yarn.lock" }}
       - run: yarn install --frozen-lockfile
