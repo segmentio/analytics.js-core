@@ -62,7 +62,7 @@
     "next-tick": "^0.2.2",
     "segmentio-facade": "^3.0.2",
     "spark-md5": "^2.0.2",
-    "uuid": "3.4.0"
+    "uuid": "^3.4.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^7.0.0",
