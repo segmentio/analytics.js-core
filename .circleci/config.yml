@@ -7,10 +7,9 @@ version: 2
 jobs:
   changelog:
     <<: *defaults
-    working_directory: ./
     steps:
       - checkout
-      - run: sh changelog-check.sh
+      - run: make release-test
   test:
     <<: *defaults
     steps:
