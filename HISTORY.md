@@ -1,3 +1,61 @@
+# v3.11.0 / 2020-01-27
+
+- v3.11.0
+- feat: use SameSite=Lax by default (#128)
+
+# v3.10.1 / 2019-11-20
+
+- v3.10.1
+- remove old comments
+- change callcount variable
+- clean up return statement
+- remove after
+
+# v3.10.0 / 2019-11-13
+
+- v3.10.0
+- Revert "after fix"
+- feat(middleware): add source middleware support
+
+# v3.9.1 / 2019-11-04
+
+- v3.9.1
+- fix(client): remove ready() call when no integrations
+- change after
+
+# v3.9.0 / 2019-07-02
+
+- v3.9.0
+- Add middleware support (#113)
+
+# v3.8.2 / 2019-03-15
+
+- v3.8.2
+- feat(ids): add `localStorageFallbackDisabled` flag
+
+# v3.8.1 / 2019-03-13
+
+- v3.8.1
+- feat(ids): check LocalStorage when cookies are not available
+- ci(circle): add commitlint-circle
+- chore(git): add commitizen and commitlint
+
+# v3.8.0 / 2019-03-07
+
+- v3.8.0
+- Generate MessageId (#106)
+
+# v3.7.2 / 2018-07-30
+
+- v3.7.2
+- ci: login to NPM for publish and use defaults
+
+# v3.7.1 / 2018-07-30
+
+- v3.7.1
+- ci: add v prefix for publish step
+- docs: fix version in changelog
+
 # 3.7.0 / 2018-07-30
 
 - ci: Fix publish step in circle config (https://github.com/segmentio/analytics.js-core/pull/97)
