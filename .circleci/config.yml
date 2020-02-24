@@ -5,6 +5,11 @@ defaults: &defaults
 
 version: 2
 jobs:
+  changelog:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: sh changelog-check.sh
   test:
     <<: *defaults
     steps:
