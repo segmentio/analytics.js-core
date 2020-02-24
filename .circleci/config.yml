@@ -66,10 +66,16 @@ workflows:
   version: 2
   test_and_publish:
     jobs:
+      - changelog:
+          filters:
+            tags:
+              only: /.*/
       - test:
           filters:
             tags:
               only: /.*/
+          requires:
+            - changelog
       - coverage:
           filters:
             tags:
