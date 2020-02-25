@@ -75,4 +75,8 @@ test-browser: install
 test: lint test-browser
 .PHONY: test
 
+release-test:
+	sh .circleci/changelog-check.sh
+.PHONY: release-test
+
 .DEFAULT_GOAL = test
