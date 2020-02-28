@@ -9,7 +9,7 @@ module.exports = function(config) {
     files: [
       { pattern: 'test/support/*.html', included: false },
       'test/support/global.js', // NOTE: This must run before all tests
-      'test/**/*.test.js'
+      'test/**/analytics.test.js'
     ],
     browsers: ['PhantomJS'],
 

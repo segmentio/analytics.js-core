@@ -1093,6 +1093,15 @@ describe('Analytics', function() {
         traits: { trait: true }
       });
     });
+
+    it('should reset userId and trait when reset is called', function() {
+      analytics.identify('foobar', { mytrait: 'mytrait' });
+      assert.equal(analytics.user().id(), 'foobar');
+      assert.deepEqual(analytics.user().traits(), { mytrait: 'mytrait' });
+      analytics.reset();
+      assert.isNull(analytics.user().id());
+      assert.deepEqual(analytics.user().traits(), {});
+    });
   });
 
   describe('#user', function() {
