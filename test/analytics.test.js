@@ -1102,6 +1102,26 @@ describe('Analytics', function() {
       assert.isNull(analytics.user().id());
       assert.deepEqual(analytics.user().traits(), {});
     });
+
+    // TODO: un-skip this test when LIB-1614 is resolved
+    it.skip('should not reset user when passing no arguments', function() {
+      analytics.identify('foobar', { mytrait: 'mytrait' });
+      analytics.identify();
+      console.log(analytics.user().id());
+      console.log(analytics.user().traits());
+      assert.equal(analytics.user().id(), 'foobar');
+      assert.deepEqual(analytics.user().traits(), { mytrait: 'mytrait' });
+    });
+
+    // TODO: un-skip this test when LIB-1614 is resolved
+    it.skip('should not reset user when passing null', function() {
+      analytics.identify('foobar', { mytrait: 'mytrait' });
+      analytics.identify(null);
+      console.log(analytics.user().id());
+      console.log(analytics.user().traits());
+      assert.equal(analytics.user().id(), 'foobar');
+      assert.deepEqual(analytics.user().traits(), { mytrait: 'mytrait' });
+    });
   });
 
   describe('#user', function() {
