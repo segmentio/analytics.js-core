@@ -69,6 +69,8 @@ workflows:
     jobs:
       - changelog:
           filters:
+            branches:
+              only: master
             tags:
               only: /.*/
       - test:
