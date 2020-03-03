@@ -260,7 +260,7 @@
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@segment/canonical/-/canonical-1.0.0.tgz#9adb1a731d29ab975493bf17a4ce4952985c4920"
 
-"@segment/cookie@^1.1.5":
+"@segment/cookie@^1.1.5-rc.0":
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/@segment/cookie/-/cookie-1.1.5.tgz#cbaaf26c73a8e34103312b5bd61ebbdb710611a8"
   integrity sha512-Fzpqvugm5yOJLMCZ50NyKrWya6iPDlCsjWluoLPibhLQeylNjHFuNqhJa9X5okx6t/QoDLAikgOHLiNdbMOLjQ==
