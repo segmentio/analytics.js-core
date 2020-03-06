@@ -56,6 +56,7 @@ Stale issues get the `stale` label.
 
 # Anti-contribution
 
+- Obtuse commit messages, issues/PRs without any details.
 - Obviously, anything that violates our [Code of Conduct](CODE_OF_CONDUCT.md)
 - Noisy comments: "me too!", or "here's my setup" when the bug's already been located. Use a :thumbsup: emoji on the issue/PR instead, since we can count these.
 - Non-constructive complaining.
