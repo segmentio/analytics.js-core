@@ -9,6 +9,6 @@ To build this into a full, usable library, see the [Analytics.js](https://github
 
 ## License
 
-Released under the [MIT license](License.md).
+Released under the [MIT license](LICENSE).
 
 [analytics.js]: https://segment.com/docs/libraries/analytics.js/
