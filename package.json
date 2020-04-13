@@ -1,7 +1,7 @@
 {
   "name": "@segment/analytics.js-core",
   "author": "Segment <friends@segment.com>",
-  "version": "3.11.2",
+  "version": "3.11.3",
   "description": "The hassle-free way to integrate analytics into any web application.",
   "keywords": [
     "analytics",
@@ -60,6 +60,7 @@
     "is": "^3.1.0",
     "new-date": "^1.0.0",
     "next-tick": "^0.2.2",
+    "package-json-versionify": "^1.0.4",
     "segmentio-facade": "^3.0.2",
     "spark-md5": "^2.0.2",
     "uuid": "^3.4.0"
@@ -122,5 +123,10 @@
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
+  },
+  "browserify": {
+    "transform": [
+      "package-json-versionify"
+    ]
   }
 }

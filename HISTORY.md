@@ -1,6 +1,9 @@
-# v3.11.0 / 2020-01-27
 
-- v3.11.0
+# v3.11.3 / 2020-04-13
+
+- Transform package.json to strip excess in browserify
+
+# v3.11.0
 - feat: use SameSite=Lax by default (#128)
 
 # v3.10.1 / 2019-11-20
