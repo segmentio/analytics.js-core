@@ -933,6 +933,11 @@ browserify-istanbul@^2.0.0:
     minimatch "^3.0.0"
     through "^2.3.8"
 
+browserify-package-json@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/browserify-package-json/-/browserify-package-json-1.0.1.tgz#98dde8aa5c561fd6d3fe49bbaa102b74b396fdea"
+  integrity sha1-mN3oqlxWH9bT/km7qhArdLOW/eo=
+
 browserify-rsa@^4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/browserify-rsa/-/browserify-rsa-4.0.1.tgz#21e0abfaf6f2029cf2fafb133567a701d4135524"
@@ -5059,6 +5064,13 @@ pac-resolver@^3.0.0:
     ip "^1.1.5"
     netmask "^1.0.6"
     thunkify "^2.1.2"
+
+package-json-versionify@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/package-json-versionify/-/package-json-versionify-1.0.4.tgz#5860587a944873a6b7e6d26e8e51ffb22315bf17"
+  integrity sha1-WGBYepRIc6a35tJujlH/siMVvxc=
+  dependencies:
+    browserify-package-json "^1.0.0"
 
 package-json@^4.0.0:
   version "4.0.1"
