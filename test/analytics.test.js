@@ -2043,19 +2043,13 @@ describe('Analytics', function() {
       }
     });
 
-    it('should throw an error if AJS has already initialized', function() {
+    it('should not throw an error if AJS has already initialized', function() {
       analytics.init();
       try {
         analytics.addIntegrationMiddleware(function() {});
-
-        // This assert should not run.
-        assert(false, 'error was not thrown!');
       } catch (e) {
-        assert(
-          e.message ===
-            'attempted to add an integration middleware after initialization',
-          'wrong error return'
-        );
+        // This assert should not run.
+        assert(false, 'error was thrown!');
       }
     });
 
@@ -2092,19 +2086,13 @@ describe('Analytics', function() {
       }
     });
 
-    it('should throw an error if AJS has already initialized', function() {
+    it('should not throw an error if AJS has already initialized', function() {
       analytics.init();
       try {
         analytics.addSourceMiddleware(function() {});
-
+      } catch (e) {
         // This assert should not run.
         assert(false, 'error was not thrown!');
-      } catch (e) {
-        assert(
-          e.message ===
-            'attempted to add a source middleware after initialization',
-          'wrong error return'
-        );
       }
     });
 
