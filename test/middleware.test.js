@@ -345,4 +345,49 @@ describe('SourceMiddlewareChain', function() {
       assert(payload instanceof Facade, 'Payload should still be a facade.');
     });
   });
+
+  it('should be able to add and apply middleware interchangably', function() {
+    chain.add(function(chain) {
+      chain.payload.obj.test.push(1);
+      chain.next(chain.payload);
+    });
+    chain.applyMiddlewares({ test: [] }, 'Test', function(payload) {
+      assert.deepEqual(payload.obj.test, [1]);
+    });
+    chain.add(function(chain) {
+      chain.payload.obj.test.push(2);
+      chain.next(chain.payload);
+    });
+    chain.applyMiddlewares({ test: [] }, 'Test', function(payload) {
+      assert.deepEqual(payload.obj.test, [1, 2]);
+    });
+    chain.add(function(chain) {
+      chain.payload.obj.test.push(3);
+      chain.next(chain.payload);
+    });
+    chain.applyMiddlewares({ test: [] }, 'Test', function(payload) {
+      assert.deepEqual(payload.obj.test, [1, 2, 3]);
+    });
+    chain.add(function(chain) {
+      chain.payload.obj.test.push(4);
+      chain.next(chain.payload);
+    });
+    chain.applyMiddlewares({ test: [] }, 'Test', function(payload) {
+      assert.deepEqual(payload.obj.test, [1, 2, 3, 4]);
+    });
+    chain.add(function(chain) {
+      chain.payload.obj.test.push(5);
+      chain.next(chain.payload);
+    });
+    chain.applyMiddlewares({ test: [] }, 'Test', function(payload) {
+      assert.deepEqual(payload.obj.test, [1, 2, 3, 4, 5]);
+    });
+    chain.add(function(chain) {
+      chain.payload.obj.test.push(6);
+      chain.next(chain.payload);
+    });
+    chain.applyMiddlewares({ test: [] }, 'Test', function(payload) {
+      assert.deepEqual(payload.obj.test, [1, 2, 3, 4, 5, 6]);
+    });
+  });
 });
