@@ -1,9 +1,15 @@
+# 3.12.4 / 2020-04-23
+
+- test: add add/apply middleware stress test
+- update tests to not fail when adding middleware post-init
+- rm checks to disallow adding middleware post-init
 
 # v3.11.3 / 2020-04-13
 
 - Transform package.json to strip excess in browserify
 
 # v3.11.0
+
 - feat: use SameSite=Lax by default (#128)
 
 # v3.10.1 / 2019-11-20
