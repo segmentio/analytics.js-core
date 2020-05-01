@@ -619,7 +619,8 @@ describe('Analytics', function() {
         referrer: document.referrer,
         title: document.title,
         url: window.location.href,
-        search: window.location.search
+        search: window.location.search,
+        hash: window.location.hash
       };
       sinon.spy(analytics, '_invoke');
     });
