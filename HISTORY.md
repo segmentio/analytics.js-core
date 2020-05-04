@@ -1,3 +1,7 @@
+# 3.12.5 / 2020-04-23
+
+- adding a `hash` property to the current page information
+
 # 3.12.4 / 2020-04-23
 
 - test: add add/apply middleware stress test
