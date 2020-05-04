@@ -1,4 +1,4 @@
-# 3.12.5 / 2020-05-04
+# 3.13.0 / 2020-05-04
 
 - refactor: remove third party dependency ndhoule/clone
 
