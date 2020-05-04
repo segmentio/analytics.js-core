@@ -1,7 +1,7 @@
 {
   "name": "@segment/analytics.js-core",
   "author": "Segment <friends@segment.com>",
-  "version": "3.12.4",
+  "version": "3.12.5",
   "description": "The hassle-free way to integrate analytics into any web application.",
   "keywords": [
     "analytics",
@@ -29,7 +29,6 @@
   },
   "homepage": "https://github.com/segmentio/analytics.js-core#readme",
   "dependencies": {
-    "@ndhoule/clone": "^1.0.0",
     "@ndhoule/defaults": "^2.0.1",
     "@ndhoule/each": "^2.0.1",
     "@ndhoule/extend": "^2.0.0",
