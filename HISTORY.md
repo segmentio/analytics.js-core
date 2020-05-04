@@ -1,3 +1,7 @@
+# 3.12.5 / 2020-05-04
+
+- refactor: remove third party dependency ndhoule/clone
+
 # 3.12.4 / 2020-04-23
 
 - test: add add/apply middleware stress test
