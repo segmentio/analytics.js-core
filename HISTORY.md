@@ -1,3 +1,8 @@
+# 3.13.1 / 2020-05-04
+
+- refactor: remove third party dependency ndhoule/each
+- refactor: remove third party dependency ndhoule/map
+
 # 3.13.0 / 2020-05-04
 
 - refactor: remove third party dependency ndhoule/clone
