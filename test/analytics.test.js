@@ -2058,6 +2058,49 @@ describe('Analytics', function() {
     });
   });
 
+  describe('#addDestinationMiddleware', function() {
+    it('should have a defined _integrationMiddlewares property', function() {
+      assert(analytics._destinationMiddlewares !== undefined);
+    });
+
+    it('should allow users to add a valid Middleware', function() {
+      try {
+        analytics.addDestinationMiddleware('foo', [function() {}]);
+      } catch (e) {
+        // This assert should not run.
+        assert(false, 'error was incorrectly thrown!');
+      }
+    });
+
+    it('should throw an error if the selected Middleware is not a function', function() {
+      try {
+        analytics.addDestinationMiddleware('foo', [7]);
+
+        // This assert should not run.
+        assert(false, 'error was not thrown!');
+      } catch (e) {
+        assert(
+          e.message === 'attempted to add non-function middleware',
+          'wrong error return'
+        );
+      }
+    });
+
+    it('should not throw an error if AJS has already initialized', function() {
+      analytics.init();
+      try {
+        analytics.addDestinationMiddleware('foo', [function() {}]);
+      } catch (e) {
+        // This assert should not run.
+        assert(false, 'error was thrown!');
+      }
+    });
+
+    it('should return the analytics object', function() {
+      assert(analytics === analytics.addDestinationMiddleware(function() {}));
+    });
+  });
+
   describe('#addSourceMiddleware', function() {
     it('should have a defined _sourceMiddlewares property', function() {
       assert(analytics._sourceMiddlewares !== undefined);
