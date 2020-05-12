@@ -2097,7 +2097,9 @@ describe('Analytics', function() {
     });
 
     it('should return the analytics object', function() {
-      assert(analytics === analytics.addDestinationMiddleware(function() {}));
+      assert(
+        analytics === analytics.addDestinationMiddleware('foo', [function() {}])
+      );
     });
   });
 
