@@ -495,7 +495,7 @@ describe('Analytics', function() {
     });
 
     it('should emit "invoke" with facade', function(done) {
-      var opts = { All: false };
+      var opts = { All: true };
       var identify = new Identify({ testVal: 'success', options: opts });
       analytics.on('invoke', function(msg) {
         assert(msg instanceof Facade);
