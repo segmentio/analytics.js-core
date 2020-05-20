@@ -495,7 +495,7 @@ describe('Analytics', function() {
     });
 
     it('should emit "invoke" with facade', function(done) {
-      var opts = { All: false };
+      var opts = { All: true };
       var identify = new Identify({ testVal: 'success', options: opts });
       analytics.on('invoke', function(msg) {
         assert(msg instanceof Facade);
@@ -2055,6 +2055,51 @@ describe('Analytics', function() {
 
     it('should return the analytics object', function() {
       assert(analytics === analytics.addIntegrationMiddleware(function() {}));
+    });
+  });
+
+  describe('#addDestinationMiddleware', function() {
+    it('should have a defined _integrationMiddlewares property', function() {
+      assert(analytics._destinationMiddlewares !== undefined);
+    });
+
+    it('should allow users to add a valid Middleware', function() {
+      try {
+        analytics.addDestinationMiddleware('foo', [function() {}]);
+      } catch (e) {
+        // This assert should not run.
+        assert(false, 'error was incorrectly thrown!');
+      }
+    });
+
+    it('should throw an error if the selected Middleware is not a function', function() {
+      try {
+        analytics.addDestinationMiddleware('foo', [7]);
+
+        // This assert should not run.
+        assert(false, 'error was not thrown!');
+      } catch (e) {
+        assert(
+          e.message === 'attempted to add non-function middleware',
+          'wrong error return'
+        );
+      }
+    });
+
+    it('should not throw an error if AJS has already initialized', function() {
+      analytics.init();
+      try {
+        analytics.addDestinationMiddleware('foo', [function() {}]);
+      } catch (e) {
+        // This assert should not run.
+        assert(false, 'error was thrown!');
+      }
+    });
+
+    it('should return the analytics object', function() {
+      assert(
+        analytics === analytics.addDestinationMiddleware('foo', [function() {}])
+      );
     });
   });
 
