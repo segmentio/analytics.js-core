@@ -1,3 +1,7 @@
+# 3.13.2 / 2020-05-21
+
+- fix: null values should delete cookies
+
 # 3.13.1 / 2020-05-04
 
 - refactor: remove third party dependency ndhoule/each
