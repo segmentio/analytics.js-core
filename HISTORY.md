@@ -1,3 +1,7 @@
+# 3.13.3 / 2020-05-26
+
+- feat: add destination middleware
+
 # 3.13.2 / 2020-05-21
 
 - fix: null values should delete cookies
