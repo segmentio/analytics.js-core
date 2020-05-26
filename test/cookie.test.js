@@ -49,6 +49,11 @@ describe('cookie', function() {
       cookie.remove('cookie-remove');
       assert(cookie.get('cookie-remove') === null);
     });
+
+    it('null cookie should be null after setting', function() {
+      cookie.set('cookie-null', null);
+      assert(cookie.get('cookie-null') === null);
+    });
   });
 
   describe('#options', function() {
