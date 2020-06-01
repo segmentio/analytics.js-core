@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "allowJs": true,
+    "outDir": "build"
+  },
+  "include": ["lib", "test"],
+  "exclude": ["node_modules"]
+}
