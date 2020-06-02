@@ -4,6 +4,6 @@
     "allowJs": true,
     "outDir": "build"
   },
-  "include": ["lib", "test"],
+  "include": ["lib"],
   "exclude": ["node_modules"]
 }
