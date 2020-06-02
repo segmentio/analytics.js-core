@@ -1,3 +1,7 @@
+# 3.13.4 / 2020-06-02
+
+- refactor: enable typescript support
+
 # 3.13.3 / 2020-05-26
 
 - feat: add destination middleware
