@@ -102,6 +102,7 @@
     "proclaim": "^3.4.1",
     "sinon": "^1.7.3",
     "snyk": "^1.83.0",
+    "ts-node": "^8.10.2",
     "typescript": "^3.9.3",
     "watchify": "^3.7.0"
   },
