@@ -16,8 +16,7 @@
     "format": "prettier-eslint --write --list-different \"./{lib,test}/**/*.{js,json,md}\"",
     "precommit": "lint-staged",
     "np": "np --no-publish",
-    "cz": "git-cz",
-    "commitmsg": "commitlint -E GIT_PARAMS"
+    "cz": "git-cz"
   },
   "repository": {
     "type": "git",
@@ -63,16 +62,12 @@
     "uuid": "^3.4.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^7.0.0",
-    "@commitlint/config-conventional": "^7.0.1",
     "@segment/analytics.js-integration": "^3.2.1",
     "@segment/eslint-config": "^4.0.0",
     "@types/node": "^14.0.6",
     "browserify": "13.0.0",
     "browserify-istanbul": "^2.0.0",
     "codecov": "^3.0.2",
-    "commitizen": "^2.10.1",
-    "commitlint-circle": "^1.0.0",
     "compat-trigger-event": "^1.0.0",
     "component-each": "^0.2.6",
     "cz-conventional-changelog": "^2.1.0",
@@ -106,22 +101,12 @@
     "typescript": "^3.9.3",
     "watchify": "^3.7.0"
   },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  },
   "lint-staged": {
     "linters": {
       "*.{js,json,md}": [
         "prettier-eslint --write",
         "git add"
       ]
-    }
-  },
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
     }
   },
   "browserify": {
