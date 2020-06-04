@@ -1,0 +1,13 @@
+.circleci
+.github
+node_modules
+test/
+lib/
+.eslintrc
+.gitignore
+.nvmrc
+.prettierrc
+*.md
+karma.*
+Makefile
+tslint.json
