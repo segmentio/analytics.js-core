@@ -1,7 +1,7 @@
 defaults: &defaults
   working_directory: ~/analytics.js-core
   docker:
-    - image: circleci/node:13.14-browsers
+    - image: circleci/node:12-browsers
 
 version: 2
 jobs:
