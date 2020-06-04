@@ -10,4 +10,4 @@ lib/**/*
 *.md
 karma.*
 Makefile
-tslint.json
+tsconfig.json
