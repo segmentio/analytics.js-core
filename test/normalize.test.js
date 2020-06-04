@@ -1,7 +1,7 @@
 'use strict';
 
 var assert = require('proclaim');
-var normalize = require('../lib/normalize');
+var normalize = require('../build/normalize');
 
 describe('normalize', function() {
   var list = ['Segment', 'KISSmetrics'];
@@ -47,7 +47,7 @@ describe('normalize', function() {
     it('should move all other keys to context', function() {
       opts.context = { foo: 1 };
       opts.campaign = { name: 'campaign-name' };
-      opts.library = 'analytics-wordpress';
+      opts.buildrary = 'analytics-wordpress';
       opts.traits = { trait: true };
       var normalized = normalize(msg, list);
 
@@ -58,7 +58,7 @@ describe('normalize', function() {
         integrations: {},
         context: {
           campaign: { name: 'campaign-name' },
-          library: 'analytics-wordpress',
+          buildrary: 'analytics-wordpress',
           traits: { trait: true },
           foo: 1
         }

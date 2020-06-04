@@ -9,7 +9,7 @@
 var assert = require('proclaim');
 var keys = require('@ndhoule/keys');
 var sinon = require('sinon');
-var map = require('../lib/utils/map');
+var map = require('../build/utils/map');
 
 describe('map', function() {
   var identity;

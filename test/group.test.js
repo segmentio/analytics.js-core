@@ -1,7 +1,7 @@
 'use strict';
 
-var Analytics = require('../lib').constructor;
-var analytics = require('../lib');
+var Analytics = require('../build').constructor;
+var analytics = require('../build');
 var assert = require('proclaim');
 var sinon = require('sinon');
 

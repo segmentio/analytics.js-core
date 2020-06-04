@@ -45,9 +45,14 @@ GREP ?= .
 install:
 	yarn
 
+# Build typescript
+build: clean install
+	yarn tsc
+.PHONY: build
+
 # Remove temporary files and build artifacts.
 clean:
-	rm -rf *.log coverage
+	rm -rf *.log coverage build
 .PHONY: clean
 
 # Remove temporary files, build artifacts, and vendor dependencies.
@@ -67,7 +72,7 @@ fmt: install
 .PHONY: fmt
 
 # Run browser unit tests in a browser.
-test-browser: install
+test-browser: build
 	@$(KARMA) start $(KARMA_FLAGS) $(KARMA_CONF)
 .PHONY: test-browser
 

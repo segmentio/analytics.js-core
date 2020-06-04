@@ -32,6 +32,7 @@ jobs:
           key: yarn-dependency-cache-{{ checksum "yarn.lock" }}
           paths:
             - node_modules
+      - run: yarn run tsc
       - run: yarn run karma start karma.conf.coverage.js
       - store_test_results:
           path: junit-reports

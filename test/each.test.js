@@ -10,7 +10,7 @@
 var assert = require('assert');
 var keys = require('@ndhoule/keys');
 var sinon = require('sinon');
-var each = require('../lib/utils/each');
+var each = require('../build/utils/each');
 
 /**
  * Locals.

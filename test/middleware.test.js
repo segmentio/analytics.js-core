@@ -2,10 +2,11 @@
 
 var assert = require('proclaim');
 var Facade = require('segmentio-facade');
-var SourceMiddlewareChain = require('../lib/middleware').SourceMiddlewareChain;
-var IntegrationMiddlewareChain = require('../lib/middleware')
+var SourceMiddlewareChain = require('../build/middleware')
+  .SourceMiddlewareChain;
+var IntegrationMiddlewareChain = require('../build/middleware')
   .IntegrationMiddlewareChain;
-var middlewareChain = require('../lib/middleware').middlewareChain;
+var middlewareChain = require('../build/middleware').middlewareChain;
 
 describe('middlewareChain', function() {
   var chain;

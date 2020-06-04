@@ -1,15 +1,15 @@
 'use strict';
 
-var Analytics = require('../lib').constructor;
+var Analytics = require('../build').constructor;
 var Facade = require('segmentio-facade');
-var analytics = require('../lib');
+var analytics = require('../build');
 var assert = require('proclaim');
 var bind = require('component-event').bind;
 var createIntegration = require('@segment/analytics.js-integration');
 var extend = require('@ndhoule/extend');
 var type = require('component-type');
 var jQuery = require('jquery');
-var pageDefaults = require('../lib/pageDefaults');
+var pageDefaults = require('../build/pageDefaults');
 var sinon = require('sinon');
 var tick = require('next-tick');
 var trigger = require('compat-trigger-event');

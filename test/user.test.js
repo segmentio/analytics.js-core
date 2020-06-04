@@ -3,8 +3,8 @@
 var assert = require('proclaim');
 var rawCookie = require('@segment/cookie');
 var sinon = require('sinon');
-var analytics = require('../lib');
-var Analytics = require('../lib').constructor;
+var analytics = require('../build');
+var Analytics = require('../build').constructor;
 
 var cookie = Analytics.cookie;
 var store = Analytics.store;
