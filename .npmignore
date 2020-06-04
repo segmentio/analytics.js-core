@@ -1,8 +1,8 @@
 .circleci
 .github
 node_modules
-test/
-lib/
+test/**/*
+lib/**/*
 .eslintrc
 .gitignore
 .nvmrc
