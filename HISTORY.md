@@ -1,3 +1,7 @@
+# 3.13.5 / 2020-06-08
+
+- refactor: improve typescript support
+
 # 3.13.4 / 2020-06-02
 
 - refactor: enable typescript support
