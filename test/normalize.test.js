@@ -47,7 +47,7 @@ describe('normalize', function() {
     it('should move all other keys to context', function() {
       opts.context = { foo: 1 };
       opts.campaign = { name: 'campaign-name' };
-      opts.buildrary = 'analytics-wordpress';
+      opts.library = 'analytics-wordpress';
       opts.traits = { trait: true };
       var normalized = normalize(msg, list);
 
@@ -58,7 +58,7 @@ describe('normalize', function() {
         integrations: {},
         context: {
           campaign: { name: 'campaign-name' },
-          buildrary: 'analytics-wordpress',
+          library: 'analytics-wordpress',
           traits: { trait: true },
           foo: 1
         }
