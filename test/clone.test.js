@@ -1,7 +1,7 @@
 'use strict';
 
 var assert = require('proclaim');
-var clone = require('../lib/utils/clone');
+var clone = require('../build/utils/clone');
 
 describe('clone', function() {
   it('should be a function', function() {

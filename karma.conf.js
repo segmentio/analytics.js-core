@@ -5,6 +5,11 @@
 var TEST_TIMEOUT = 10 * 60 * 1000;
 
 module.exports = function(config) {
+  require('ts-node').register({
+    compilerOptions: {
+      module: 'commonjs'
+    }
+  });
   config.set({
     files: [
       { pattern: 'test/support/*.html', included: false },

@@ -1,7 +1,7 @@
 defaults: &defaults
   working_directory: ~/analytics.js-core
   docker:
-    - image: circleci/node:8-browsers
+    - image: circleci/node:12-browsers
 
 version: 2
 jobs:
@@ -17,7 +17,6 @@ jobs:
           key: yarn-dependency-cache-{{ checksum "yarn.lock" }}
           paths:
             - node_modules
-      - run: yarn commitlint-circle 
       - run: make test
       - store_test_results:
           path: junit-reports
@@ -33,6 +32,7 @@ jobs:
           key: yarn-dependency-cache-{{ checksum "yarn.lock" }}
           paths:
             - node_modules
+      - run: yarn run tsc
       - run: yarn run karma start karma.conf.coverage.js
       - store_test_results:
           path: junit-reports
@@ -61,6 +61,7 @@ jobs:
       - checkout
       - attach_workspace: { at: . }
       - run: npm config set "//registry.npmjs.org/:_authToken" $NPM_AUTH
+      - run: yarn tsc
       - run: npm publish .
 
 workflows:

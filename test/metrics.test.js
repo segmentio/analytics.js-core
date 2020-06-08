@@ -1,7 +1,7 @@
 'use strict';
 
 var assert = require('proclaim');
-var metrics = require('../lib').constructor.metrics;
+var metrics = require('../build').constructor.metrics;
 var sinon = require('sinon');
 var send = require('@segment/send-json');
 

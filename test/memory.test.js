@@ -1,7 +1,7 @@
 'use strict';
 
 var assert = require('proclaim');
-var memory = require('../lib').constructor.memory;
+var memory = require('../build').constructor.memory;
 
 describe('memory', function() {
   afterEach(function() {

@@ -1,6 +1,6 @@
 'use strict';
 
-var analytics = require('../lib');
+var analytics = require('../build');
 var assert = require('proclaim');
 
 describe('analytics', function() {
@@ -30,7 +30,7 @@ describe('analytics', function() {
     it('should restore global.analytics to its previous value', function() {
       assert(global.analytics === previousAnalyticsGlobal);
 
-      var analytics = require('../lib');
+      var analytics = require('../build');
       global.analytics = analytics;
 
       assert(global.analytics === analytics);
