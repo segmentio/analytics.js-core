@@ -11,7 +11,22 @@ exports.config = {
     Puppeteer: {
       url: 'https://library-test-site.com',
       show: true,
-      windowSize: '1200x900'
+      windowSize: '1200x900',
+      // waits for all network connections to be finished rather than default of DOMContentLoaded
+      waitForNavigation: 'networkidle0'
+    },
+    MockRequestHelper: {
+      require: '@codeceptjs/mock-request',
+      mode: 'record',
+      recordIfMissing: true,
+      recordFailedRequests: false,
+      expiresIn: null,
+      persisterOptions: {
+        keepUnusedRequests: false,
+        fs: {
+          recordingsDir: './data/requests'
+        }
+      }
     }
   },
   include: {
