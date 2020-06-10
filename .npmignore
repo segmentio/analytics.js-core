@@ -11,3 +11,5 @@ lib/**/*
 karma.*
 Makefile
 tsconfig.json
+test-e2e
+.idea

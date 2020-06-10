@@ -85,3 +85,7 @@ release-test:
 .PHONY: release-test
 
 .DEFAULT_GOAL = test
+
+test-e2e:
+	npx codeceptjs run --steps
+.PHONY: test-e2e
