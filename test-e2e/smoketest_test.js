@@ -4,13 +4,17 @@ const assert = require('assert');
 // TODO: Rather than actually loading analytics.js from the CDN, spin up a local server to
 // load it locally.
 const testSite = 'https://www.library-test-site.com';
-const testWriteKey = 'TEWEu8XrcMVejk8GOulbEx7rHGyuuijV';
+// const testWriteKey = 'TEWEu8XrcMVejk8GOulbEx7rHGyuuijV';
+const testWriteKey = 'WJq9vAlUO5l2255jMg7eEthbkDtq1svu';
 
 Scenario('check user id is stored in cookie and local storage', async I => {
   // Load analytics.js
   I.amOnPage(testSite);
   I.fillField('writeKey', testWriteKey);
   I.click('Load');
+
+  // Wait for AJS to load
+  I.waitForText(`loaded`, 5, '#status-msg');
   const msg = await I.grabTextFrom('#status-msg');
   assert.ok(msg.includes(`write key: ${testWriteKey}`));
 

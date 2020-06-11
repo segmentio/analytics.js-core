@@ -5,7 +5,7 @@ const { setHeadlessWhen } = require('@codeceptjs/configure');
 setHeadlessWhen(process.env.HEADLESS);
 
 exports.config = {
-  tests: './test-e2e/*_test.js',
+  tests: './test-e2e/**/*_test.js',
   output: './test-e2e/output',
   helpers: {
     Puppeteer: {
@@ -24,7 +24,7 @@ exports.config = {
       persisterOptions: {
         keepUnusedRequests: false,
         fs: {
-          recordingsDir: './data/requests'
+          recordingsDir: './test-e2e/data/requests'
         }
       }
     }
