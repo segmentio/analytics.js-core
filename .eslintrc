@@ -2,8 +2,10 @@
   "extends": ["@segment/eslint-config/browser/legacy", "prettier"],
   "rules": {
     "no-restricted-globals": "off",
-    "no-var": "error",
-    "no-console": "warn"
+    "no-var": "warn",
+    "no-console": "warn",
+    "no-unused-vars": "warn",
+    "strict": "warn"
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
