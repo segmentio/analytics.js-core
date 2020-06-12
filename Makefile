@@ -86,6 +86,10 @@ release-test:
 
 .DEFAULT_GOAL = test
 
+har:
+	yarn mocha -r ts-node/register test-e2e/har/*.test.ts
+.PHONY: har
+
 test-e2e:
 	npx codeceptjs run --steps
 .PHONY: test-e2e

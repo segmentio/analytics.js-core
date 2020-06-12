@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "esModuleInterop": true,
     "target": "ES5",
     "allowJs": true,
     "outDir": "build"
