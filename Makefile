@@ -86,10 +86,6 @@ release-test:
 
 .DEFAULT_GOAL = test
 
-har:
-	yarn mocha -r ts-node/register test-e2e/har/*.test.ts
-.PHONY: har
-
 # Run e2e tests
 test-e2e:
 	rm ./test-e2e/staging/*.har
