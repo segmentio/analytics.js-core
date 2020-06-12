@@ -24,7 +24,7 @@ exports.config = {
       persisterOptions: {
         keepUnusedRequests: false,
         fs: {
-          recordingsDir: './test-e2e/data/requests'
+          recordingsDir: './test-e2e/data'
         }
       }
     }

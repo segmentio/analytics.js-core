@@ -1,5 +1,4 @@
 const fs = require('fs');
-const deepEqual = require('deep-equal');
 
 const _ = require('lodash');
 
@@ -118,7 +117,6 @@ function compareEntries(a, b) {
   if (a.length !== b.length) {
     return false;
   }
-  console.log(`a.length = ${a.length}`);
   for (let i = 0; i < a.length; i++) {
     if (!isEquivalent(a[i], b[i], tapiComparisonSchema)) return false;
   }
