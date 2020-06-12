@@ -13,3 +13,4 @@ Makefile
 tsconfig.json
 test-e2e
 .idea
+data
