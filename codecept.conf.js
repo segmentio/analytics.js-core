@@ -12,6 +12,19 @@ exports.config = {
       url: 'http://www.library-test-site.com/',
       show: true,
       windowSize: '1200x900'
+    },
+    MockRequestHelper: {
+      require: '@codeceptjs/mock-request',
+      mode: 'record',
+      recordIfMissing: true,
+      recordFailedRequests: false,
+      expiresIn: null,
+      persisterOptions: {
+        keepUnusedRequests: false,
+        fs: {
+          recordingsDir: './test-e2e/output'
+        }
+      }
     }
   },
   include: {
