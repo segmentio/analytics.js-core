@@ -88,11 +88,11 @@ release-test:
 
 # Run e2e tests
 test-e2e:
-	rm ./test-e2e/staging/*.har
+	rm -f ./test-e2e/staging/*.har
 	npx codeceptjs run --steps
 .PHONY: test-e2e
 
 # Update the reference data by replacing it with newly generated *.har files in staging directory
 test-e2e-update: test-e2e
-	rm ./test-e2e/reference/*.har
+	rm -f ./test-e2e/reference/*.har
 	cp ./test-e2e/staging/*.har ./test-e2e/reference/
