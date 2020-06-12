@@ -8,3 +8,4 @@ build/
 test-e2e/.idea
 .idea
 test-e2e/output
+test-e2e/staging
