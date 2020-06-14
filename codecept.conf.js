@@ -11,7 +11,8 @@ exports.config = {
     Puppeteer: {
       url: 'http://www.library-test-site.com/',
       show: true,
-      windowSize: '1200x900'
+      windowSize: '1200x900',
+      args: ['--disable-web-security']
     },
     MockRequestHelper: {
       require: '@codeceptjs/mock-request',
