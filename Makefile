@@ -86,11 +86,20 @@ release-test:
 
 .DEFAULT_GOAL = test
 
+start_dev_server = (yarn ts-node ./test-e2e/devServer.ts)
+stop_dev_server = (pkill SIGINT ajs-test-e2e-dev-server)
 # Run e2e tests
-test-e2e:
+test-e2e: start-dev-server
 	rm -f ./test-e2e/staging/*.har
 	npx codeceptjs run --steps
+	$(call stop_dev_server)
 .PHONY: test-e2e
+
+start-dev-server:
+	$(call start_dev_server)
+
+stop-dev-server:
+	$(call stop_dev_server)
 
 # Update the reference data by replacing it with newly generated *.har files in staging directory
 test-e2e-update: test-e2e
