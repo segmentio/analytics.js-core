@@ -3,7 +3,13 @@ const fs = require('fs');
 
 module.exports = function() {
   return actor({
-    loadAJS: async function(testWriteKey) {
+    loadAJS: async function(options /*: {local: boolean}*/) {
+      let testSite = 'https://www.library-test-site.com'
+      let testWriteKey = 'WJq9vAlUO5l2255jMg7eEthbkDtq1svu'
+      if (options.local) {
+        testSite = 'http://localhost:8000'
+      }
+      this.amOnPage(testSite);
       this.fillField('writeKey', testWriteKey);
       this.click('Load');
 

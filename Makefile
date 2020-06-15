@@ -80,12 +80,24 @@ test-browser: build
 test: lint test-browser
 .PHONY: test
 
+# Commands to start/stop devServer for e2e tests
+start_dev_server = (yarn ts-node ./test-e2e/devServer.ts)
+stop_dev_server = (pkill SIGTERM ajs-test-e2e-dev-server)
+
+start-dev-server:
+	$(call start_dev_server)
+
+stop-dev-server:
+	$(call stop_dev_server) || true
+
 # Run e2e tests
-test-e2e: 
+test-e2e: stop-dev-server
+	yarn ts-node ./test-e2e/devServer.ts &
 	rm -rf ./test-e2e/output
 	rm -rf ./test-e2e/staging
 	mkdir ./test-e2e/staging
-	npx codeceptjs run --steps
+	yarn wait-on http://localhost:8000 && npx codeceptjs run --steps
+	$(call stop_dev_server)
 .PHONY: test-e2e
 
 .DEFAULT_GOAL = test

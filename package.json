@@ -65,6 +65,7 @@
     "@codeceptjs/mock-request": "^0.3.0",
     "@segment/analytics.js-integration": "^3.2.1",
     "@segment/eslint-config": "^4.0.0",
+    "@types/express": "^4.17.6",
     "@types/node": "^14.0.6",
     "browserify": "13.0.0",
     "browserify-istanbul": "^2.0.0",
@@ -78,6 +79,7 @@
     "eslint-plugin-mocha": "^5.0.0",
     "eslint-plugin-react": "^7.9.1",
     "eslint-plugin-require-path-exists": "^1.1.8",
+    "express": "^4.17.1",
     "husky": "^0.14.3",
     "istanbul": "^0.4.3",
     "jquery": "^3.2.1",
@@ -102,6 +104,7 @@
     "snyk": "^1.83.0",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.3",
+    "wait-on": "^5.0.1",
     "watchify": "^3.7.0"
   },
   "lint-staged": {

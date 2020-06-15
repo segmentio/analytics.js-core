@@ -1,0 +1,164 @@
+<html>
+  <head>
+    <title>AJS tester</title>
+  </head>
+  <body>
+    <form method="GET">
+      <input type="text" name="writeKey" placeholder="Write key" />
+      <input type="text" name="cdnHost" placeholder="cdn.segment.com" />
+      <button>Load</button>
+    </form>
+    <p id='status-msg'></p>
+
+    <button id='track-product-viewed' onclick="analytics.track('Product Viewed')">
+      Track: Product Viewed
+    </button>
+    <button id='track-checkout-started' onclick="analytics.track('Checkout Started')">
+      Track: Checkout Started
+    </button>
+    <button id='track-coupon-denied' onclick="analytics.track('Coupon Denied')">
+      Track: Coupon Denied
+    </button>
+    <br />
+    <button id='page-home' onclick="analytics.page('Home')">Page: Home</button>
+    <button id='page-about' onclick="analytics.page('About')">Page: About</button>
+    <button id='page-contact' onclick="analytics.page('Contact')">Page: Contact</button>
+    <br />
+    <button id='identify-fathy' onclick="analytics.identify('fathy')">Identify: fathy</button>
+    <button id='identify-spongebob' onclick="analytics.identify('spongebob')">
+      Identify: spongebob
+    </button>
+    <button
+      id='group'
+      onclick="analytics.group(
+        'group name',
+        {
+          'address': {
+            'city': 'Vancouver',
+            'country': 'Canada',
+            'postalCode': 'V6b3E2',
+            'state': 'BC',
+            'street': '21 Jump St'
+          },
+          'avatar': 'does not exist',
+          'createdAt': new Date(),
+          'description': 'a fake group',
+          'email': 'email-me-not@domain.com',
+          'employees': 3,
+          'id': 1,
+          'industry': 'sw eng',
+          'name': 'libweb',
+          'phone': '555-pizza',
+          'website': 'www.google.com',
+          'plan': 'business'
+        },
+        {
+          'integrations': {
+            'All': true
+          }
+        }, function() { console.log('group callback triggered')})"
+    >
+      Group
+    </button>
+
+    <button
+      id='alias'
+      onclick="analytics.alias('userId', 'previous id', {
+        'integrations': { 'All': true }
+      }, function(){ console.log('alias callback triggered')})"
+    >
+      Alias
+    </button>
+
+    <br />
+
+    <script>
+      const { searchParams } = new URL(document.location);
+      const writeKey = searchParams.get("writeKey");
+      const cdnHost = searchParams.get("cdnHost") || 'cdn.segment.com';
+      const status = (s) => (document.querySelector("p").innerText = s);
+
+      document.querySelector("input").value = writeKey;
+
+      if (writeKey) {
+        !(function () {
+          var analytics = (window.analytics = window.analytics || []);
+          if (!analytics.initialize)
+            if (analytics.invoked)
+              window.console &&
+                console.error &&
+                console.error("Segment snippet included twice.");
+            else {
+              analytics.invoked = !0;
+              analytics.methods = [
+                "trackSubmit",
+                "trackClick",
+                "trackLink",
+                "trackForm",
+                "pageview",
+                "identify",
+                "reset",
+                "group",
+                "track",
+                "ready",
+                "alias",
+                "debug",
+                "page",
+                "once",
+                "off",
+                "on",
+              ];
+              analytics.factory = function (t) {
+                return function () {
+                  var e = Array.prototype.slice.call(arguments);
+                  e.unshift(t);
+                  analytics.push(e);
+                  return analytics;
+                };
+              };
+              for (var t = 0; t < analytics.methods.length; t++) {
+                var e = analytics.methods[t];
+                analytics[e] = analytics.factory(e);
+              }
+              analytics.load = function (t, e) {
+                var n = document.createElement("script");
+                n.type = "text/javascript";
+                n.async = !0;
+                n.src =
+                  "http://" +
+                  cdnHost +
+                  "/analytics.js/v1/" +
+                  t +
+                  "/analytics.js";
+                var a = document.getElementsByTagName("script")[0];
+                a.parentNode.insertBefore(n, a);
+                analytics._loadOptions = e;
+              };
+              analytics.SNIPPET_VERSION = "4.1.0";
+              analytics.load(writeKey);
+              analytics.page();
+            }
+        })();
+
+        status("loading ajs");
+
+        analytics.ready(() => {
+          analytics.reset();
+          var f = function ({ payload, next, integrations }) {
+            next(payload);
+          };
+          var f2 = function ({ payload, next, integrations }) {
+            next(payload);
+          };
+          analytics.addSourceMiddleware(f);
+          analytics.addSourceMiddleware(f2);
+          return status(
+            `ajs ${analytics.VERSION} loaded, write key: ${analytics._integrations["Segment.io"].options.apiKey}`
+          );
+        });
+      } else {
+        status("ajs not loaded, enter a write key");
+      }
+    </script>
+  </body>
+</html>

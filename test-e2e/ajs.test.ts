@@ -2,13 +2,12 @@ Feature('AJS Bundle');
 
 const assert = require('assert');
 const testSite = 'https://www.library-test-site.com';
-const testWriteKey = 'TEWEu8XrcMVejk8GOulbEx7rHGyuuijV';
+const testWriteKey = 'WJq9vAlUO5l2255jMg7eEthbkDtq1svu';
 
 Scenario(
   'User id is stored in cookies and local storage',
   async (I, testID) => {
-    I.amOnPage(testSite);
-    I.loadAJS(testWriteKey);
+    I.loadAJS({local: true});
 
     I.startRecording(testID);
     I.click('#page-home');
