@@ -29,7 +29,7 @@ exports.config = {
     }
   },
   include: {
-    I: './steps_file.ts'
+    I: './test-e2e/steps_file.ts'
   },
   bootstrap: null,
   mocha: {},
