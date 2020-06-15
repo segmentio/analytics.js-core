@@ -1,3 +1,7 @@
+# 3.13.6 / 2020-06-15
+
+- test: test analytics.js from a test website
+
 # 3.13.5 / 2020-06-08
 
 - refactor: improve typescript support
