@@ -34,7 +34,7 @@ module.exports = function() {
         throw new Error(`cannot find HAR file for ${testID}`);
       }
 
-      const stagingFilePath = `./test-e2e/output/${testID}.har`;
+      const stagingFilePath = `./test-e2e/staging/${testID}.har`;
 
       fs.renameSync(outputFilePath, stagingFilePath);
 

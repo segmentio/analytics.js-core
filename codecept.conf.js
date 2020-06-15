@@ -10,7 +10,7 @@ exports.config = {
   helpers: {
     Puppeteer: {
       url: 'http://www.library-test-site.com/',
-      show: true,
+      show: false,
       windowSize: '1200x900',
       args: ['--disable-web-security']
     },
