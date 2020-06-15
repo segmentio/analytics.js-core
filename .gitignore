@@ -5,3 +5,5 @@ junit-reports
 
 build/
 .DS_Store
+
+test-e2e/output
