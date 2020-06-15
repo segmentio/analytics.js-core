@@ -80,6 +80,14 @@ test-browser: build
 test: lint test-browser
 .PHONY: test
 
+# Run e2e tests
+test-e2e: 
+	rm -rf ./test-e2e/output
+	rm -rf ./test-e2e/staging
+	mkdir ./test-e2e/staging
+	npx codeceptjs run --steps
+.PHONY: test-e2e
+
 release-test:
 	sh .circleci/changelog-check.sh
 .PHONY: release-test

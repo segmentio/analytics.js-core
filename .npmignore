@@ -3,6 +3,9 @@
 node_modules
 test/**/*
 lib/**/*
+test-e2e/**/*
+steps_file.ts
+steps.d.ts
 .eslintrc
 .gitignore
 .nvmrc
