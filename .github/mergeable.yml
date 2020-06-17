@@ -3,12 +3,10 @@ mergeable:
   - when: pull_request.*
     do: or
     validate:
-    - do: and
-      validate:
-      - do: dependent
-        changed:
-          file: '**/*'
-          required: ['HISTORY.md'] 
+    - do: dependent
+      changed:
+        file: '**/*'
+        required: ['HISTORY.md'] 
     - do: description
       must_include:
         regex: 'New version not required'
