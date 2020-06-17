@@ -7,7 +7,8 @@ mergeable:
           changed:
             file: '**/*'
             required: ['HISTORY.md']
-      - do: description    
-        must_include:
-          regex: "New version not required"
-          message: 'Should cut a new version or explicitly documents new version not required in description'
+      - validate:
+        - do: description    
+          must_include:
+            regex: "New version not required"
+            message: 'Should cut a new version or explicitly documents new version not required in description'
