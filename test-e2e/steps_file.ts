@@ -1,6 +1,6 @@
 const fs = require('fs');
 const config = require('./config');
-// in this file you can append custom step methods to 'I' object
+const { parseHttpArchiveText, compareEntries } = require('./har')
 
 module.exports = function() {
   return actor({
@@ -50,6 +50,18 @@ module.exports = function() {
       fs.renameSync(outputFilePath, stagingFilePath);
 
       return stagingFilePath;
+    },
+
+    compareNetworkRequests: function(a, b) {
+      console.log("!!!comparing network requests!!!!")
+      return compareEntries(
+        parseHttpArchiveText(
+          fs.readFileSync(a, { encoding: 'utf8', flag: 'r' })
+        ),
+        parseHttpArchiveText(
+          fs.readFileSync(b, { encoding: 'utf8', flag: 'r' })
+        )
+      )
     }
   });
 };
