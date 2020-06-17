@@ -1,0 +1,8 @@
+version: 2
+mergeable:
+  - when: pull_request.*
+    validate:
+      - do: dependent
+        changed:
+          file: '**/*'
+          required: ['HISTORY.md']
