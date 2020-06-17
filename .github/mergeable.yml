@@ -1,12 +1,17 @@
 version: 2
 mergeable:
   - when: pull_request.*
+  - do: or
     validate:
-      or:
-        - do: dependent
-          changed:
-            file: '**/*'
-            required: ['HISTORY.md'] 
-          must_include:
-            regex: "New version not required"
-            message: 'Should cut a new version or explicitly documents new version not required in description'
+    - do: description
+      and:
+      - must_include:
+        regex: 'Test plan'
+        message: 'Test plan must be included'
+      - must_include:
+        regex: 'Goal'
+        message: 'Please include the goal of the PR'
+    - do: label
+      must_include:
+        regex: 'test plan: no'
+        message: 'If no test plan is necessary, please include test plan: no label'
