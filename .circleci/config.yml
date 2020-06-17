@@ -62,6 +62,14 @@ workflows:
   version: 2
   test_and_publish:
     jobs:
+      - test:
+          filters:
+            tags:
+              only: /.*/
+      - coverage:
+          filters:
+            tags:
+              only: /.*/
       - snyk:
           context: snyk
           requires:
