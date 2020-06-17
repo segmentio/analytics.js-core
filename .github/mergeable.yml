@@ -3,7 +3,7 @@ mergeable:
   - when: pull_request.*
     validate:
       or:
-      - do: dependent
+      do: dependent
         changed:
           file: '**/*'
           required: ['HISTORY.md']
