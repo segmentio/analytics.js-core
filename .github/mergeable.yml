@@ -7,7 +7,6 @@ mergeable:
       changed:
         file: '**/*'
         required: ['HISTORY.md'] 
-    validate:
     - do: description
       must_include:
         regex: 'New version not required'
