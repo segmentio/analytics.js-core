@@ -13,7 +13,7 @@ mergeable:
           must_exclude:
             regex: 'WIP'
             message: 'PR should not be in WIP'
-    - do: label
+    - do: description
       must_include:
-        regex: "New version not required"
+        regex: 'New version not required'
         message: 'Should cut a new version or explicitly documents new version not required in description'
