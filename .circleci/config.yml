@@ -49,12 +49,6 @@ jobs:
       - run: yarn run snyk test --severity-threshold=high
       - run: yarn run snyk monitor
 
-  changelog:
-    <<: *defaults
-    steps:
-      - checkout
-      - run: make release-test
-
   publish:
     <<: *defaults
     steps:
@@ -68,10 +62,6 @@ workflows:
   version: 2
   test_and_publish:
     jobs:
-      - changelog:
-          filters:
-            tags:
-              only: /.*/
       - test:
           filters:
             tags:
@@ -87,7 +77,6 @@ workflows:
       - publish:
           requires:
             - test
-            - changelog
           filters:
             tags:
               only: /v[0-9]+(\.[0-9]+)*(-.+)?/
