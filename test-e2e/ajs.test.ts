@@ -1,8 +1,5 @@
 Feature('AJS Bundle');
-
 const assert = require('assert');
-const testSite = 'https://www.library-test-site.com';
-const testWriteKey = 'WJq9vAlUO5l2255jMg7eEthbkDtq1svu';
 
 Scenario(
   'User id is stored in cookies and local storage',

@@ -1,15 +1,17 @@
 const fs = require('fs');
+const config = require('./config')
 // in this file you can append custom step methods to 'I' object
 
 module.exports = function() {
   return actor({
     loadAJS: async function(options /*: {local: boolean}*/) {
-      let testSite = 'https://www.library-test-site.com'
-      let testWriteKey = 'WJq9vAlUO5l2255jMg7eEthbkDtq1svu'
-      let cdn = 'cdn.segment.com'
+      let testSite = config.remote.testSite
+      let testWriteKey = config.remote.testWriteKey
+      let cdn = config.remote.cdn
       if (options.local) {
-        testSite = 'http://localhost:8000'
-        cdn = 'localhost:8000'
+        testSite = config.local.testSite
+        testWriteKey = config.local.testWriteKey
+        cdn = config.local.cdn
       }
       this.amOnPage(testSite);
       this.fillField('cdnHost', cdn)
