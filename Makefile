@@ -88,8 +88,4 @@ test-e2e:
 	npx codeceptjs run --steps
 .PHONY: test-e2e
 
-release-test:
-	sh .circleci/changelog-check.sh
-.PHONY: release-test
-
 .DEFAULT_GOAL = test
