@@ -1,15 +1,18 @@
 version: 2
 mergeable:
   - when: pull_request.*
+  - do: or
     validate:
-    - do: description
-      and:
-      - must_include:
-        regex: 'Test plan'
-        message: 'Test plan must be included'
-      - must_include:
-        regex: 'Goal'
-        message: 'Please include the goal of the PR'
+    - do: and
+      validate:
+        - do: description
+          must_include:
+            regex: 'Test plan'
+            message: 'Test plan must be included'
+        - do: title
+          must_exclude:
+            regex: 'WIP'
+            message: 'PR should not be in WIP'
     - do: label
       must_include:
         regex: 'test plan: no'
