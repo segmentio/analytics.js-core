@@ -18,6 +18,22 @@ const harEntryModel = {
   // we don't care about the response
 }
 
+// interface harEntryModel {
+//   request: {
+//     cookies: Array<any>,
+//     headers: Array<{name: string, value: string}>
+//     httpVersion: string
+//     method: string
+//     postData: {
+//       mimeType: string
+//       params: Array<any>
+//       text: string
+//     },
+//     queryString: Array<any>,
+//     url: string
+//   }
+// }
+
 /*
 Turns a model into json paths using depth first search
 E.g.
@@ -48,7 +64,7 @@ function toPaths(model) {
 /*
 takes some JSON string and coerce it into []harEntryModel
 */
-function parseHttpArchiveText(har_text) {
+export function parseHttpArchiveText(har_text) {
   // coerce the HAR json object into the model we defined
   const obj = JSON.parse(har_text)
   let entries = _.get(obj, 'log.entries')
@@ -81,7 +97,7 @@ const tapiComparisonSchema = {
         exists: string[]
     }
 */
-function isEquivalent(a, b, schema) {
+export function isEquivalent(a, b, schema) {
   schema.ignored = schema.ignored || []
   if (schema.ignored.length > 0) {
     // Remove ignored properties from objects; it does not matter whether they originally existed or not
@@ -109,7 +125,7 @@ a: []harEntryModel
 b: []harEntryModel
 returns bool
  */
-function compareEntries(a, b) {
+export function compareEntries(a, b) {
   if (a.length !== b.length) {
     return false
   }
@@ -117,11 +133,4 @@ function compareEntries(a, b) {
     if (!isEquivalent(a[i], b[i], tapiComparisonSchema)) return false
   }
   return true
-}
-
-exports = {
-  parseHttpArchiveText,
-  isEquivalent,
-  tapiComparisonSchema,
-  compareEntries
 }
