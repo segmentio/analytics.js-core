@@ -53,6 +53,7 @@ build: clean install
 # Remove temporary files and build artifacts.
 clean:
 	rm -rf *.log coverage build
+	rm -f ./test-e2e/static/analytics.js
 .PHONY: clean
 
 # Remove temporary files, build artifacts, and vendor dependencies.
