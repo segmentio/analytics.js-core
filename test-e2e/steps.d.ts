@@ -1,4 +1,4 @@
-/// <reference types='codeceptjs' />
+// / <reference types='codeceptjs' />
 type steps_file = typeof import('./steps_file');
 
 declare namespace CodeceptJS {

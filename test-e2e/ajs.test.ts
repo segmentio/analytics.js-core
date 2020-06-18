@@ -4,7 +4,7 @@ const assert = require('assert');
 Scenario(
   'User id is stored in cookies and local storage',
   async (I, testID) => {
-    I.loadAJS({local: true});
+    I.loadAJS({ local: true });
 
     I.startRecording(testID);
     I.click('#page-home');
