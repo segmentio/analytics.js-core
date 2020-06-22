@@ -1,5 +1,2 @@
-// const { parseHttpArchiveText, compareEntries } = require('./har');
-// module.exports = {
-//   parseHttpArchiveText,
-//   compareEntries
-// };
+export { parseHttpArchiveText, compareEntries } from './har';
+

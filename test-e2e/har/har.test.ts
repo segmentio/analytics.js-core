@@ -41,7 +41,7 @@ describe('experiment', () => {
 
 describe('compareEntries', () => {
   // First two recordings were generated on the same website using the same ajs, at different time
-  path
+  
   const recording1 = parseHttpArchiveText(fs.readFileSync(path.join(__dirname, 'test_data', 'recording1.har'), 'utf8'));
   const recording2 = parseHttpArchiveText(fs.readFileSync(path.join(__dirname, 'test_data', 'recording2.har'), 'utf8'));
   // Third recording was generated on the same website as the first two, using a different AJS configuration that

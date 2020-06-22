@@ -51,9 +51,8 @@ build: clean install
 .PHONY: build
 
 # Remove temporary files and build artifacts.
-clean:
+clean: test-e2e-clean
 	rm -rf *.log coverage build
-	rm -f ./test-e2e/static/analytics.js
 .PHONY: clean
 
 # Remove temporary files, build artifacts, and vendor dependencies.
@@ -81,6 +80,10 @@ test-browser: build
 test: lint test-browser
 .PHONY: test
 
+###
+# E2E tests
+###
+
 # Commands to start/stop devServer for e2e tests
 start_dev_server = (yarn ts-node ./test-e2e/devServer.ts)
 stop_dev_server = (pkill SIGTERM ajs-test-e2e-dev-server)
@@ -91,14 +94,34 @@ start-dev-server:
 stop-dev-server:
 	$(call stop_dev_server) || true
 
-# Run e2e tests
-test-e2e: install stop-dev-server
+test-e2e-clean: 
+	rm -f ./test-e2e/static/analytics.js
+	rm -rf ./test-e2e/output
+	rm -rf ./test-e2e/staging
+	
+# Run codecept tests
+test-codecept: install stop-dev-server
 	yarn ts-node ./test-e2e/devServer.ts &
 	rm -rf ./test-e2e/output
 	rm -rf ./test-e2e/staging
 	mkdir ./test-e2e/staging
 	yarn wait-on http://localhost:8000 && npx codeceptjs run --steps
 	$(call stop_dev_server)
+.PHONY: test-codecept
+
+# Compare recorded network requests from analytics.js against reference requests
+# network requests are captured during the codecept tests
+test-requests: 
+	yarn mocha -r ts-node/register ./test-e2e/requests.test.ts 
+.PHONY: test-requests
+
+# Run e2e tests
+test-e2e: test-codecept test-requests
 .PHONY: test-e2e
+
+# Update the reference data by replacing it with newly generated *.har files in staging directory
+test-e2e-update: test-codecept
+	rm -f ./test-e2e/reference/*.har
+	cp ./test-e2e/staging/*.har ./test-e2e/reference/
 
 .DEFAULT_GOAL = test
