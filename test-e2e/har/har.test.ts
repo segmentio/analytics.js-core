@@ -1,43 +1,8 @@
 import 'mocha';
-import * as assert from 'assert';
+import assert from 'assert';
 import { parseHttpArchiveText, compareEntries, isEquivalent } from './har'
 import * as fs from 'fs';
 import * as path from 'path';
-
-describe('experiment', () => {
-  it('should only care about attributes a and b', () => {
-    let model = {
-      a: {
-        b: null
-      },
-      c: null
-    }
-
-    let o1 = {
-      a: {
-        b: 2,
-        c: 3
-      },
-      c: 3,
-      d: 4
-    };
-
-    console.log(`typeof b: ${typeof(model.a.b)}`)
-
-    function pick<T>(model: T, obj: any): T {
-      return Object.keys(model).reduce((res, key) => {
-        if (!(key in obj)) return res;
-        if (model[key] === null) {
-          res[key] = obj[key]; 
-          return res;
-        }
-        res[key] = pick(model[key], obj[key]);
-        return res;
-      }, {} as T)
-    }
-    console.log(pick(model, o1))
-  })
-})
 
 describe('compareEntries', () => {
   // First two recordings were generated on the same website using the same ajs, at different time
