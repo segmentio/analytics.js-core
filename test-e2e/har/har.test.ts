@@ -1,5 +1,5 @@
 import 'mocha';
-import assert from 'assert';
+import * as assert from 'assert';
 import { parseHttpArchiveText, compareEntries, isEquivalent } from './har'
 import * as fs from 'fs';
 import * as path from 'path';
