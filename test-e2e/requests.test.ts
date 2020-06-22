@@ -14,7 +14,7 @@ describe('compare har files against reference', () => {
         parseHttpArchiveText(fs.readFileSync(stagingFilePath, 'utf8')),
         parseHttpArchiveText(fs.readFileSync(referenceFilePath, 'utf8'))
       );
-      assert(res, `${harFile} is not equivalent to reference. Has analytics.js / test website changed?`);
+      assert(res, `${harFile} is not equivalent to reference. Have the tests / analytics.js / test website changed?`);
     })
   })
 })
