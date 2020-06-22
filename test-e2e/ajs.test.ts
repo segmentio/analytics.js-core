@@ -11,14 +11,7 @@ Scenario(
     I.click('#track-checkout-started');
     I.click('#identify-fathy');
 
-    const harFilePath = await I.stopRecording(testID);
-    assert(
-      I.compareNetworkRequests(
-        harFilePath,
-        `./test-e2e/reference/${testID}.har`
-      ),
-      "network requests don't match"
-    );
+    await I.stopRecording(testID);
 
     const userId = await I.grabCookie('ajs_user_id');
     assert.equal(userId.value, '%22fathy%22');
