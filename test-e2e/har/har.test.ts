@@ -1,8 +1,8 @@
 import 'mocha';
 import assert from 'assert';
 import { parseHttpArchiveText, compareEntries, isEquivalent } from './har'
-import * as fs from 'fs';
-import * as path from 'path';
+import fs from 'fs';
+import path from 'path';
 
 describe('compareEntries', () => {
   // First two recordings were generated on the same website using the same ajs, at different time
