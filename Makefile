@@ -112,7 +112,7 @@ test-codecept: install stop-dev-server
 # Compare recorded network requests from analytics.js against reference requests
 # network requests are captured during the codecept tests
 test-requests: 
-	yarn mocha -r ts-node/register ./test-e2e/requests.test.ts 
+	TS_NODE_COMPILER_OPTIONS='{"esModuleInterop":true}' yarn mocha -r ts-node/register ./test-e2e/requests.test.ts 
 .PHONY: test-requests
 
 # Run e2e tests

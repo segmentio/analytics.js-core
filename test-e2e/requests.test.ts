@@ -1,8 +1,8 @@
 import 'mocha';
-import * as assert from 'assert';
+import assert from 'assert';
 import { parseHttpArchiveText, compareEntries } from './har'
-import * as fs from 'fs';
-import * as path from 'path';
+import fs from 'fs';
+import path from 'path';
 
 describe('compare har files against reference', () => {
   let files = fs.readdirSync(path.join(__dirname, 'staging'));
