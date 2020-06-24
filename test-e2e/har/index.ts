@@ -1,1 +1,1 @@
-export { parseHttpArchiveText, compareEntries } from './har';
+export { preprocessHarEntries } from './har';

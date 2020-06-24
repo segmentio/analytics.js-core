@@ -94,7 +94,7 @@ interface compareSchema {
   custom?: Array<(obj: any) => void>
 }
 
-const trackingAPIComparisonSchema: compareSchema = {
+export const trackingAPIComparisonSchema: compareSchema = {
   // these properties only need to exist; their values are not considered when comparing
   exists: [
     'request.postData.text.timestamp',
@@ -118,90 +118,39 @@ const trackingAPIComparisonSchema: compareSchema = {
 }
 
 /*
-    isEquivalent compares if objects a and b are equivalent
+    preprocess an object by stripping out irrelevant properties / masking irrelevant values, 
+    so that we can pass it to assert.deepEqual to do equality check.
+    For example, we want to ignore the values of random IDs but still ensure an ID exists on both objects.
 */
-export function isEquivalent(a: any, b: any, schema: compareSchema): boolean {
-  console.log("ignored")
+export function preprocess(a: any, schema: compareSchema): void {
   if (schema.ignored?.length > 0) {
     // Remove ignored properties from objects; it does not matter whether they originally existed or not
     for (let key of schema.ignored) {
       unset(a, key)
-      unset(b, key)
     }
   }
 
-  console.log("exists")
   if (schema.exists?.length > 0) {
     for (let key of schema.exists) {
       // Overwrite property value with dummy one since we only care if the property exists
       if (has(a, key)) set(a, key, '')
-      if (has(b, key)) set(b, key, '')
     }
   }
 
   if (schema.custom?.length > 0) {
     for (let customFunc of schema.custom) {
       customFunc(a)
-      customFunc(b)
     }
   }
-  return debugDeepEqual(a, b)
+  return
 }
 
 /*
-compareEntries returns true if the entries in a and b are equivalent as defined
-by trackingAPIComparisonSchema.
- */
-export function compareEntries(a: HarEntry[], b: HarEntry[]): boolean {
-  if (a.length !== b.length) {
-    throw "number of entries is not equal"
-    return false
-  }
-  for (let i = 0; i < a.length; i++) {
-    console.log(`comparing entry ${i}`)
-    if (!isEquivalent(a[i], b[i], trackingAPIComparisonSchema)) return false
-  }
-  return true
-}
-
-function debugDeepEqual(obj1, obj2) {
-
-  if(obj1 === obj2) // it's just the same object. No need to compare.
-      return true;
-
-  if(isPrimitive(obj1) && isPrimitive(obj2)) // compare primitives
-  {
-    let res = (obj1 === obj2);
-    if (!res) {
-      console.log("primitive value not equal")
-      console.log(`${obj1}`)
-      console.log(`${obj2}`)
-    }
-  }
-
-  if(Object.keys(obj1).length !== Object.keys(obj2).length) {
-    console.log(`keys length not equal`)
-    return false;
-  }
-
-  // compare objects with same number of keys
-  for(let key in obj1)
-  {
-      if(!(key in obj2)) {
-        console.log(`${key} in right side missing`)
-        return false; //other object doesn't have this prop
-      }
-      if(!debugDeepEqual(obj1[key], obj2[key])){
-        console.log(`${key} not equal`)
-        return false;
-      } 
-  }
-
-  return true;
-}
-
-//check if value is primitive
-function isPrimitive(obj)
-{
-  return (obj !== Object(obj));
+    preprocessHarEntries reads a HAR file text and masks irrelevant values such as timestamps 
+    and user agent so that we can use assert.deepEqual to compare two HAR entries
+*/
+export function preprocessHarEntries(harText: string): HarEntry[]{
+  let entries = parseHttpArchiveText(harText)
+  entries.forEach(entry => preprocess(entry, trackingAPIComparisonSchema))
+  return entries
 }
