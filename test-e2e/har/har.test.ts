@@ -32,26 +32,29 @@ describe('preprocess', () => {
   it('should ignore user-agent headers', () => {
     let a = {request: {headers: [{name: 'user-agent', value: 'foo'}]}} as HarEntry
     let b = {request: {headers: [{name: 'user-agent', value: 'bar'}]}} as HarEntry
-    preprocess(a, trackingAPIComparisonSchema)
-    preprocess(b, trackingAPIComparisonSchema)
-    assert.deepEqual(a, b)
+    assert.deepEqual(
+      preprocess(a, trackingAPIComparisonSchema),
+      preprocess(b, trackingAPIComparisonSchema)
+    )
   })
 
   it('should ignore user-agent header #2', () => {
     let a = {request: {headers: [{name: 'user-agent', value: 'foo'}]}} as HarEntry
     let b = {request: {headers: [{name: 'user-agent', value: 'foo'}]}} as HarEntry
-    preprocess(a, trackingAPIComparisonSchema)
-    preprocess(b, trackingAPIComparisonSchema)
-    assert.deepEqual(a, b)
+    assert.deepEqual(
+      preprocess(a, trackingAPIComparisonSchema),
+      preprocess(b, trackingAPIComparisonSchema)
+    )
   })
 
   it('compares object using a schema that contains properties we want to ignore / only care about existene', () => {
     let a = { b: 'foo', c: { d: 1 } };
     let b = { a: 1, b: 2, c: { d: 1 } };
     const schema = { ignored: ['a'], exists: ['b'] };
-    preprocess(a, schema)
-    preprocess(b, schema)
-    assert.deepEqual(a, b)
+    assert.deepEqual(
+      preprocess(a, schema),
+      preprocess(b, schema)
+    )
   })
 
   describe('ignore', () => {
@@ -59,45 +62,50 @@ describe('preprocess', () => {
       let a = { a: 1, b: 2, c: { d: 1 } };
       let b = { a: 1, b: 'foobar', c: { d: 1 } };
       const schema = { ignored: ['b'] };
-      preprocess(a, schema)
-      preprocess(b, schema)
-      assert.deepEqual(a, b)
+      assert.deepEqual(
+        preprocess(a, schema),
+        preprocess(b, schema)
+      )
     })
 
     it('should ignore non top-level properties', () => {
       let a = { a: 1, b: 2, c: { d: 1 } };
       let b = { a: 1, b: 2, c: { d: 123 } };
       const schema = { ignored: ['c.d'] };
-      preprocess(a, schema)
-      preprocess(b, schema)
-      assert.deepEqual(a, b)
+      assert.deepEqual(
+        preprocess(a, schema),
+        preprocess(b, schema)
+      )
     })
 
     it('should ignored c.d but not entire c', () => {
       let a = { b: 2, c: { d: 2 } };
       let b = { a: 1, b: 2, c: { d: 1 } };
       const schema = { ignored: ['a', 'c.d'] };
-      preprocess(a, schema)
-      preprocess(b, schema)
-      assert.deepEqual(a, b)
+      assert.deepEqual(
+        preprocess(a, schema),
+        preprocess(b, schema)
+      )
     })
 
     it('should ignore c.d but not entire c #2', () => {
       let a = { b: 2 }
       let b = { a: 1, b: 2, c: { d: 1 } }
       const schema = { ignored: ['a', 'c.d'] }
-      preprocess(a, schema)
-      preprocess(b, schema)
-      assert.notDeepEqual(a, b)
+      assert.notDeepEqual(
+        preprocess(a, schema),
+        preprocess(b, schema)
+      )
     })
 
     it('should ignore entire c and its own properties', () => {
       let a = { a: 1, b: 2, c: { g: 1 } }
       let b = { a: 1, b: 2, c: { d: 1, e: 2, f: {} } }
       const schema = { ignored: ['c'] }
-      preprocess(a, schema)
-      preprocess(b, schema)
-      assert.deepEqual(a, b)
+      assert.deepEqual(
+        preprocess(a, schema),
+        preprocess(b, schema)
+      )
     })
   }) // describe ignore
 
@@ -106,45 +114,50 @@ describe('preprocess', () => {
       let a = { a: 123, b: 2, c: { d: 1 } }
       let b = { a: 1, b: 2, c: { d: 1 } }
       const schema = { exists: ['a'] }
-      preprocess(a, schema)
-      preprocess(b, schema)
-      assert.deepEqual(a, b)
+      assert.deepEqual(
+        preprocess(a, schema),
+        preprocess(b, schema)
+      )
     })
 
     it('should only check for existence of properties and ignore their values #2', () => {
       let a = { a: null, b: 2, c: { d: 1 } }
       let b = { a: 1, b: 2, c: { d: 1 } }
       const schema = { exists: ['a'] }
-      preprocess(a, schema)
-      preprocess(b, schema)
-      assert.deepEqual(a, b)
+      assert.deepEqual(
+        preprocess(a, schema),
+        preprocess(b, schema)
+      )
     })
 
     it('should return false when only one object is missing the property', () => {
       let a = { b: 2, c: { d: 1 } }
       let b = { a: 1, b: 2, c: { d: 1 } }
       const schema = { exists: ['a'] }
-      preprocess(a, schema)
-      preprocess(b, schema)
-      assert.notDeepEqual(a, b)
+      assert.notDeepEqual(
+        preprocess(a, schema),
+        preprocess(b, schema)
+      )
     })
 
     it('should work for multiple properties and nested props', () => {
       let a ={ a: 1, b: 2, c: { d: 1 } }
       let b ={ a: 1, b: 234, c: { d: 123 } }
       const schema ={ exists: ['b', 'c.d'] }
-      preprocess(a, schema)
-      preprocess(b, schema)
-      assert.deepEqual(a, b)
+      assert.deepEqual(
+        preprocess(a, schema),
+        preprocess(b, schema)
+      )
     })
 
     it('should work deeply nested objects', () => {
       let a = { a: 1, b: 2, c: { d: 2 } }
       let b = { a: 1, b: 2, c: { d: { e: { f: {} } } } }
       const schema = { exists: ['c'] }
-      preprocess(a, schema)
-      preprocess(b, schema)
-      assert.deepEqual(a, b)
+      assert.deepEqual(
+        preprocess(a, schema),
+        preprocess(b, schema)
+      )
     })
 
   }) // describe exists

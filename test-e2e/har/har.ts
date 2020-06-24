@@ -118,31 +118,33 @@ export const trackingAPIComparisonSchema: compareSchema = {
 }
 
 /*
-    preprocess an object by stripping out irrelevant properties / masking irrelevant values, 
+    Returns a pre-processed an object by stripping out irrelevant properties / masking irrelevant values, 
     so that we can pass it to assert.deepEqual to do equality check.
     For example, we want to ignore the values of random IDs but still ensure an ID exists on both objects.
 */
-export function preprocess(a: any, schema: compareSchema): void {
+export function preprocess(obj: any, schema: compareSchema): any {
+  let res = Object.assign({}, obj)
+
   if (schema.ignored?.length > 0) {
     // Remove ignored properties from objects; it does not matter whether they originally existed or not
     for (let key of schema.ignored) {
-      unset(a, key)
+      unset(res, key)
     }
   }
 
   if (schema.exists?.length > 0) {
     for (let key of schema.exists) {
       // Overwrite property value with dummy one since we only care if the property exists
-      if (has(a, key)) set(a, key, '')
+      if (has(res, key)) set(res, key, '')
     }
   }
 
   if (schema.custom?.length > 0) {
     for (let customFunc of schema.custom) {
-      customFunc(a)
+      customFunc(res)
     }
   }
-  return
+  return res
 }
 
 /*
@@ -151,6 +153,5 @@ export function preprocess(a: any, schema: compareSchema): void {
 */
 export function preprocessHarEntries(harText: string): HarEntry[]{
   let entries = parseHttpArchiveText(harText)
-  entries.forEach(entry => preprocess(entry, trackingAPIComparisonSchema))
-  return entries
+  return entries.map(entry => preprocess(entry, trackingAPIComparisonSchema))
 }
