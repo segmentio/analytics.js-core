@@ -15,6 +15,14 @@ Please ensure the following are completed to help get your PR merged:
 - [ ] Unit tests were written for any new code
 - [ ] Code coverage is at least maintained, or increased.
 
+## Mergeability
+
+We use mergeable to check a few things about the PR automatically:
+
+- Please document how testing was done by including in the PR description `Testing completed successfully via << how you tested, e.g. unit tests>>` or `Testing not required because << reason, e.g. documentation update >>`
+
+- Please update HISTORY.md or include the text `New version is not required`. If this is a community contributed PR, then feel free to delegate this part to us
+
 ## Respect earns Respect 👏
 
 Please respect our Code of Conduct, in short:

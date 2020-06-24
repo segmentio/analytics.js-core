@@ -12,3 +12,6 @@ mergeable:
         must_include:
           regex: 'New version is not required'
           message: 'Should cut a new version or explicitly documents new version not required in description'
+        must_include:
+          regex: 'Testing completed successfully|Testing not required'
+          message: 'Please describe how testing was done or explicitly state testing not required'
