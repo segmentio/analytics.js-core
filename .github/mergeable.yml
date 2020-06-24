@@ -1,7 +1,7 @@
 version: 2
 mergeable:
   - when: pull_request.*
-    name: 'releasing description'
+    name: 'versioning description'
     validate:
     - do: or
       validate:

@@ -21,7 +21,7 @@ We use mergeable to check a few things about the PR automatically:
 
 - Please document how testing was done by including in the PR description `Testing completed successfully via << how you tested, e.g. unit tests>>` or `Testing not required because << reason, e.g. documentation update >>`
 
-- Please update HISTORY.md or include the text `New version is not required`. If this is a community contributed PR, then please include the text `Segment to release new version`.
+- Please update HISTORY.md or include the text `New version is not required` in the PR description. If this is a community contributed PR, then please include the text `Segment to release new version`.
 
 ## Respect earns Respect 👏
 
