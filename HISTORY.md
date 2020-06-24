@@ -1,5 +1,3 @@
-dummy edit
-
 # 3.13.6 / 2020-06-15
 
 - test: test analytics.js from a test website
