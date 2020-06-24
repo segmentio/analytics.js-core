@@ -2,7 +2,7 @@ version: 2
 mergeable:
   - when: pull_request.*
     validate:
-    - do: or
+    - do: and
       validate:
       - do: dependent
         changed:
