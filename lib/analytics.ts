@@ -1,5 +1,13 @@
 'use strict';
 
+// Temporary
+/*
+declare module NodeJS  {
+  interface Global {
+    analytics: any
+  }
+}*/
+
 var _analytics = global.analytics;
 
 /*
@@ -615,7 +623,7 @@ Analytics.prototype.page = function(category, name, properties, options, fn) {
  */
 
 Analytics.prototype.pageview = function(url) {
-  var properties = {};
+  var properties: { path?: string } = {};
   if (url) properties.path = url;
   this.page(properties);
   return this;
