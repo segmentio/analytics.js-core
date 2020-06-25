@@ -1,13 +1,5 @@
 'use strict';
 
-// Temporary
-/*
-declare module NodeJS  {
-  interface Global {
-    analytics: any
-  }
-}*/
-
 var _analytics = global.analytics;
 
 /*

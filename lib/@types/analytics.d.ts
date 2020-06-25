@@ -10,7 +10,6 @@ declare interface Window {
 }
 
 declare namespace SegmentAnalytics {
-
   // Generic options object with integrations
   interface SegmentOpts {
     integrations?: any;
