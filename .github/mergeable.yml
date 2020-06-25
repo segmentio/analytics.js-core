@@ -1,6 +1,7 @@
 version: 2
 mergeable:
   - when: pull_request.*
+    name: 'PR description: versioning'
     validate:
     - do: or
       validate:
@@ -10,5 +11,12 @@ mergeable:
           required: ['HISTORY.md'] 
       - do: description
         must_include:
-          regex: 'New version is not required'
+          regex: 'New version is not required|Segment to release new version'
           message: 'Should cut a new version or explicitly documents new version not required in description'
+  - when: pull_request.*
+    name: 'PR description: testing'
+    validate:   
+      - do: description    
+        must_include:
+          regex: 'Testing completed successfully|Testing not required'
+          message: 'Please describe how testing was done or explicitly state testing not required'
