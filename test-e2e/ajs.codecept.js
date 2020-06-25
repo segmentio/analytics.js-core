@@ -10,6 +10,8 @@ Scenario(
     I.click('#page-home');
     I.click('#track-checkout-started');
     I.click('#identify-fathy');
+    I.click('#group');
+    I.click('#alias');
 
     await I.stopRecording(testID);
 
