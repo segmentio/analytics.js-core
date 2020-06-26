@@ -25,7 +25,7 @@
     <button id='page-contact' onclick="analytics.page('Contact')">Page: Contact</button>
     <br />
     <button id='identify-fathy' onclick="analytics.identify('fathy')">Identify: fathy</button>
-    <button id='identify-spongebob' onclick="analytics.identify('spongebob')">
+    <button id='identify-spongebob' onclick="analytics.identify('spongebob', {'lastname':'squarepants'})">
       Identify: spongebob
     </button>
     <button
@@ -41,7 +41,6 @@
             'street': '21 Jump St'
           },
           'avatar': 'does not exist',
-          'createdAt': new Date(),
           'description': 'a fake group',
           'email': 'email-me-not@domain.com',
           'employees': 3,
@@ -70,6 +69,7 @@
       Alias
     </button>
 
+    <button id='reset' onclick="analytics.reset()">Reset</button>
     <br />
 
     <script>
