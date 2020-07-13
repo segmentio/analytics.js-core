@@ -57,3 +57,57 @@ Scenario('Login as a different user', async (I, testID) => {
   assert.strictEqual(lsUserId, null);
   await I.stopRecording(testID);
 }).injectDependencies({ testID: 'login-as-different-user' });
+
+Scenario('Set anonymous ID explicitly', async (I, testID) => {
+  async function assertAnonymousIDInStorage(expected) {
+    // Checks if the value in cookie and local storage are expected
+    let cookie = await I.grabCookie('ajs_anonymous_id');
+    assert.strictEqual(
+      cookie.value,
+      `%22${expected}%22`,
+      'unexpected cookie value'
+    );
+    assert.strictEqual(
+      await I.executeScript(() => localStorage.getItem('ajs_anonymous_id')),
+      `"${expected}"`,
+      'unexpected LS value'
+    );
+  }
+  I.loadAJS({ local: true });
+
+  I.startRecording(testID);
+  const [anonymousId1, anonymousId2] = await I.executeScript(() => {
+    return [analytics.user().anonymousId(), analytics.user().anonymousId()];
+  });
+  assert(anonymousId1 != null, 'AnonymousID should not be null');
+  assert.strictEqual(
+    anonymousId1,
+    anonymousId2,
+    'Calling anonymousId twice should return the same ID'
+  );
+  await assertAnonymousIDInStorage(anonymousId1);
+
+  // Use different methods to set anonymousId; network request should reflect each of the IDs
+
+  // via anonymousId()
+  await I.executeScript(() => {
+    analytics.user().anonymousId('first-id');
+  });
+  I.click('#track-checkout-started');
+  await assertAnonymousIDInStorage('first-id');
+
+  // via options
+  await I.executeScript(() => {
+    analytics.page({}, { anonymousId: 'second-id' });
+  });
+  I.click('#track-checkout-started');
+  await assertAnonymousIDInStorage('second-id');
+
+  // via setAnonymousId()
+  await I.executeScript(() => {
+    analytics.setAnonymousId('third-id');
+  });
+  I.click('#track-checkout-started');
+  await assertAnonymousIDInStorage('third-id');
+  await I.stopRecording(testID);
+}).injectDependencies({ testID: 'set-anonymous-id' });
