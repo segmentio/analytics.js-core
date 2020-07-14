@@ -57,3 +57,139 @@ Scenario('Login as a different user', async (I, testID) => {
   assert.strictEqual(lsUserId, null);
   await I.stopRecording(testID);
 }).injectDependencies({ testID: 'login-as-different-user' });
+
+Scenario('Set anonymous ID explicitly', async (I, testID) => {
+  async function assertAnonymousIDInStorage(expected) {
+    // Checks if the value in cookie and local storage are expected
+    let cookie = await I.grabCookie('ajs_anonymous_id');
+    assert.strictEqual(
+      cookie.value,
+      `%22${expected}%22`,
+      'unexpected cookie value'
+    );
+    assert.strictEqual(
+      await I.executeScript(() => localStorage.getItem('ajs_anonymous_id')),
+      `"${expected}"`,
+      'unexpected LS value'
+    );
+  }
+  I.loadAJS({ local: true });
+
+  I.startRecording(testID);
+  const [anonymousId1, anonymousId2] = await I.executeScript(() => {
+    return [analytics.user().anonymousId(), analytics.user().anonymousId()];
+  });
+  assert(anonymousId1 != null, 'AnonymousID should not be null');
+  assert.strictEqual(
+    anonymousId1,
+    anonymousId2,
+    'Calling anonymousId twice should return the same ID'
+  );
+  await assertAnonymousIDInStorage(anonymousId1);
+
+  // Use different methods to set anonymousId; network request should reflect each of the IDs
+
+  // via anonymousId()
+  await I.executeScript(() => {
+    analytics.user().anonymousId('first-id');
+  });
+  I.click('#track-checkout-started');
+  await assertAnonymousIDInStorage('first-id');
+
+  // via options
+  await I.executeScript(() => {
+    analytics.page({}, { anonymousId: 'second-id' });
+  });
+  I.click('#track-checkout-started');
+  await assertAnonymousIDInStorage('second-id');
+
+  // via setAnonymousId()
+  await I.executeScript(() => {
+    analytics.setAnonymousId('third-id');
+  });
+  I.click('#track-checkout-started');
+  await assertAnonymousIDInStorage('third-id');
+  await I.stopRecording(testID);
+}).injectDependencies({ testID: 'set-anonymous-id' });
+
+Scenario('Selective destination filtering', async (I, testID) => {
+  I.loadAJS({ local: true });
+  I.startRecording(testID);
+  I.click('#page-home');
+  await I.executeScript(() => {
+    analytics.identify(
+      'user_123',
+      {
+        email: 'jane.kim@example.com',
+        name: 'Jane Kim'
+      },
+      {
+        integrations: {
+          All: false,
+          Intercom: true,
+          'Google Analytics': true
+        }
+      }
+    );
+  });
+  I.click('#track-checkout-started');
+  await I.executeScript(() => {
+    analytics.identify(
+      'user_123',
+      {
+        email: 'jane.kim@example.com',
+        name: 'Jane Kim'
+      },
+      {
+        integrations: {
+          Intercom: false,
+          'Google Analytics': false
+        }
+      }
+    );
+  });
+  I.click('#page-home');
+  await I.stopRecording(testID);
+}).injectDependencies({ testID: 'selective-destination-filtering' });
+
+Scenario('Traits can be cached and cleared', async (I, testID) => {
+  I.loadAJS({ local: true });
+  I.startRecording(testID);
+  I.click('#page-home');
+  const [actualTraits1, actualTraits2] = await I.executeScript(() => {
+    // identify user with traits
+    analytics.identify('user_123', {
+      email: 'jane.kim@example.com',
+      name: 'Jane Kim'
+    });
+    const traits1 = analytics.user().traits();
+    // clear the traits
+    analytics.user().traits({});
+    const traits2 = analytics.user().traits();
+    return [traits1, traits2];
+  });
+  assert.deepEqual(
+    actualTraits1,
+    {
+      email: 'jane.kim@example.com',
+      name: 'Jane Kim'
+    },
+    'expected traits to be cached'
+  );
+  assert.deepEqual(actualTraits2, {}, 'expected empty traits after clearing');
+  I.click('#page-home');
+  await I.stopRecording(testID);
+}).injectDependencies({ testID: 'traits-cached-and-cleared' });
+
+Scenario('Anonymizing IP address', async (I, testID) => {
+  I.loadAJS({ local: true });
+  I.startRecording(testID);
+  I.click('#page-home');
+  await I.executeScript(() => {
+    // network request for this track call should contain this context object
+    // to prevent recording IP address associated with the request
+    analytics.track('Order Completed', {}, { context: { ip: '0.0.0.0' } });
+  });
+  I.click('#page-home');
+  await I.stopRecording(testID);
+}).injectDependencies({ testID: 'anonymizing-ip-address' });
