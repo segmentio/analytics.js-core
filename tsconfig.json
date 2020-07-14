@@ -3,6 +3,12 @@
     "module": "commonjs",
     "target": "ES5",
     "allowJs": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "outDir": "build"
   },
   "include": ["lib"],

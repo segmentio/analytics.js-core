@@ -1,5 +1,3 @@
-// TypeScript Version: 2.3
-
 declare interface JQuery {}
 declare interface Zepto {}
 
@@ -184,26 +182,6 @@ declare namespace SegmentAnalytics {
       traits(newTraits?: Object): void;
     }
 
-    group(): {
-      id(): string;
-      traits(newTraits?: Object): void;
-    }
-
-    /* Analytics.js has a debug mode that logs helpful messages to the
-       console. */
-    debug(state?: boolean): void;
-
-    /* The global analytics object emits events whenever you call alias, group,
-       identify, track or page. That way you can listen to those events and run
-       your own custom code. */
-    on(event: string,
-       callback: {
-        (event: string, properties: Object, options: SegmentOpts): void
-      }): void;
-
-    /* You can extend the length (in milliseconds) of the method callbacks and
-       helpers */
-    timeout(milliseconds: number): void;
   }
 }
 
