@@ -65,16 +65,6 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@ndhoule/after@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@ndhoule/after/-/after-1.0.0.tgz#e6d86d121448247ac742ff3a61c63fae83ee1191"
-  dependencies:
-    "@ndhoule/arity" "^2.0.0"
-
-"@ndhoule/arity@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@ndhoule/arity/-/arity-2.0.0.tgz#26bfa0b9755ced9aea819d4e6e7a93db27a5b658"
-
 "@ndhoule/clone@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@ndhoule/clone/-/clone-1.0.0.tgz#0f68394a95008cf360370e101924564a70927afc"
@@ -215,11 +205,11 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@segment/analytics.js-integration@^3.2.1":
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/@segment/analytics.js-integration/-/analytics.js-integration-3.3.0.tgz#a44eac133e0ba1a26dc7387adc59c84b0ab15178"
+"@segment/analytics.js-integration@^3.2.2":
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/@segment/analytics.js-integration/-/analytics.js-integration-3.3.2.tgz#f8bc55f91f33c6fda5640418c0cf52b05300335c"
+  integrity sha512-dBzWc7Yvlc2OGnKvrLW7I/6PVLeQXfBZ6fbah/yM9LxHOj4W2O+isQvTpcYFOsRVBMlNDLiBI1AUXlc0OnanEg==
   dependencies:
-    "@ndhoule/after" "^1.0.0"
     "@ndhoule/clone" "^1.0.0"
     "@ndhoule/defaults" "^2.0.1"
     "@ndhoule/each" "^2.0.1"
@@ -234,7 +224,7 @@
     component-emitter "^1.2.0"
     debug "^2.2.0"
     domify "^1.4.0"
-    extend "3.0.1"
+    extend "^3.0.2"
     is "^3.1.0"
     load-iframe "^1.0.0"
     next-tick "^0.2.2"
@@ -2968,11 +2958,11 @@ extend-shallow@^3.0.0, extend-shallow@^3.0.2:
     assign-symbols "^1.0.0"
     is-extendable "^1.0.1"
 
-extend@3, extend@3.0.1, extend@^3.0.0, extend@~3.0.1:
+extend@3, extend@^3.0.0, extend@~3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.1.tgz#a755ea7bc1adfcc5a31ce7e762dbaadc5e636444"
 
-extend@3.0.2, extend@~3.0.2:
+extend@3.0.2, extend@^3.0.2, extend@~3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.2.tgz#f8b1136b4071fbd8eb140aff858b1019ec2915fa"
   integrity sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==
