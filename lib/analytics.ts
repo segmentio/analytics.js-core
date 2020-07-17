@@ -363,11 +363,12 @@ interface SegmentOpts {
   context?: object;
 }
 
+// TODO remove `unknown`
 Analytics.prototype.identify = function(
   id: string,
-  traits,
-  options,
-  fn
+  traits: unknown,
+  options: SegmentOpts,
+  fn: Function | SegmentOpts
 ): SegmentAnalytics.AnalyticsJS {
   // Argument reshuffling.
   /* eslint-disable no-unused-expressions, no-sequences */
