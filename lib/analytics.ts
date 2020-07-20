@@ -4,7 +4,8 @@ import {
   IntegrationsSettings,
   InitOptions,
   SegmentAnalytics,
-  SegmentOpts
+  SegmentOpts,
+  SegmentIntegration
 } from './types';
 
 var _analytics = global.analytics;
@@ -112,7 +113,7 @@ Analytics.prototype.addIntegration = function(
  */
 
 Analytics.prototype.addSourceMiddleware = function(
-  middleware
+  middleware: Function
 ): SegmentAnalytics {
   this._sourceMiddlewares.add(middleware);
   return this;
@@ -121,11 +122,10 @@ Analytics.prototype.addSourceMiddleware = function(
 /**
  * Define a new `IntegrationMiddleware`
  * @deprecated
- * @param {Function} Middleware
  */
 
 Analytics.prototype.addIntegrationMiddleware = function(
-  middleware
+  middleware: Function
 ): SegmentAnalytics {
   this._integrationMiddlewares.add(middleware);
   return this;
@@ -134,10 +134,6 @@ Analytics.prototype.addIntegrationMiddleware = function(
 /**
  * Define a new `DestinationMiddleware`
  * Destination Middleware is chained after integration middleware
- *
- * @param {String} integrationName
- * @param {Array} Middlewares
- * @return {Analytics}
  */
 
 // TODO remove `unknown`
@@ -162,10 +158,6 @@ Analytics.prototype.addDestinationMiddleware = function(
  * Initialize with the given integration `settings` and `options`.
  *
  * Aliased to `init` for convenience.
- *
- * @param {Object} [settings={}]
- * @param {Object} [options={}]
- * @return {Analytics}
  */
 
 Analytics.prototype.init = Analytics.prototype.initialize = function(
@@ -180,13 +172,13 @@ Analytics.prototype.init = Analytics.prototype.initialize = function(
 
   // clean unknown integrations from settings
   var self = this;
-  each(function(opts, name) {
+  each(function(_opts: unknown, name: string | number) {
     var Integration = self.Integrations[name];
     if (!Integration) delete settings[name];
   }, settings);
 
   // add integrations
-  each(function(opts, name) {
+  each(function(opts: unknown, name: string | number) {
     // Don't load disabled integrations
     if (options.integrations) {
       if (
@@ -288,24 +280,19 @@ Analytics.prototype.setAnonymousId = function(id: string): SegmentAnalytics {
 
 /**
  * Add an integration.
- *
- * @param {Integration} integration
  */
 
-Analytics.prototype.add = function(integration): SegmentAnalytics {
+Analytics.prototype.add = function(integration: {
+  name: string | number;
+}): SegmentAnalytics {
   this._integrations[integration.name] = integration;
   return this;
 };
 
 /**
  * Identify a user by optional `id` and `traits`.
- *
- * @param {Object} [traits=null] User traits.
- * @param {Object} [options=null]
- * @param {Function} [fn]
  */
 
-// TODO remove `unknown`
 Analytics.prototype.identify = function(
   id: string,
   traits: unknown,
@@ -355,19 +342,13 @@ Analytics.prototype.user = function() {
 /**
  * Identify a group by optional `id` and `traits`. Or, if no arguments are
  * supplied, return the current group.
- *
- * @param {string} [id=group.id()] Group ID.
- * @param {Object} [traits=null] Group traits.
- * @param {Object} [options=null]
- * @param {Function} [fn]
- * @return {Analytics|Object}
  */
 
 Analytics.prototype.group = function(
   id: string,
-  traits,
-  options,
-  fn
+  traits: unknown,
+  options: unknown,
+  fn: unknown
 ): SegmentAnalytics {
   /* eslint-disable no-unused-expressions, no-sequences */
   if (!arguments.length) return group;
@@ -399,19 +380,13 @@ Analytics.prototype.group = function(
 
 /**
  * Track an `event` that a user has triggered with optional `properties`.
- *
- * @param {string} event
- * @param {Object} [properties=null]
- * @param {Object} [options=null]
- * @param {Function} [fn]
- * @return {Analytics}
  */
 
 Analytics.prototype.track = function(
-  event,
-  properties,
-  options,
-  fn
+  event: number,
+  properties: unknown,
+  options: unknown,
+  fn: unknown
 ): SegmentAnalytics {
   // Argument reshuffling.
   /* eslint-disable no-unused-expressions, no-sequences */
@@ -476,10 +451,10 @@ Analytics.prototype.track = function(
  */
 
 Analytics.prototype.trackClick = Analytics.prototype.trackLink = function(
-  links,
-  event,
-  properties
-) {
+  links: Element | Array<unknown>,
+  event: any,
+  properties?: any
+): SegmentAnalytics {
   if (!links) return this;
   // always arrays, handles jquery
   if (type(links) === 'element') links = [links];
@@ -524,16 +499,16 @@ Analytics.prototype.trackClick = Analytics.prototype.trackLink = function(
  */
 
 Analytics.prototype.trackSubmit = Analytics.prototype.trackForm = function(
-  forms,
-  event,
-  properties
-) {
+  forms: Element | Array<unknown>,
+  event: any,
+  properties: any
+): SegmentAnalytics {
   if (!forms) return this;
   // always arrays, handles jquery
   if (type(forms) === 'element') forms = [forms];
 
   var self = this;
-  each(function(el) {
+  each(function(el: { submit: () => void }) {
     if (type(el) !== 'element')
       throw new TypeError('Must pass HTMLElement to `analytics.trackForm`.');
     function handler(e) {
@@ -573,7 +548,13 @@ Analytics.prototype.trackSubmit = Analytics.prototype.trackForm = function(
  * @return {Analytics}
  */
 
-Analytics.prototype.page = function(category, name, properties, options, fn) {
+Analytics.prototype.page = function(
+  category: string,
+  name: string,
+  properties: any,
+  options: any,
+  fn: unknown
+): SegmentAnalytics {
   // Argument reshuffling.
   /* eslint-disable no-unused-expressions, no-sequences */
   if (is.fn(options)) (fn = options), (options = null);
@@ -627,13 +608,10 @@ Analytics.prototype.page = function(category, name, properties, options, fn) {
 
 /**
  * FIXME: BACKWARDS COMPATIBILITY: convert an old `pageview` to a `page` call.
- *
- * @param {string} [url]
- * @return {Analytics}
  * @api private
  */
 
-Analytics.prototype.pageview = function(url) {
+Analytics.prototype.pageview = function(url: string): SegmentAnalytics {
   const properties: { path?: string } = {};
   if (url) properties.path = url;
   this.page(properties);
@@ -650,7 +628,12 @@ Analytics.prototype.pageview = function(url) {
  * @return {Analytics}
  */
 
-Analytics.prototype.alias = function(to, from, options, fn) {
+Analytics.prototype.alias = function(
+  to: string,
+  from: string,
+  options: unknown,
+  fn: unknown
+): SegmentAnalytics {
   // Argument reshuffling.
   /* eslint-disable no-unused-expressions, no-sequences */
   if (is.fn(options)) (fn = options), (options = null);
@@ -678,12 +661,9 @@ Analytics.prototype.alias = function(to, from, options, fn) {
 
 /**
  * Register a `fn` to be fired when all the analytics services are ready.
- *
- * @param {Function} fn
- * @return {Analytics}
  */
 
-Analytics.prototype.ready = function(fn) {
+Analytics.prototype.ready = function(fn: Function): SegmentAnalytics {
   if (is.fn(fn)) {
     if (this._readied) {
       nextTick(fn);
@@ -696,21 +676,17 @@ Analytics.prototype.ready = function(fn) {
 
 /**
  * Set the `timeout` (in milliseconds) used for callbacks.
- *
- * @param {Number} timeout
  */
 
-Analytics.prototype.timeout = function(timeout) {
+Analytics.prototype.timeout = function(timeout: number) {
   this._timeout = timeout;
 };
 
 /**
  * Enable or disable debug.
- *
- * @param {string|boolean} str
  */
 
-Analytics.prototype.debug = function(str) {
+Analytics.prototype.debug = function(str: string | boolean) {
   if (!arguments.length || str) {
     debug.enable('analytics:' + (str || '*'));
   } else {
@@ -720,9 +696,6 @@ Analytics.prototype.debug = function(str) {
 
 /**
  * Apply options.
- *
- * @param {Object} options
- * @return {Analytics}
  * @api private
  */
 
@@ -741,13 +714,10 @@ Analytics.prototype._options = function(
 
 /**
  * Callback a `fn` after our defined timeout period.
- *
- * @param {Function} fn
- * @return {Analytics}
  * @api private
  */
 
-Analytics.prototype._callback = function(fn) {
+Analytics.prototype._callback = function(fn: Function): SegmentAnalytics {
   if (is.fn(fn)) {
     this._timeout ? setTimeout(fn, this._timeout) : nextTick(fn);
   }
@@ -763,7 +733,10 @@ Analytics.prototype._callback = function(fn) {
  * @api private
  */
 
-Analytics.prototype._invoke = function(method, facade) {
+Analytics.prototype._invoke = function(
+  method: string,
+  facade: unknown
+): SegmentAnalytics {
   var self = this;
 
   try {
@@ -905,7 +878,7 @@ Analytics.prototype._invoke = function(method, facade) {
  * @api private
  */
 
-Analytics.prototype.push = function(args) {
+Analytics.prototype.push = function(args: any[]) {
   var method = args.shift();
   if (!this[method]) return;
   this[method].apply(this, args);
@@ -925,12 +898,10 @@ Analytics.prototype.reset = function() {
 /**
  * Parse the query string for callable methods.
  *
- * @param {String} query
- * @return {Analytics}
  * @api private
  */
 
-Analytics.prototype._parseQuery = function(query) {
+Analytics.prototype._parseQuery = function(query: string): SegmentAnalytics {
   // Parse querystring to an object
   var q = querystring.parse(query);
   // Create traits and properties objects, populate from querysting params
@@ -946,13 +917,11 @@ Analytics.prototype._parseQuery = function(query) {
    * Create a shallow copy of an input object containing only the properties
    * whose keys are specified by a prefix, stripped of that prefix
    *
-   * @param {String} prefix
-   * @param {Object} object
    * @return {Object}
    * @api private
    */
 
-  function pickPrefix(prefix, object) {
+  function pickPrefix(prefix: string, object: object) {
     var length = prefix.length;
     var sub;
     return foldl(
@@ -971,12 +940,12 @@ Analytics.prototype._parseQuery = function(query) {
 
 /**
  * Normalize the given `msg`.
- *
- * @param {Object} msg
- * @return {Object}
  */
 
-Analytics.prototype.normalize = function(msg) {
+Analytics.prototype.normalize = function(msg: {
+  context: { page };
+  anonymousId;
+}): object {
   msg = normalize(msg, keys(this._integrations));
   if (msg.anonymousId) user.anonymousId(msg.anonymousId);
   msg.anonymousId = user.anonymousId();
@@ -994,8 +963,8 @@ Analytics.prototype.normalize = function(msg) {
  * @return {Object}                  The merged integrations.
  */
 Analytics.prototype._mergeInitializeAndPlanIntegrations = function(
-  planIntegrations
-) {
+  planIntegrations: SegmentIntegration
+): object {
   // Do nothing if there are no initialization integrations
   if (!this.options.integrations) {
     return planIntegrations;
@@ -1003,7 +972,7 @@ Analytics.prototype._mergeInitializeAndPlanIntegrations = function(
 
   // Clone the initialization integrations
   var integrations = extend({}, this.options.integrations);
-  var integrationName;
+  var integrationName: string;
 
   // Allow the tracking plan to disable integrations that were explicitly
   // enabled on initialization

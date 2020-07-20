@@ -60,10 +60,12 @@ export interface InitOptions {
   localStorage?: StoreOptions;
   user?: UserOptions;
   group?: GroupOptions;
-  integrations?: {
-    All?: boolean;
-    [integration: string]: boolean | undefined;
-  };
+  integrations?: SegmentIntegration;
+}
+
+export interface SegmentIntegration {
+  All?: boolean;
+  [integration: string]: boolean | undefined;
 }
 
 export interface SegmentOpts {
