@@ -1,5 +1,3 @@
-<!-- Don't forget to squash when merging your changes -->
-
 ## Description
 
 <!-- # 🎉 Thanks for taking the time to contribute to Analytics.js! 🎉
