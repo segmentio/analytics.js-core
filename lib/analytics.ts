@@ -1,5 +1,7 @@
 'use strict';
 
+import { IntegrationsSettings, InitOptions, SegmentAnalytics } from './types';
+
 var _analytics = global.analytics;
 
 /*
@@ -79,8 +81,8 @@ Emitter(Analytics.prototype);
  */
 
 Analytics.prototype.use = function(
-  plugin: (analytics: SegmentAnalytics.AnalyticsJS) => void
-): SegmentAnalytics.AnalyticsJS {
+  plugin: (analytics: SegmentAnalytics) => void
+): SegmentAnalytics {
   plugin(this);
   return this;
 };
@@ -91,7 +93,7 @@ Analytics.prototype.use = function(
 
 Analytics.prototype.addIntegration = function(
   Integration: (options: SegmentOpts) => void
-): SegmentAnalytics.AnalyticsJS {
+): SegmentAnalytics {
   var name = Integration.prototype.name;
   if (!name) throw new TypeError('attempted to add an invalid integration');
   this.Integrations[name] = Integration;
@@ -106,7 +108,7 @@ Analytics.prototype.addIntegration = function(
 
 Analytics.prototype.addSourceMiddleware = function(
   middleware
-): SegmentAnalytics.AnalyticsJS {
+): SegmentAnalytics {
   this._sourceMiddlewares.add(middleware);
   return this;
 };
@@ -119,7 +121,7 @@ Analytics.prototype.addSourceMiddleware = function(
 
 Analytics.prototype.addIntegrationMiddleware = function(
   middleware
-): SegmentAnalytics.AnalyticsJS {
+): SegmentAnalytics {
   this._integrationMiddlewares.add(middleware);
   return this;
 };
@@ -137,7 +139,7 @@ Analytics.prototype.addIntegrationMiddleware = function(
 Analytics.prototype.addDestinationMiddleware = function(
   integrationName: string,
   middlewares: Array<unknown>
-): SegmentAnalytics.AnalyticsJS {
+): SegmentAnalytics {
   var self = this;
   middlewares.forEach(function(middleware) {
     if (!self._destinationMiddlewares[integrationName]) {
@@ -161,67 +163,10 @@ Analytics.prototype.addDestinationMiddleware = function(
  * @return {Analytics}
  */
 
-interface IntegrationsSettings {
-  // TODO remove `any`
-  [key: string]: any;
-}
-
-interface CookieOptions {
-  maxage?: number;
-  domain?: string;
-  path?: string;
-  secure?: boolean;
-}
-
-interface MetricsOptions {
-  host?: string;
-  sampleRate?: number;
-  flushTimer?: number;
-  maxQueueSize?: number;
-}
-
-interface StoreOptions {
-  enabled?: boolean;
-}
-
-interface UserOptions {
-  cookie?: {
-    key: string;
-    oldKey: string;
-  };
-  localStorage?: {
-    key: string;
-  };
-  persist?: boolean;
-}
-
-interface GroupOptions {
-  cookie?: {
-    key: string;
-  };
-  localStorage?: {
-    key: string;
-  };
-  persist?: boolean;
-}
-
-interface InitOptions {
-  initialPageview?: boolean;
-  cookie?: CookieOptions;
-  metrics?: MetricsOptions;
-  localStorage?: StoreOptions;
-  user?: UserOptions;
-  group?: GroupOptions;
-  integrations?: {
-    All?: boolean;
-    [integration: string]: boolean | undefined;
-  };
-}
-
 Analytics.prototype.init = Analytics.prototype.initialize = function(
   settings: IntegrationsSettings,
   options: InitOptions
-): SegmentAnalytics.AnalyticsJS {
+): SegmentAnalytics {
   settings = settings || {};
   options = options || {};
 
@@ -331,9 +276,7 @@ Analytics.prototype.init = Analytics.prototype.initialize = function(
  * Set the user's `id`.
  */
 
-Analytics.prototype.setAnonymousId = function(
-  id: string
-): SegmentAnalytics.AnalyticsJS {
+Analytics.prototype.setAnonymousId = function(id: string): SegmentAnalytics {
   this.user().anonymousId(id);
   return this;
 };
@@ -344,7 +287,7 @@ Analytics.prototype.setAnonymousId = function(
  * @param {Integration} integration
  */
 
-Analytics.prototype.add = function(integration): SegmentAnalytics.AnalyticsJS {
+Analytics.prototype.add = function(integration): SegmentAnalytics {
   this._integrations[integration.name] = integration;
   return this;
 };
@@ -369,7 +312,7 @@ Analytics.prototype.identify = function(
   traits: unknown,
   options: SegmentOpts,
   fn: Function | SegmentOpts
-): SegmentAnalytics.AnalyticsJS {
+): SegmentAnalytics {
   // Argument reshuffling.
   /* eslint-disable no-unused-expressions, no-sequences */
   if (is.fn(options)) (fn = options), (options = null);
@@ -426,7 +369,7 @@ Analytics.prototype.group = function(
   traits,
   options,
   fn
-): SegmentAnalytics.AnalyticsJS {
+): SegmentAnalytics {
   /* eslint-disable no-unused-expressions, no-sequences */
   if (!arguments.length) return group;
   if (is.fn(options)) (fn = options), (options = null);
@@ -470,7 +413,7 @@ Analytics.prototype.track = function(
   properties,
   options,
   fn
-): SegmentAnalytics.AnalyticsJS {
+): SegmentAnalytics {
   // Argument reshuffling.
   /* eslint-disable no-unused-expressions, no-sequences */
   if (is.fn(options)) (fn = options), (options = null);
