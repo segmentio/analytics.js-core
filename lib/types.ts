@@ -1,6 +1,6 @@
 export interface SegmentAnalytics {
-  _options;
-  Integrations;
+  Integrations: { [name: string]: unknown };
+  options: InitOptions;
   _sourceMiddlewares;
   _integrationMiddlewares;
   _destinationMiddlewares;
@@ -64,4 +64,10 @@ export interface InitOptions {
     All?: boolean;
     [integration: string]: boolean | undefined;
   };
+}
+
+export interface SegmentOpts {
+  integrations?: any;
+  anonymousId?: string;
+  context?: object;
 }

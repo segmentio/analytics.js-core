@@ -1,6 +1,11 @@
 'use strict';
 
-import { IntegrationsSettings, InitOptions, SegmentAnalytics } from './types';
+import {
+  IntegrationsSettings,
+  InitOptions,
+  SegmentAnalytics,
+  SegmentOpts
+} from './types';
 
 var _analytics = global.analytics;
 
@@ -299,12 +304,6 @@ Analytics.prototype.add = function(integration): SegmentAnalytics {
  * @param {Object} [options=null]
  * @param {Function} [fn]
  */
-
-interface SegmentOpts {
-  integrations?: any;
-  anonymousId?: string;
-  context?: object;
-}
 
 // TODO remove `unknown`
 Analytics.prototype.identify = function(
@@ -727,7 +726,9 @@ Analytics.prototype.debug = function(str) {
  * @api private
  */
 
-Analytics.prototype._options = function(options) {
+Analytics.prototype._options = function(
+  options: InitOptions
+): SegmentAnalytics {
   options = options || {};
   this.options = options;
   cookie.options(options.cookie);
