@@ -1,26 +1,48 @@
-# 🎉 Thanks for taking the time to contribute to Analytics.js! 🎉
+## Description
 
-It is highly appreciated that you take the time to help improve Analytics.js.
-We appreciate it if you would take the time to document your Pull Request.
+<!-- # 🎉 Thanks for contributing to Analytics.js! We really appreciate your time. 🎉
 
-Sadly, if we don't receive enough information, or the Pull Request doesn't
-align well with our roadmap, we might respectfully thank you for your time, and close the issue.
+To help us quickly assess your work, please document your Pull Request using this template.
+
+Sadly, we can't merge all PRs - but you can multiply the chances of your change getting in by giving us the information we need.  If the Pull Request doesn't align well with our roadmap, we might respectfully thank you for your time, and close the issue. -->
+
+## Test plan
+
+<!-- Provide all possible documentation: screenshots, sh commands, etc.
+For change control purposes, use the following pattern:
+
+- Testing completed successfully using <how did you test, environment>; or
+- Testing not required because <explain why you think testing isn't needed>
+-->
+
+## Release plan
+
+<!-- Update the HISTORY.md file if we need to generate a new version of AJS for your changes.
+
+If not, just add the following line with an explanation:
+Release not necessary because <verbose explantaion - for example 'it's a dev-only change'>.
+-->
 
 ## Checklist
 
-Please ensure the following are completed to help get your PR merged:
+<!--
+Make sure you complete the following checklist to help get your PR merged:-->
+
 
 - [ ] Thorough explanation of the issue/solution, and a link to the related issue
 - [ ] CI tests are passing
 - [ ] Unit tests were written for any new code
 - [ ] Code coverage is at least maintained, or increased.
 
+<!--
 ## Respect earns Respect 👏
 
 Please respect our Code of Conduct, in short:
 
-- Using welcoming and inclusive language.
-- Being respectful of differing viewpoints and experiences.
-- Gracefully accepting constructive criticism.
-- Focusing on what is best for the community.
-- Showing empathy towards other community members.
+- Use welcoming and inclusive language.
+- Be respectful of differing viewpoints and experiences.
+- Gracefully accept constructive criticism.
+- Focus on what is best for the community.
+- Show empathy toward other community members.
+
+-->
