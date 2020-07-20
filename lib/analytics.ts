@@ -390,6 +390,12 @@ Analytics.prototype.group = function(
 
 /**
  * Track an `event` that a user has triggered with optional `properties`.
+ *
+ * @param {string} event
+ * @param {Object} [properties=null]
+ * @param {Object} [options=null]
+ * @param {Function} [fn]
+ * @return {Analytics}
  */
 
 Analytics.prototype.track = function(
