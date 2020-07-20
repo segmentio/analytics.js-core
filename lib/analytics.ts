@@ -108,8 +108,6 @@ Analytics.prototype.addIntegration = function(
 
 /**
  * Define a new `SourceMiddleware`
- *
- * @param {Function} Middleware
  */
 
 Analytics.prototype.addSourceMiddleware = function(
@@ -291,6 +289,12 @@ Analytics.prototype.add = function(integration: {
 
 /**
  * Identify a user by optional `id` and `traits`.
+ *
+ * @param {string} [id=user.id()] User ID.
+ * @param {Object} [traits=null] User traits.
+ * @param {Object} [options=null]
+ * @param {Function} [fn]
+ * @return {Analytics}
  */
 
 Analytics.prototype.identify = function(
