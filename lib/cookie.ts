@@ -1,5 +1,7 @@
 'use strict';
 
+import { CookieOptions } from './types';
+
 /**
  * Module dependencies.
  */
@@ -17,21 +19,15 @@ var topDomain = require('@segment/top-domain');
  * @param {Object} options
  */
 
-function Cookie(options) {
+function Cookie(options?: CookieOptions) {
   this.options(options);
 }
 
 /**
  * Get or set the cookie options.
- *
- * @param {Object} options
- *   @field {Number} maxage (1 year)
- *   @field {String} domain
- *   @field {String} path
- *   @field {Boolean} secure
  */
 
-Cookie.prototype.options = function(options) {
+Cookie.prototype.options = function(options: CookieOptions) {
   if (arguments.length === 0) return this._options;
 
   options = options || {};
@@ -64,13 +60,9 @@ Cookie.prototype.options = function(options) {
 
 /**
  * Set a `key` and `value` in our cookie.
- *
- * @param {String} key
- * @param {Object} value
- * @return {Boolean} saved
  */
 
-Cookie.prototype.set = function(key, value) {
+Cookie.prototype.set = function(key: string, value?: object | string): boolean {
   try {
     value = window.JSON.stringify(value);
     cookie(key, value === 'null' ? null : value, clone(this._options));
@@ -82,12 +74,9 @@ Cookie.prototype.set = function(key, value) {
 
 /**
  * Get a value from our cookie by `key`.
- *
- * @param {String} key
- * @return {Object} value
  */
 
-Cookie.prototype.get = function(key) {
+Cookie.prototype.get = function(key: string): object {
   try {
     var value = cookie(key);
     value = value ? window.JSON.parse(value) : null;
@@ -99,12 +88,9 @@ Cookie.prototype.get = function(key) {
 
 /**
  * Remove a value from our cookie by `key`.
- *
- * @param {String} key
- * @return {Boolean} removed
  */
 
-Cookie.prototype.remove = function(key) {
+Cookie.prototype.remove = function(key: string): boolean {
   try {
     cookie(key, null, clone(this._options));
     return true;
