@@ -346,6 +346,12 @@ Analytics.prototype.user = function() {
 /**
  * Identify a group by optional `id` and `traits`. Or, if no arguments are
  * supplied, return the current group.
+ *
+ * @param {string} [id=group.id()] Group ID.
+ * @param {Object} [traits=null] Group traits.
+ * @param {Object} [options=null]
+ * @param {Function} [fn]
+ * @return {Analytics|Object}
  */
 
 Analytics.prototype.group = function(
