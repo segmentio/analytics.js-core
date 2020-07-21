@@ -40,6 +40,12 @@ const port = config.local.devServerPort;
   }
 })();
 
+app.use(function(req, res, next) {
+  // add 'unsafe-eval' if you want to test scripts that calls eval()
+  res.setHeader("Content-Security-Policy", "script-src 'nonce-someNonce' 'unsafe-eval' 'strict-dynamic'");
+  return next();
+});
+
 // the tests loads tests from localhost:8000/analytics.js/v1/<write-key>/analytics.js
 app.use(
   '/analytics.js/v1/:writeKey/',
