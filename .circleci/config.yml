@@ -55,7 +55,7 @@ jobs:
       - checkout
       - attach_workspace: { at: . }
       - run: npm config set "//registry.npmjs.org/:_authToken" $NPM_AUTH
-      - run: yarn tsc
+      - run: yarn tsc --declaration
       - run: npm publish .
 
 workflows:
