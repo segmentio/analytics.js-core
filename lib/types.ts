@@ -81,3 +81,11 @@ export interface Message {
   context?: unknown;
   messageId?: string;
 }
+
+export interface PageDefaults {
+  path: string;
+  referrer: string;
+  search: string;
+  title: string;
+  url: string;
+}

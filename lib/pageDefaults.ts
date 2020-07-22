@@ -1,5 +1,7 @@
 'use strict';
 
+import { PageDefaults } from './types';
+
 /*
  * Module dependencies.
  */
@@ -12,11 +14,9 @@ var url = require('component-url');
  * Return a default `options.context.page` object.
  *
  * https://segment.com/docs/spec/page/#properties
- *
- * @return {Object}
  */
 
-function pageDefaults() {
+function pageDefaults(): PageDefaults {
   return {
     path: canonicalPath(),
     referrer: document.referrer,
@@ -28,11 +28,9 @@ function pageDefaults() {
 
 /**
  * Return the canonical path for the page.
- *
- * @return {string}
  */
 
-function canonicalPath() {
+function canonicalPath(): string {
   var canon = canonical();
   if (!canon) return window.location.pathname;
   var parsed = url.parse(canon);
@@ -42,12 +40,9 @@ function canonicalPath() {
 /**
  * Return the canonical URL for the page concat the given `search`
  * and strip the hash.
- *
- * @param {string} search
- * @return {string}
  */
 
-function canonicalUrl(search) {
+function canonicalUrl(search: string): string {
   var canon = canonical();
   if (canon) return includes('?', canon) ? canon : canon + search;
   var url = window.location.href;
