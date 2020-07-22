@@ -1,23 +1,20 @@
 'use strict';
 
+import { MetricsOptions } from './types';
+
 var bindAll = require('bind-all');
 var send = require('@segment/send-json');
 var debug = require('debug')('analytics.js:metrics');
 
-function Metrics(options) {
+function Metrics(options?: MetricsOptions) {
   this.options(options);
 }
 
 /**
  * Set the metrics options.
- *
- * @param {Object} options
- *   @field {String} host
- *   @field {Number} sampleRate
- *   @field {Number} flushTimer
  */
 
-Metrics.prototype.options = function(options) {
+Metrics.prototype.options = function(options: MetricsOptions) {
   options = options || {};
 
   this.host = options.host || 'api.segment.io/v1';
@@ -37,11 +34,8 @@ Metrics.prototype.options = function(options) {
 
 /**
  * Increments the counter identified by name and tags by one.
- *
- * @param {String} metric Name of the metric to increment.
- * @param {Object} tags Dimensions associated with the metric.
  */
-Metrics.prototype.increment = function(metric, tags) {
+Metrics.prototype.increment = function(metric: string, tags: object) {
   if (Math.random() > this.sampleRate) {
     return;
   }
