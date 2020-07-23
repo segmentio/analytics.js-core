@@ -1,5 +1,7 @@
 'use strict';
 
+import { InitOptions } from './types';
+
 /*
  * Module dependencies.
  */
@@ -21,11 +23,9 @@ module.exports = Entity;
 
 /**
  * Initialize new `Entity` with `options`.
- *
- * @param {Object} options
  */
 
-function Entity(options) {
+function Entity(options: InitOptions) {
   this.options(options);
   this.initialize();
 }
@@ -70,25 +70,18 @@ Entity.prototype.storage = function() {
 
 /**
  * Get or set storage `options`.
- *
- * @param {Object} options
- *   @property {Object} cookie
- *   @property {Object} localStorage
- *   @property {Boolean} persist (default: `true`)
  */
 
-Entity.prototype.options = function(options) {
+Entity.prototype.options = function(options: InitOptions) {
   if (arguments.length === 0) return this._options;
   this._options = defaults(options || {}, this.defaults || {});
 };
 
 /**
  * Get or set the entity's `id`.
- *
- * @param {String} id
  */
 
-Entity.prototype.id = function(id) {
+Entity.prototype.id = function(id: string): string | undefined {
   switch (arguments.length) {
     case 0:
       return this._getId();
@@ -101,11 +94,9 @@ Entity.prototype.id = function(id) {
 
 /**
  * Get the entity's id.
- *
- * @return {String}
  */
 
-Entity.prototype._getId = function() {
+Entity.prototype._getId = function(): string | null {
   if (!this._options.persist) {
     return this._id === undefined ? null : this._id;
   }
@@ -129,21 +120,19 @@ Entity.prototype._getId = function() {
 
 /**
  * Get the entity's id from cookies.
- *
- * @return {String}
  */
 
-Entity.prototype._getIdFromCookie = function() {
+// FIXME `options.cookie` is an optional field, so `this._options.cookie.key`
+// can thrown an exception.
+Entity.prototype._getIdFromCookie = function(): string {
   return this.storage().get(this._options.cookie.key);
 };
 
 /**
  * Get the entity's id from cookies.
- *
- * @return {String}
  */
 
-Entity.prototype._getIdFromLocalStorage = function() {
+Entity.prototype._getIdFromLocalStorage = function(): string | null {
   if (!this._options.localStorageFallbackDisabled) {
     return store.get(this._options.cookie.key);
   }
@@ -152,11 +141,9 @@ Entity.prototype._getIdFromLocalStorage = function() {
 
 /**
  * Set the entity's `id`.
- *
- * @param {String} id
  */
 
-Entity.prototype._setId = function(id) {
+Entity.prototype._setId = function(id: string) {
   if (this._options.persist) {
     this._setIdInCookies(id);
     this._setIdInLocalStorage(id);
@@ -167,21 +154,17 @@ Entity.prototype._setId = function(id) {
 
 /**
  * Set the entity's `id` in cookies.
- *
- * @param {String} id
  */
 
-Entity.prototype._setIdInCookies = function(id) {
+Entity.prototype._setIdInCookies = function(id: string) {
   this.storage().set(this._options.cookie.key, id);
 };
 
 /**
  * Set the entity's `id` in local storage.
- *
- * @param {String} id
  */
 
-Entity.prototype._setIdInLocalStorage = function(id) {
+Entity.prototype._setIdInLocalStorage = function(id: string) {
   if (!this._options.localStorageFallbackDisabled) {
     store.set(this._options.cookie.key, id);
   }
@@ -191,11 +174,11 @@ Entity.prototype._setIdInLocalStorage = function(id) {
  * Get or set the entity's `traits`.
  *
  * BACKWARDS COMPATIBILITY: aliased to `properties`
- *
- * @param {Object} traits
  */
 
-Entity.prototype.properties = Entity.prototype.traits = function(traits) {
+Entity.prototype.properties = Entity.prototype.traits = function(
+  traits: object
+): object | undefined {
   switch (arguments.length) {
     case 0:
       return this._getTraits();
@@ -209,11 +192,9 @@ Entity.prototype.properties = Entity.prototype.traits = function(traits) {
 /**
  * Get the entity's traits. Always convert ISO date strings into real dates,
  * since they aren't parsed back from local storage.
- *
- * @return {Object}
  */
 
-Entity.prototype._getTraits = function() {
+Entity.prototype._getTraits = function(): object {
   var ret = this._options.persist
     ? store.get(this._options.localStorage.key)
     : this._traits;
@@ -222,11 +203,9 @@ Entity.prototype._getTraits = function() {
 
 /**
  * Set the entity's `traits`.
- *
- * @param {Object} traits
  */
 
-Entity.prototype._setTraits = function(traits) {
+Entity.prototype._setTraits = function(traits: object) {
   traits = traits || {};
   if (this._options.persist) {
     store.set(this._options.localStorage.key, traits);
@@ -238,12 +217,9 @@ Entity.prototype._setTraits = function(traits) {
 /**
  * Identify the entity with an `id` and `traits`. If we it's the same entity,
  * extend the existing `traits` instead of overwriting.
- *
- * @param {String} id
- * @param {Object} traits
  */
 
-Entity.prototype.identify = function(id, traits) {
+Entity.prototype.identify = function(id: string, traits: object) {
   traits = traits || {};
   var current = this.id();
   if (current === null || current === id)
@@ -256,11 +232,9 @@ Entity.prototype.identify = function(id, traits) {
 
 /**
  * Save the entity to local storage and the cookie.
- *
- * @return {Boolean}
  */
 
-Entity.prototype.save = function() {
+Entity.prototype.save = function(): boolean {
   if (!this._options.persist) return false;
   this._setId(this.id());
   this._setTraits(this.traits());
