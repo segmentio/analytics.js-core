@@ -42,7 +42,7 @@ const port = config.local.devServerPort;
 
 app.use(function(req, res, next) {
   // add 'unsafe-eval' if you want to test scripts that calls eval()
-  res.setHeader("Content-Security-Policy", "script-src 'nonce-someNonce' 'unsafe-eval' 'strict-dynamic'");
+  res.setHeader("Content-Security-Policy", "frame-ancestors 'self'; script-src 'nonce-someNonce' 'unsafe-eval' 'strict-dynamic'");
   return next();
 });
 

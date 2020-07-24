@@ -1,7 +1,7 @@
 // These config are used by tests and devServer.
 
 // Port that local dev server binds to
-const devServerPort = 8000;
+const devServerPort = 8001;
 
 // Settings used by the tests when running with test option {local: false}
 const remote = {
