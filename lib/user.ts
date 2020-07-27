@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 
+import { InitOptions } from './types';
 var Entity = require('./entity');
 var bindAll = require('bind-all');
 var cookie = require('./cookie');
@@ -16,6 +17,22 @@ var localStorage = require('./store');
 /**
  * User defaults
  */
+
+interface UserDefaults {
+  persist: boolean;
+  cookie: {
+    key: string;
+    oldKey: string;
+  };
+  localStorage: {
+    key: string;
+  };
+}
+
+interface User {
+  defaults: UserDefaults;
+  debug: unknown;
+}
 
 User.defaults = {
   persist: true,
@@ -30,11 +47,9 @@ User.defaults = {
 
 /**
  * Initialize a new `User` with `options`.
- *
- * @param {Object} options
  */
 
-function User(options) {
+function User(options?: InitOptions) {
   this.defaults = User.defaults;
   this.debug = debug;
   Entity.call(this, options);
@@ -51,9 +66,6 @@ inherit(User, Entity);
  *
  * When the user id changes, the method will reset his anonymousId to a new one.
  *
- * // FIXME: What are the mixed types?
- * @param {string} id
- * @return {Mixed}
  * @example
  * // didn't change because the user didn't have previous id.
  * anonymousId = user.anonymousId();
@@ -74,7 +86,7 @@ inherit(User, Entity);
  * assert.notEqual(anonymousId, user.anonymousId());
  */
 
-User.prototype.id = function(id) {
+User.prototype.id = function(id: string): string | undefined {
   var prev = this._getId();
   var ret = Entity.prototype.id.apply(this, arguments);
   if (prev == null) return ret;
@@ -94,7 +106,7 @@ User.prototype.id = function(id) {
  * @return {String|User}
  */
 
-User.prototype.anonymousId = function(anonymousId) {
+User.prototype.anonymousId = function(anonymousId: string): string | User {
   var store = this.storage();
 
   // set / remove
@@ -143,11 +155,9 @@ User.prototype.anonymousId = function(anonymousId) {
 
 /**
  * Set the user's `anonymousid` in local storage.
- *
- * @param {String} id
  */
 
-User.prototype._setAnonymousIdInLocalStorage = function(id) {
+User.prototype._setAnonymousIdInLocalStorage = function(id: string) {
   if (!this._options.localStorageFallbackDisabled) {
     localStorage.set('ajs_anonymous_id', id);
   }
@@ -175,10 +185,9 @@ User.prototype.load = function() {
  * BACKWARDS COMPATIBILITY: Load the old user from the cookie.
  *
  * @api private
- * @return {boolean}
  */
 
-User.prototype._loadOldCookie = function() {
+User.prototype._loadOldCookie = function(): boolean {
   var user = cookie.get(this._options.cookie.oldKey);
   if (!user) return false;
 
