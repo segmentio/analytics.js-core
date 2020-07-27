@@ -14,18 +14,15 @@ var store = require('@segment/store');
  * @param {Object} options
  */
 
-function Store(options) {
+function Store(options?: { enabled: boolean }) {
   this.options(options);
 }
 
 /**
  * Set the `options` for the store.
- *
- * @param {Object} options
- *   @field {Boolean} enabled (true)
  */
 
-Store.prototype.options = function(options) {
+Store.prototype.options = function(options: { enabled?: boolean }) {
   if (arguments.length === 0) return this._options;
 
   options = options || {};
@@ -37,35 +34,27 @@ Store.prototype.options = function(options) {
 
 /**
  * Set a `key` and `value` in local storage.
- *
- * @param {string} key
- * @param {Object} value
  */
 
-Store.prototype.set = function(key, value) {
+Store.prototype.set = function(key: string, value: object) {
   if (!this.enabled) return false;
   return store.set(key, value);
 };
 
 /**
  * Get a value from local storage by `key`.
- *
- * @param {string} key
- * @return {Object}
  */
 
-Store.prototype.get = function(key) {
+Store.prototype.get = function(key: string): object {
   if (!this.enabled) return null;
   return store.get(key);
 };
 
 /**
  * Remove a value from local storage by `key`.
- *
- * @param {string} key
  */
 
-Store.prototype.remove = function(key) {
+Store.prototype.remove = function(key: string) {
   if (!this.enabled) return false;
   return store.remove(key);
 };

@@ -1,5 +1,7 @@
 'use strict';
 
+import { Message } from './types';
+
 /**
  * Module Dependencies.
  */
@@ -33,25 +35,31 @@ var toplevel = ['integrations', 'anonymousId', 'timestamp', 'context'];
 
 /**
  * Normalize `msg` based on integrations `list`.
- *
- * @param {Object} msg
- * @param {Array} list
- * @return {Function}
  */
 
-function normalize(msg, list) {
+interface NormalizedMessage {
+  integrations?: {
+    [key: string]: string;
+  };
+  context?: unknown;
+}
+
+function normalize(msg: Message, list: Array<any>): NormalizedMessage {
   var lower = map(function(s) {
     return s.toLowerCase();
   }, list);
-  var opts = msg.options || {};
+  var opts: Message = msg.options || {};
   var integrations = opts.integrations || {};
   var providers = opts.providers || {};
   var context = opts.context || {};
-  var ret = {};
+  var ret: {
+    integrations?: { [key: string]: string };
+    context?: unknown;
+  } = {};
   debug('<-', msg);
 
   // integrations.
-  each(function(value, key) {
+  each(function(value: string, key: string) {
     if (!integration(key)) return;
     if (!has.call(integrations, key)) integrations[key] = value;
     delete opts[key];
@@ -59,7 +67,7 @@ function normalize(msg, list) {
 
   // providers.
   delete opts.providers;
-  each(function(value, key) {
+  each(function(value: string, key: string) {
     if (!integration(key)) return;
     if (type(integrations[key]) === 'object') return;
     if (has.call(integrations, key) && typeof providers[key] === 'boolean')
@@ -69,7 +77,7 @@ function normalize(msg, list) {
 
   // move all toplevel options to msg
   // and the rest to context.
-  each(function(value, key) {
+  each(function(_value: any, key: string | number) {
     if (includes(key, toplevel)) {
       ret[key] = opts[key];
     } else {
@@ -88,7 +96,7 @@ function normalize(msg, list) {
   debug('->', ret);
   return ret;
 
-  function integration(name) {
+  function integration(name: string) {
     return !!(
       includes(name, list) ||
       name.toLowerCase() === 'all' ||

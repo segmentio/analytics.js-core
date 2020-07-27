@@ -20,14 +20,13 @@ For change control purposes, use the following pattern:
 <!-- Update the HISTORY.md file if we need to generate a new version of AJS for your changes.
 
 If not, just add the following line with an explanation:
-Release not necessary because <verbose explantaion - for example 'it's a dev-only change'>.
+New version is not required because <verbose explantaion - for example 'it's a dev-only change'>.
 -->
 
 ## Checklist
 
 <!--
 Make sure you complete the following checklist to help get your PR merged:-->
-
 
 - [ ] Thorough explanation of the issue/solution, and a link to the related issue
 - [ ] CI tests are passing

@@ -1,5 +1,7 @@
 'use strict';
 
+import { InitOptions } from './types';
+
 /*
  * Module dependencies.
  */
@@ -25,11 +27,9 @@ Group.defaults = {
 
 /**
  * Initialize a new `Group` with `options`.
- *
- * @param {Object} options
  */
 
-function Group(options) {
+function Group(options?: InitOptions) {
   this.defaults = Group.defaults;
   this.debug = debug;
   Entity.call(this, options);

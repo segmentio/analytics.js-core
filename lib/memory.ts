@@ -29,36 +29,27 @@ function Memory() {
 
 /**
  * Set a `key` and `value`.
- *
- * @param {String} key
- * @param {Mixed} value
- * @return {Boolean}
  */
 
-Memory.prototype.set = function(key, value) {
+Memory.prototype.set = function(key: string, value: unknown): boolean {
   this.store[key] = clone(value);
   return true;
 };
 
 /**
  * Get a `key`.
- *
- * @param {String} key
  */
 
-Memory.prototype.get = function(key) {
+Memory.prototype.get = function(key: string): unknown | undefined {
   if (!has.call(this.store, key)) return;
   return clone(this.store[key]);
 };
 
 /**
  * Remove a `key`.
- *
- * @param {String} key
- * @return {Boolean}
  */
 
-Memory.prototype.remove = function(key) {
+Memory.prototype.remove = function(key: string): boolean {
   delete this.store[key];
   return true;
 };

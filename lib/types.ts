@@ -73,3 +73,19 @@ export interface SegmentOpts {
   anonymousId?: string;
   context?: object;
 }
+
+export interface Message {
+  options?: unknown;
+  integrations?: { [key: string]: string };
+  providers?: { [key: string]: string };
+  context?: unknown;
+  messageId?: string;
+}
+
+export interface PageDefaults {
+  path: string;
+  referrer: string;
+  search: string;
+  title: string;
+  url: string;
+}
