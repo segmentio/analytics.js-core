@@ -1,10 +1,3 @@
-declare global {
-  interface Window {
-    jQuery: any;
-    Zepto: any;
-  }
-}
-
 declare namespace SegmentAnalytics {
   interface AnalyticsJS {}
 }
