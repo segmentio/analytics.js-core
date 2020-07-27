@@ -1,12 +1,6 @@
 export interface SegmentAnalytics {
   Integrations: { [name: string]: unknown };
   options: InitOptions;
-  _sourceMiddlewares;
-  _integrationMiddlewares;
-  _destinationMiddlewares;
-  _integrations;
-  _readied: boolean;
-  _timeout: number;
 }
 
 export interface IntegrationsSettings {
