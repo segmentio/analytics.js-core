@@ -1,7 +1,8 @@
-declare interface Window {
-  // TODO Remove use of any and import types for JQuery/Zepto
-  jQuery: any;
-  Zepto: any;
+declare global {
+  interface Window {
+    jQuery: any;
+    Zepto: any;
+  }
 }
 
 declare namespace SegmentAnalytics {
