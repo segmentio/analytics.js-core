@@ -156,7 +156,7 @@ export namespace SegmentAnalytics {
      * Track an `event` that a user has triggered with optional `properties`.
      */
     track(
-      event: number,
+      event: string,
       properties: unknown,
       options: unknown,
       fn: unknown
@@ -200,7 +200,7 @@ export namespace SegmentAnalytics {
     trackSubmit(
       forms: Element | Array<unknown>,
       event: any,
-      properties: any
+      properties?: any
     ): AnalyticsJS;
 
     /**
@@ -212,7 +212,7 @@ export namespace SegmentAnalytics {
     trackForm(
       forms: Element | Array<unknown>,
       event: any,
-      properties: any
+      properties?: any
     ): AnalyticsJS;
 
     /**
@@ -230,7 +230,12 @@ export namespace SegmentAnalytics {
     /**
      * Merge two previously unassociated user identities.
      */
-    alias(to: string, from: string, options: unknown, fn: unknown): AnalyticsJS;
+    alias(
+      to: string,
+      from?: string,
+      options?: unknown,
+      fn?: unknown
+    ): AnalyticsJS;
 
     /**
      * Register a `fn` to be fired when all the analytics services are ready.

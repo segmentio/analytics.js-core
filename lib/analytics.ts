@@ -134,7 +134,6 @@ Analytics.prototype.addIntegrationMiddleware = function(
  * Destination Middleware is chained after integration middleware
  */
 
-// TODO remove `unknown`
 Analytics.prototype.addDestinationMiddleware = function(
   integrationName: string,
   middlewares: Array<unknown>
@@ -399,7 +398,7 @@ Analytics.prototype.group = function(
  */
 
 Analytics.prototype.track = function(
-  event: number,
+  event: string,
   properties: unknown,
   options: unknown,
   fn: unknown
@@ -517,7 +516,7 @@ Analytics.prototype.trackClick = Analytics.prototype.trackLink = function(
 Analytics.prototype.trackSubmit = Analytics.prototype.trackForm = function(
   forms: Element | Array<unknown>,
   event: any,
-  properties: any
+  properties?: any
 ): SegmentAnalytics {
   if (!forms) return this;
   // always arrays, handles jquery
@@ -646,9 +645,9 @@ Analytics.prototype.pageview = function(url: string): SegmentAnalytics {
 
 Analytics.prototype.alias = function(
   to: string,
-  from: string,
-  options: unknown,
-  fn: unknown
+  from?: string,
+  options?: unknown,
+  fn?: unknown
 ): SegmentAnalytics {
   // Argument reshuffling.
   /* eslint-disable no-unused-expressions, no-sequences */
