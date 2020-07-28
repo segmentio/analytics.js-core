@@ -339,7 +339,7 @@ Analytics.prototype.identify = function(
  * @return {Object}
  */
 
-Analytics.prototype.user = function() {
+Analytics.prototype.user = function(): object {
   return user;
 };
 
@@ -960,7 +960,7 @@ Analytics.prototype._parseQuery = function(query: string): SegmentAnalytics {
 
 Analytics.prototype.normalize = function(msg: {
   context: { page };
-  anonymousId;
+  anonymousId: string;
 }): object {
   msg = normalize(msg, keys(this._integrations));
   if (msg.anonymousId) user.anonymousId(msg.anonymousId);
@@ -1012,7 +1012,7 @@ Analytics.prototype._mergeInitializeAndPlanIntegrations = function(
  * No conflict support.
  */
 
-Analytics.prototype.noConflict = function() {
+Analytics.prototype.noConflict = function(): SegmentAnalytics {
   window.analytics = _analytics;
   return this;
 };
