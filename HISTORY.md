@@ -1,3 +1,15 @@
+# 3.13.7 / 2020-07-29
+
+- Publish types to npm
+- remove unnecessary --declaration flag from build script
+- update public interface with optional parameters for .init and .initialize
+- Added optional to args that get and set (#174)
+- Expose AJS types and update README (#173)
+- [Types] Move `user.js` to `user.ts` (#172)
+- Convert group, memory, metrics, normalize, pageDefaults and store to .ts (#171)
+- [TS] Move entity.js to entity.ts (#169)
+- v3.13.6 (#170)
+
 # 3.13.6 / 2020-06-15
 
 - test: test analytics.js from a test website
