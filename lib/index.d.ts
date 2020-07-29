@@ -105,8 +105,8 @@ export namespace SegmentAnalytics {
      * Aliased to `init` for convenience.
      */
     initialize(
-      settings: IntegrationsSettings,
-      options: InitOptions
+      settings?: IntegrationsSettings,
+      options?: InitOptions
     ): AnalyticsJS;
 
     /**
@@ -114,7 +114,7 @@ export namespace SegmentAnalytics {
      *
      * Aliased to `init` for convenience.
      */
-    init(settings: IntegrationsSettings, options: InitOptions): AnalyticsJS;
+    init(settings?: IntegrationsSettings, options?: InitOptions): AnalyticsJS;
 
     /**
      * Set the user's `id`.
