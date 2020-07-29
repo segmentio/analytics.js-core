@@ -47,7 +47,7 @@ install:
 
 # Build typescript
 build: clean install
-	yarn tsc --declaration
+	yarn tsc
 .PHONY: build
 
 # Remove temporary files and build artifacts.
