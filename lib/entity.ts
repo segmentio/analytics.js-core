@@ -72,7 +72,7 @@ Entity.prototype.storage = function() {
  * Get or set storage `options`.
  */
 
-Entity.prototype.options = function(options: InitOptions) {
+Entity.prototype.options = function(options?: InitOptions) {
   if (arguments.length === 0) return this._options;
   this._options = defaults(options || {}, this.defaults || {});
 };
@@ -81,7 +81,7 @@ Entity.prototype.options = function(options: InitOptions) {
  * Get or set the entity's `id`.
  */
 
-Entity.prototype.id = function(id: string): string | undefined {
+Entity.prototype.id = function(id?: string): string | undefined {
   switch (arguments.length) {
     case 0:
       return this._getId();
@@ -177,7 +177,7 @@ Entity.prototype._setIdInLocalStorage = function(id: string) {
  */
 
 Entity.prototype.properties = Entity.prototype.traits = function(
-  traits: object
+  traits?: object
 ): object | undefined {
   switch (arguments.length) {
     case 0:
@@ -219,7 +219,7 @@ Entity.prototype._setTraits = function(traits: object) {
  * extend the existing `traits` instead of overwriting.
  */
 
-Entity.prototype.identify = function(id: string, traits: object) {
+Entity.prototype.identify = function(id?: string, traits?: object) {
   traits = traits || {};
   var current = this.id();
   if (current === null || current === id)

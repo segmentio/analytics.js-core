@@ -14,7 +14,7 @@ function Metrics(options?: MetricsOptions) {
  * Set the metrics options.
  */
 
-Metrics.prototype.options = function(options: MetricsOptions) {
+Metrics.prototype.options = function(options?: MetricsOptions) {
   options = options || {};
 
   this.host = options.host || 'api.segment.io/v1';

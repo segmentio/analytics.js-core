@@ -22,7 +22,7 @@ function Store(options?: { enabled: boolean }) {
  * Set the `options` for the store.
  */
 
-Store.prototype.options = function(options: { enabled?: boolean }) {
+Store.prototype.options = function(options?: { enabled?: boolean }) {
   if (arguments.length === 0) return this._options;
 
   options = options || {};

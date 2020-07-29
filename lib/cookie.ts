@@ -27,7 +27,7 @@ function Cookie(options?: CookieOptions) {
  * Get or set the cookie options.
  */
 
-Cookie.prototype.options = function(options: CookieOptions) {
+Cookie.prototype.options = function(options?: CookieOptions) {
   if (arguments.length === 0) return this._options;
 
   options = options || {};
