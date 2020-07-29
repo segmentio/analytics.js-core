@@ -9,11 +9,6 @@
 - Convert group, memory, metrics, normalize, pageDefaults and store to .ts (#171)
 - [TS] Move entity.js to entity.ts (#169)
 
-# 3.13.6 / 2020-06-15
-
-- test: test analytics.js from a test website
-- refactor: continue the typescript migration by moving some files to .ts and adding some types
-
 # 3.13.5 / 2020-06-08
 
 - refactor: improve typescript support
