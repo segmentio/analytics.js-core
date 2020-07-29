@@ -32,7 +32,7 @@ jobs:
           key: yarn-dependency-cache-{{ checksum "yarn.lock" }}
           paths:
             - node_modules
-      - run: yarn run tsc
+      - run: yarn run tsc --declaration
       - run: yarn run karma start karma.conf.coverage.js
       - store_test_results:
           path: junit-reports
@@ -55,7 +55,7 @@ jobs:
       - checkout
       - attach_workspace: { at: . }
       - run: npm config set "//registry.npmjs.org/:_authToken" $NPM_AUTH
-      - run: yarn add -D typescript && yarn run tsc
+      - run: yarn add -D typescript && yarn run tsc --declaration
       - run: npm publish .
 
 workflows:
