@@ -86,7 +86,7 @@ inherit(User, Entity);
  * assert.notEqual(anonymousId, user.anonymousId());
  */
 
-User.prototype.id = function(id: string): string | undefined {
+User.prototype.id = function(id?: string): string | undefined {
   var prev = this._getId();
   var ret = Entity.prototype.id.apply(this, arguments);
   if (prev == null) return ret;
@@ -106,7 +106,7 @@ User.prototype.id = function(id: string): string | undefined {
  * @return {String|User}
  */
 
-User.prototype.anonymousId = function(anonymousId: string): string | User {
+User.prototype.anonymousId = function(anonymousId?: string): string | User {
   var store = this.storage();
 
   // set / remove

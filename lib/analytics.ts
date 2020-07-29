@@ -158,8 +158,8 @@ Analytics.prototype.addDestinationMiddleware = function(
  */
 
 Analytics.prototype.init = Analytics.prototype.initialize = function(
-  settings: IntegrationsSettings,
-  options: InitOptions
+  settings?: IntegrationsSettings,
+  options?: InitOptions
 ): SegmentAnalytics {
   settings = settings || {};
   options = options || {};
