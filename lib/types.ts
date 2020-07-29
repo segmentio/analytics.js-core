@@ -1,6 +1,8 @@
 export interface SegmentAnalytics {
   Integrations: { [name: string]: unknown };
   options: InitOptions;
+  require: any
+  VERSION: any
 }
 
 export interface IntegrationsSettings {

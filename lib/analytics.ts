@@ -134,7 +134,6 @@ Analytics.prototype.addIntegrationMiddleware = function(
  * Destination Middleware is chained after integration middleware
  */
 
-// TODO remove `unknown`
 Analytics.prototype.addDestinationMiddleware = function(
   integrationName: string,
   middlewares: Array<unknown>
@@ -339,7 +338,7 @@ Analytics.prototype.identify = function(
  * @return {Object}
  */
 
-Analytics.prototype.user = function() {
+Analytics.prototype.user = function(): object {
   return user;
 };
 
@@ -399,7 +398,7 @@ Analytics.prototype.group = function(
  */
 
 Analytics.prototype.track = function(
-  event: number,
+  event: string,
   properties: unknown,
   options: unknown,
   fn: unknown
@@ -517,7 +516,7 @@ Analytics.prototype.trackClick = Analytics.prototype.trackLink = function(
 Analytics.prototype.trackSubmit = Analytics.prototype.trackForm = function(
   forms: Element | Array<unknown>,
   event: any,
-  properties: any
+  properties?: any
 ): SegmentAnalytics {
   if (!forms) return this;
   // always arrays, handles jquery
@@ -646,9 +645,9 @@ Analytics.prototype.pageview = function(url: string): SegmentAnalytics {
 
 Analytics.prototype.alias = function(
   to: string,
-  from: string,
-  options: unknown,
-  fn: unknown
+  from?: string,
+  options?: unknown,
+  fn?: unknown
 ): SegmentAnalytics {
   // Argument reshuffling.
   /* eslint-disable no-unused-expressions, no-sequences */
@@ -960,7 +959,7 @@ Analytics.prototype._parseQuery = function(query: string): SegmentAnalytics {
 
 Analytics.prototype.normalize = function(msg: {
   context: { page };
-  anonymousId;
+  anonymousId: string;
 }): object {
   msg = normalize(msg, keys(this._integrations));
   if (msg.anonymousId) user.anonymousId(msg.anonymousId);
@@ -1012,7 +1011,7 @@ Analytics.prototype._mergeInitializeAndPlanIntegrations = function(
  * No conflict support.
  */
 
-Analytics.prototype.noConflict = function() {
+Analytics.prototype.noConflict = function(): SegmentAnalytics {
   window.analytics = _analytics;
   return this;
 };
