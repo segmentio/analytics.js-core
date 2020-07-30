@@ -1,34 +1,34 @@
-export namespace SegmentAnalytics {
-  export interface SegmentOpts {
+declare namespace SegmentAnalytics {
+  interface SegmentOpts {
     integrations?: any;
     anonymousId?: string;
     context?: object;
   }
 
-  export interface IntegrationsSettings {
+  interface IntegrationsSettings {
     // TODO remove `any`
     [key: string]: any;
   }
 
-  export interface CookieOptions {
+  interface CookieOptions {
     maxage?: number;
     domain?: string;
     path?: string;
     secure?: boolean;
   }
 
-  export interface MetricsOptions {
+  interface MetricsOptions {
     host?: string;
     sampleRate?: number;
     flushTimer?: number;
     maxQueueSize?: number;
   }
 
-  export interface StoreOptions {
+  interface StoreOptions {
     enabled?: boolean;
   }
 
-  export interface UserOptions {
+  interface UserOptions {
     cookie?: {
       key: string;
       oldKey: string;
@@ -39,7 +39,7 @@ export namespace SegmentAnalytics {
     persist?: boolean;
   }
 
-  export interface GroupOptions {
+  interface GroupOptions {
     cookie?: {
       key: string;
     };
@@ -49,12 +49,12 @@ export namespace SegmentAnalytics {
     persist?: boolean;
   }
 
-  export interface SegmentIntegration {
+  interface SegmentIntegration {
     All?: boolean;
     [integration: string]: boolean | undefined;
   }
 
-  export interface InitOptions {
+  interface InitOptions {
     initialPageview?: boolean;
     cookie?: CookieOptions;
     metrics?: MetricsOptions;
@@ -64,7 +64,7 @@ export namespace SegmentAnalytics {
     integrations?: SegmentIntegration;
   }
 
-  export interface AnalyticsJS {
+  interface AnalyticsJS {
     Integrations: { [name: string]: unknown };
     require: any;
     VERSION: any;
@@ -270,8 +270,4 @@ export namespace SegmentAnalytics {
 }
 
 declare var analytics: SegmentAnalytics.AnalyticsJS;
-
-declare module '@segment/analytics.js-core' {
-  var analytics: SegmentAnalytics.AnalyticsJS;
-  export default analytics;
-}
+export default analytics;

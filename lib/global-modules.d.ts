@@ -1,13 +1,11 @@
-import { SegmentAnalytics } from './index.d'
-
 declare global {
   namespace NodeJS {
     interface Global {
-      analytics: SegmentAnalytics.AnalyticsJS
+      analytics: any;
     }
   }
   interface Window {
-    analytics: SegmentAnalytics.AnalyticsJS
+    analytics: any;
     jQuery: any;
     Zepto: any;
   }

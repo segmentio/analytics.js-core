@@ -1,7 +1,5 @@
 'use strict';
 
-import { SegmentAnalytics } from './index.d'
-
 /**
  * Analytics.js
  *
@@ -11,7 +9,7 @@ import { SegmentAnalytics } from './index.d'
 var Analytics = require('./analytics');
 
 // Create a new `analytics` singleton.
-var analytics: SegmentAnalytics.AnalyticsJS = new Analytics();
+var analytics = new Analytics();
 
 // Expose `require`.
 // TODO(ndhoule): Look into deprecating, we no longer need to expose it in tests
