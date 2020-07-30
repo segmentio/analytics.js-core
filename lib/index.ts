@@ -1,6 +1,6 @@
 'use strict';
 
-import { SegmentAnalytics } from './index.d'
+import { SegmentAnalytics } from './index.d';
 
 /**
  * Analytics.js

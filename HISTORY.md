@@ -1,3 +1,15 @@
+
+4.0.0-beta.1 / 2020-07-30
+=========================
+
+  * export interfaces
+  * fix importing types issues
+
+3.13.8 / 2020-07-29
+===================
+
+  * Add --declaration back to build scripts
+  * Publish v3.13.7 (#176)
 # 3.13.7 / 2020-07-29
 
 - Publish types to npm
