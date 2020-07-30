@@ -1,4 +1,4 @@
-declare namespace SegmentAnalytics {
+export declare namespace SegmentAnalytics {
   interface SegmentOpts {
     integrations?: any;
     anonymousId?: string;
