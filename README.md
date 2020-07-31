@@ -18,7 +18,7 @@ If you use analytics.js-core as an npm module, you can use its types out of the 
 
 ### Using types with the AJS Snippet
 
-If you create a source at https://app.segment.com, Segement automatically generates a JS snippet that you can add to your website. (for more information visit our [documentation](https://segment.com/docs/getting-started/02-simple-install/#installing-segment)).
+If you create a source at https://app.segment.com, Segement automatically generates a JS snippet that you can add to your website. (for more information visit our [documentation](https://segment.com/docs/connections/sources/catalog/libraries/website/javascript/quickstart/)).
 
 To use types with the snippet, add `analytics` as part of the global module.
 Something like this:
