@@ -15,7 +15,7 @@ We've recently introduced Typescript support and types to Analytics.js Core. Whi
 ### Importing as an npm module
 
 If you use analytics.js-core as an npm module, you can leverage its types out of the box:
-<img src="![types](https://user-images.githubusercontent.com/484013/88733944-bbcf3680-d0ec-11ea-904c-a63b68f4975e.gif)" alt="Example of using analytics js types" width="500px">
+<img src="https://user-images.githubusercontent.com/484013/89060070-2e235f00-d317-11ea-9fd9-e1c77aaca9f9.gif" alt="Example of Types usage in Analytics JS" width="500px">
 
 ### Using types with the AJS Snippet
 
