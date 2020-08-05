@@ -33,8 +33,8 @@ declare global {
 }
 ```
 
-## Using as an standalone `npm` package
-We recommend using the CDN version of `analytics.js` as it offers all the project and workspace specific settings, enabled integrations, and middlewares. But if you prefer to use `analytics.js-core` as an standalone module using your own bundling workflow, you can do the following: 
+## Using as a standalone `npm` package
+We recommend using the CDN version of `analytics.js` as it offers all the project and workspace specific settings, enabled integrations, and middleware. But if you prefer to use `analytics.js-core` as a standalone npm package using your own tooling & workflow, you can do the following: 
 
 1- Install the dependencies 
 ```
@@ -61,7 +61,6 @@ analytics.use(SegmentIntegration);
 // define the integration settings object. 
 // Since we are using only Segment integration in this example, we only have 
 // "Segment.io" in the integrationSettings object
- 
 const integrationSettings = {
   "Segment.io": {
     apiKey: "<YOUR SEGMENT WRITE KEY>",
