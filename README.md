@@ -40,16 +40,18 @@ We recommend using the CDN version of `analytics.js` as it offers all the projec
 ```
 yarn add @segment/analytics.js-core
 yarn add @segment/analytics.js-integration-segmentio
+// you may need this depending on the bundler
+yarn add uuid@^3.4 
 ```
 
 2- Import the dependencies 
-```
+```javascript
 import Analytics from "@segment/analytics.js-core/build/analytics";
 import SegmentIntegration from "@segment/analytics.js-integration-segmentio";
 ```
 
 3- Initialize Segment and add Segment's own integration 
-```
+```javascript
 // instantiate the library
 const analytics = new Analytics();
 
