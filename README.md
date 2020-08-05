@@ -33,6 +33,49 @@ declare global {
 }
 ```
 
+## Using as an standalone `npm` package
+We recommend using the CDN version of `analytics.js` as it offers all the project and workspace specific settings, enabled integrations, and middlewares. But if you prefer to use `analytics.js-core` as an standalone module using your own bundling workflow, you can do the following: 
+
+1- Install the dependencies 
+```
+yarn add @segment/analytics.js-core
+yarn add @segment/analytics.js-integration-segmentio
+```
+
+2- Import the dependencies 
+```
+import Analytics from "@segment/analytics.js-core/build/analytics";
+import SegmentIntegration from "@segment/analytics.js-integration-segmentio";
+```
+
+3- Initialize Segment and add Segment's own integration 
+```
+// instantiate the library
+const analytics = new Analytics();
+
+// add Segment's own integration ( or any other device mode integration ) 
+analytics.use(SegmentIntegration);
+
+// define the integration settings object. 
+// Since we are using only Segment integration in this example, we only have 
+// "Segment.io" in the integrationSettings object
+ 
+const integrationSettings = {
+  "Segment.io": {
+    apiKey: "<YOUR SEGMENT WRITE KEY>",
+    retryQueue: true,
+    addBundledMetadata: true
+  }
+};
+
+
+// Initialize the library
+analytics.initialize(integrationSettings);
+
+// Happy tracking! 
+analytics.track('🚀');
+```
+
 ## License
 
 Released under the [MIT license](LICENSE).
