@@ -281,6 +281,13 @@ export declare namespace SegmentAnalytics {
      * Trigger a pageview.
      */
     page(
+      name: string,
+    ): AnalyticsJS;
+
+    /**
+     * Trigger a pageview.
+     */
+    page(
       properties: PageProperties,
       options: PageOptions,
       callback: PageCallback,
