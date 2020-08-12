@@ -16,7 +16,7 @@ module.exports = function(config) {
       'test/support/global.js', // NOTE: This must run before all tests
       'test/**/*.test.js'
     ],
-    browsers: ['PhantomJS'],
+    browsers: ['ChromeHeadless'],
 
     singleRun: true,
 
