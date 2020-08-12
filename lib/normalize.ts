@@ -6,10 +6,11 @@ import includes from 'lodash.includes'
  */
 
 var debug = require('debug')('analytics.js:normalize');
-var defaults = require('@ndhoule/defaults');
 var type = require('component-type');
 var uuid = require('uuid/v4');
 var md5 = require('spark-md5').hash;
+var assign = require('lodash.assign')
+
 
 /**
  * HOP.
@@ -88,7 +89,7 @@ function normalize(msg: Message, list: Array<any>): NormalizedMessage {
   delete msg.options;
   ret.integrations = integrations;
   ret.context = context;
-  ret = defaults(ret, msg);
+  ret = assign(msg, ret);
   debug('->', ret);
   return ret;
 

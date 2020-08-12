@@ -1,12 +1,14 @@
 'use strict';
 
+import { StoreOptions } from './types';
+
 /*
  * Module dependencies.
  */
 
 var bindAll = require('bind-all');
-var defaults = require('@ndhoule/defaults');
 var store = require('@segment/store');
+var assign = require('lodash.assign')
 
 /**
  * Initialize a new `Store` with `options`.
@@ -22,11 +24,11 @@ function Store(options?: { enabled: boolean }) {
  * Set the `options` for the store.
  */
 
-Store.prototype.options = function(options?: { enabled?: boolean }) {
+Store.prototype.options = function(options?: StoreOptions) {
   if (arguments.length === 0) return this._options;
 
   options = options || {};
-  defaults(options, { enabled: true });
+  options = assign({ enabled: true }, options);
 
   this.enabled = options.enabled && store.enabled;
   this._options = options;

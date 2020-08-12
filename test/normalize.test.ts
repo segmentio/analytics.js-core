@@ -64,6 +64,18 @@ describe('normalize', function() {
         }
       });
     });
+
+    it('should merge with defaults', function() {
+      opts.context = { foo: 5 };
+      var out = normalize(msg, list);
+      assert.deepEqual(out.integrations, {});
+      assert.deepEqual(out.context, { foo: 5 });
+
+      msg.options = { integrations: { Segment: true }, context: { foo: 6 } };
+      out = normalize(msg, list);
+      assert.deepEqual(out.integrations, { Segment: true });
+      assert.deepEqual(out.context, { foo: 6 });
+    });
   });
 
   describe('integrations', function() {
