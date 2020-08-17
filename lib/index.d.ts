@@ -6,8 +6,14 @@ export declare namespace SegmentAnalytics {
   }
 
   interface IntegrationsSettings {
-    // TODO remove `any`
-    [key: string]: any;
+    addBundledMetadata: boolean;
+    apiHost?: string;
+    apiKey?: string;
+    crossDomainIdServers?: string[];
+    deleteCrossDomainId?: boolean;
+    retryQueue: boolean;
+    saveCrossDomainIdInLocalStorage: boolean;
+    unbundledIntegrations: any[];
   }
 
   interface CookieOptions {
