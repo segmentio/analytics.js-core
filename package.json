@@ -30,7 +30,6 @@
   },
   "homepage": "https://github.com/segmentio/analytics.js-core#readme",
   "dependencies": {
-    "@ndhoule/defaults": "^2.0.1",
     "@segment/canonical": "^1.0.0",
     "@segment/cookie": "^1.1.5",
     "@segment/is-meta": "^1.0.0",
