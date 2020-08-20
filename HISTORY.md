@@ -1,15 +1,18 @@
+# 4.0.0 / 2020-08-20
 
-4.0.0-beta.1 / 2020-07-30
-=========================
+- Drop beta release
+- TypeScript 4
 
-  * export interfaces
-  * fix importing types issues
+# 4.0.0-beta.1 / 2020-07-30
 
-3.13.8 / 2020-07-29
-===================
+- export interfaces
+- fix importing types issues
 
-  * Add --declaration back to build scripts
-  * Publish v3.13.7 (#176)
+# 3.13.8 / 2020-07-29
+
+- Add --declaration back to build scripts
+- Publish v3.13.7 (#176)
+
 # 3.13.7 / 2020-07-29
 
 - Publish types to npm

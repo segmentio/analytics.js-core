@@ -1,7 +1,7 @@
 {
   "name": "@segment/analytics.js-core",
   "author": "Segment <friends@segment.com>",
-  "version": "4.0.0-beta.1",
+  "version": "4.0.0",
   "description": "The hassle-free way to integrate analytics into any web application.",
   "types": "lib/index.d.ts",
   "keywords": [
@@ -107,7 +107,7 @@
     "sinon": "^1.7.3",
     "snyk": "^1.83.0",
     "ts-node": "^8.10.2",
-    "typescript": "^3.9.3",
+    "typescript": "^4.0.2",
     "wait-on": "^5.0.1",
     "watchify": "^3.7.0"
   },
