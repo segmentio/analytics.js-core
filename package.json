@@ -32,7 +32,6 @@
   "dependencies": {
     "@ndhoule/defaults": "^2.0.1",
     "@ndhoule/extend": "^2.0.0",
-    "@ndhoule/foldl": "^2.0.1",
     "@ndhoule/includes": "^2.0.1",
     "@ndhoule/keys": "^2.0.0",
     "@ndhoule/pick": "^2.0.0",
