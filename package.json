@@ -55,6 +55,7 @@
     "lodash.clonedeep": "^4.5.0",
     "lodash.includes": "^4.3.0",
     "lodash.pick": "^4.4.0",
+    "lodash.assign": "^4.2.0",
     "new-date": "^1.0.0",
     "next-tick": "^0.2.2",
     "package-json-versionify": "^1.0.4",
