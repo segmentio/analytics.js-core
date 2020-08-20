@@ -939,17 +939,13 @@ Analytics.prototype._parseQuery = function(query: string): SegmentAnalytics {
   function pickPrefix(prefix: string, object: object) {
     var length = prefix.length;
     var sub;
-    return foldl(
-      function(acc, val, key) {
-        if (key.substr(0, length) === prefix) {
-          sub = key.substr(length);
-          acc[sub] = val;
-        }
-        return acc;
-      },
-      {},
-      object
-    );
+    return Object.keys(object).reduce(function(acc, key) {
+      if (key.substr(0, length) === prefix) {
+        sub = key.substr(length);
+        acc[sub] = object[key];
+      }
+      return acc;
+    }, {});
   }
 };
 
