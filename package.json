@@ -1,7 +1,7 @@
 {
   "name": "@segment/analytics.js-core",
   "author": "Segment <friends@segment.com>",
-  "version": "4.1.4",
+  "version": "4.1.5",
   "description": "The hassle-free way to integrate analytics into any web application.",
   "types": "lib/index.d.ts",
   "keywords": [
