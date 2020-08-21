@@ -1,3 +1,7 @@
+# 4.0.1 / 2020-08-21
+
+- Minor version bump since previous version was published incorrectly. No code change.
+
 # 4.0.0 / 2020-08-20
 
 - Drop beta release
