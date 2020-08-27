@@ -5,27 +5,22 @@
 var TEST_TIMEOUT = 10 * 60 * 1000;
 
 module.exports = function(config) {
-  require('ts-node').register({
-    compilerOptions: {
-      module: 'commonjs'
-    }
-  });
   config.set({
     files: [
       { pattern: 'test/support/*.html', included: false },
-      'test/support/global.js', // NOTE: This must run before all tests
-      'test/**/*.test.js'
+      'test/support/global.ts', // NOTE: This must run before all tests
+      'test/**/*.test.ts'
     ],
     browsers: ['ChromeHeadless'],
 
     singleRun: true,
 
-    frameworks: ['browserify', 'mocha'],
+    frameworks: ['mocha', 'karma-typescript'],
 
     reporters: ['spec'],
 
     preprocessors: {
-      'test/**/*.js': 'browserify'
+      'test/**/*.ts': 'karma-typescript'
     },
 
     browserNoActivityTimeout: TEST_TIMEOUT,
@@ -39,6 +34,19 @@ module.exports = function(config) {
 
     browserify: {
       debug: true
+    },
+
+    karmaTypescriptConfig: {
+      bundlerOptions: {
+        sourceMap: true,
+      },
+      compilerOptions: {
+        module: "commonjs",
+        target: "ES5",
+        allowJs: false,
+      },
+      include: ['test'],
+      exclude: ['node_modules', 'lib', 'test-e2e/*.ts']
     }
   });
 };

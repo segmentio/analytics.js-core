@@ -13,7 +13,7 @@ describe('analytics', function() {
     var previousAnalyticsGlobal;
 
     beforeEach(function() {
-      // Defined in test/support/global.js
+      // Defined in test/support/global.ts
       previousAnalyticsGlobal = window.analytics;
       assert(
         previousAnalyticsGlobal,
@@ -25,7 +25,7 @@ describe('analytics', function() {
       previousAnalyticsGlobal = undefined;
     });
 
-    // TODO(ndhoule): this test and support/global.js are a little ghetto; we
+    // TODO(ndhoule): this test and support/global.ts are a little ghetto; we
     // should refactor this to run in a separate test suite
     it('should restore global.analytics to its previous value', function() {
       assert(global.analytics === previousAnalyticsGlobal);
