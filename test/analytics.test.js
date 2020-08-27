@@ -730,6 +730,18 @@ describe('Analytics', function() {
       });
     });
 
+    it('should accept (name)', function() {
+      defaults.name = 'name';
+      Test.prototype.page = sinon.spy();
+      var test = new Test();
+      test.invoke = sinon.spy();
+      analytics.use(Test);
+      analytics.add(test);
+      analytics.initialize();
+      analytics.page('Test Page Event');
+      assert(test.invoke.called);
+    });
+
     it('should accept (properties, options, callback)', function(done) {
       analytics.page({}, {}, function() {
         var page = analytics._invoke.args[0][1];

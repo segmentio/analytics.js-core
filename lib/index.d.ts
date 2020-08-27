@@ -64,6 +64,10 @@ export declare namespace SegmentAnalytics {
     integrations?: SegmentIntegration;
   }
 
+  type PageProperties = Object;
+  type PageOptions = Object;
+  type PageCallback = () => void;
+
   interface AnalyticsJS {
     Integrations: { [name: string]: unknown };
     require: any;
@@ -215,16 +219,86 @@ export declare namespace SegmentAnalytics {
       properties?: any
     ): AnalyticsJS;
 
+
     /**
-     * Trigger a pageview, labeling the current page with an optional `category`,
-     * `name` and `properties`.
+     * Trigger a pageview.
      */
     page(
       category: string,
       name: string,
-      properties: any,
-      options: any,
-      fn: unknown
+      properties: PageProperties,
+      options: PageOptions,
+      callback: PageCallback,
+    ): AnalyticsJS;
+
+    /**
+     * Trigger a pageview.
+     */
+    page(
+      category: string,
+      name: string,
+      properties: PageProperties,
+      callback: PageCallback,
+    ): AnalyticsJS;
+
+    /**
+     * Trigger a pageview.
+     */
+    page(
+      category: string,
+      name: string,
+      callback: PageCallback,
+    ): AnalyticsJS;
+
+    /**
+     * Trigger a pageview.
+     */
+    page(
+      name: string,
+      properties: PageProperties,
+      options: PageOptions,
+      callback: PageCallback,
+    ): AnalyticsJS;
+
+    /**
+     * Trigger a pageview.
+     */
+    page(
+      name: string,
+      properties: PageProperties,
+      callback: PageCallback,
+    ): AnalyticsJS;
+
+    /**
+     * Trigger a pageview.
+     */
+    page(
+      name: string,
+      callback: PageCallback,
+    ): AnalyticsJS;
+
+    /**
+     * Trigger a pageview.
+     */
+    page(
+      name: string,
+    ): AnalyticsJS;
+
+    /**
+     * Trigger a pageview.
+     */
+    page(
+      properties: PageProperties,
+      options: PageOptions,
+      callback: PageCallback,
+    ): AnalyticsJS;
+
+    /**
+     * Trigger a pageview.
+     */
+    page(
+      properties: PageProperties,
+      callback: PageCallback,
     ): AnalyticsJS;
 
     /**
