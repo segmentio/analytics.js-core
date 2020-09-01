@@ -1,13 +1,13 @@
 'use strict';
 
 import { CookieOptions } from './types';
+import cloneDeep from 'lodash.clonedeep'
 
 /**
  * Module dependencies.
  */
 
 var bindAll = require('bind-all');
-var clone = require('./utils/clone');
 var cookie = require('@segment/cookie');
 var debug = require('debug')('analytics.js:cookie');
 var defaults = require('@ndhoule/defaults');
@@ -65,7 +65,7 @@ Cookie.prototype.options = function(options?: CookieOptions) {
 Cookie.prototype.set = function(key: string, value?: object | string): boolean {
   try {
     value = window.JSON.stringify(value);
-    cookie(key, value === 'null' ? null : value, clone(this._options));
+    cookie(key, value === 'null' ? null : value, cloneDeep(this._options));
     return true;
   } catch (e) {
     return false;
@@ -92,7 +92,7 @@ Cookie.prototype.get = function(key: string): object {
 
 Cookie.prototype.remove = function(key: string): boolean {
   try {
-    cookie(key, null, clone(this._options));
+    cookie(key, null, cloneDeep(this._options));
     return true;
   } catch (e) {
     return false;

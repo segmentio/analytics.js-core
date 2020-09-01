@@ -8,6 +8,8 @@ import {
   SegmentIntegration
 } from './types';
 
+import cloneDeep from 'lodash.clonedeep'
+
 var _analytics = global.analytics;
 
 /*
@@ -27,7 +29,6 @@ var DestinationMiddlewareChain = require('./middleware')
 var Page = require('segmentio-facade').Page;
 var Track = require('segmentio-facade').Track;
 var bindAll = require('bind-all');
-var clone = require('./utils/clone');
 var extend = require('extend');
 var cookie = require('./cookie');
 var metrics = require('./metrics');
@@ -583,7 +584,7 @@ Analytics.prototype.page = function(
     (name = category), (category = null);
   /* eslint-enable no-unused-expressions, no-sequences */
 
-  properties = clone(properties) || {};
+  properties = cloneDeep(properties) || {};
   if (name) properties.name = name;
   if (category) properties.category = category;
 
