@@ -9,8 +9,8 @@ KARMA := node_modules/.bin/karma
 ##
 
 LIBS = $(shell find lib -type f -name "*.js")
-TESTS = $(shell find test -type f -name "*.test.js")
-SUPPORT = $(wildcard karma.conf*.js)
+TESTS = $(shell find test -type f -name "*.test.ts")
+SUPPORT = $(wildcard karma.conf*.ts)
 ALL_FILES = $(LIBS) $(TESTS) $(SUPPORT)
 
 ##
@@ -29,9 +29,9 @@ KARMA_FLAGS += --browsers $(BROWSERS)
 endif
 
 ifdef CI
-KARMA_CONF ?= karma.conf.ci.js
+KARMA_CONF ?= karma.conf.ci.ts
 else
-KARMA_CONF ?= karma.conf.js
+KARMA_CONF ?= karma.conf.ts
 endif
 
 # Mocha flags.

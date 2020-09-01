@@ -71,8 +71,10 @@
     "@types/mocha": "^7.0.2",
     "@types/node": "^14.0.6",
     "@types/node-fetch": "^2.5.7",
+    "assert": "1.5.0",
     "browserify": "13.0.0",
     "browserify-istanbul": "^3.0.1",
+    "buffer": "^4.9.2",
     "codeceptjs": "^2.6.5",
     "codecov": "^3.7.2",
     "compat-trigger-event": "^1.0.0",
@@ -96,13 +98,14 @@
     "karma-sauce-launcher": "^1.2.0",
     "karma-spec-reporter": "0.0.32",
     "karma-summary-reporter": "^1.8.0",
+    "karma-typescript": "^5.1.0",
     "lint-staged": "^7.2.0",
     "lodash": "^4.17.15",
     "mocha": "^2.2.5",
     "node-fetch": "^2.6.0",
     "np": "^3.0.4",
     "prettier-eslint-cli": "^4.7.1",
-    "proclaim": "^3.4.1",
+    "proclaim": "^3.5.1",
     "puppeteer": "^3.3.0",
     "sinon": "^1.7.3",
     "snyk": "^1.83.0",
@@ -123,5 +126,9 @@
     "transform": [
       "package-json-versionify"
     ]
+  },
+  "resolutions": {
+    "buffer": "^4.9.2",
+    "assert": "1.5.0"
   }
 }

@@ -35,7 +35,7 @@ describe('clone', function() {
       assert.notStrictEqual(cloned.a, input.a);
       assert.notStrictEqual(cloned.a.b, input.a.b);
       assert.notStrictEqual(cloned.a.b[2], input.a.b[2]);
-      assert.strictEqual(cloned.a.b[2].getTime(), input.a.b[2].getTime());
+      assert.strictEqual(cloned.a.b[2].getTime(), (input.a.b[2] as Date).getTime());
       assert.deepEqual(cloned.a.b[3], input.a.b[3]);
       assert.notStrictEqual(cloned.a.b[3], input.a.b[3]);
     });

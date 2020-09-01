@@ -68,6 +68,7 @@ describe('map', function() {
 
   it('should ignore enumerable properties on arrays', function() {
     var array = ['a', 'b', 'c'];
+    // @ts-ignore
     array.a = 'spam';
     map(identity, array);
 
