@@ -73,7 +73,7 @@ export interface SegmentOpts {
 export interface Message {
   options?: unknown;
   integrations?: { [key: string]: string };
-  providers?: { [key: string]: string };
+  providers?: { [key: string]: string | boolean };
   context?: unknown;
   messageId?: string;
 }
