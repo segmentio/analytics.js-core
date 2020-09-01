@@ -10,7 +10,6 @@ var debug = require('debug')('analytics.js:normalize');
 var defaults = require('@ndhoule/defaults');
 var each = require('./utils/each');
 var includes = require('@ndhoule/includes');
-var map = require('./utils/map');
 var type = require('component-type');
 var uuid = require('uuid/v4');
 var md5 = require('spark-md5').hash;
@@ -45,9 +44,9 @@ interface NormalizedMessage {
 }
 
 function normalize(msg: Message, list: Array<any>): NormalizedMessage {
-  var lower = map(function(s) {
+  var lower = list?.map(function(s) {
     return s.toLowerCase();
-  }, list);
+  });
   var opts: Message = msg.options || {};
   var integrations = opts.integrations || {};
   var providers = opts.providers || {};
