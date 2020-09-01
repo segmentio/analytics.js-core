@@ -17,7 +17,8 @@
     "format": "prettier-eslint --write --list-different \"./{lib,test,test-e2e}/**/*.{ts,js,json,md}\"",
     "precommit": "lint-staged",
     "np": "np --no-publish",
-    "cz": "git-cz"
+    "cz": "git-cz",
+    "check-js": "if [[ $(git status  -s | egrep '^(A|R)' | egrep 'jsx?\"?$' | wc -l | awk '{print $1}')  > 0 ]] ; then exit 125; else echo 🎉 ; fi; echo"
   },
   "repository": {
     "type": "git",
@@ -99,7 +100,7 @@
     "karma-spec-reporter": "0.0.32",
     "karma-summary-reporter": "^1.8.0",
     "karma-typescript": "^5.1.0",
-    "lint-staged": "^7.2.0",
+    "lint-staged": "^10.2.13",
     "lodash": "^4.17.15",
     "mocha": "^2.2.5",
     "node-fetch": "^2.6.0",
@@ -115,12 +116,13 @@
     "watchify": "^3.7.0"
   },
   "lint-staged": {
-    "linters": {
-      "*.{js,json,md}": [
-        "prettier-eslint --write",
-        "git add"
-      ]
-    }
+    "*.{js,jsx}": [
+      "yarn check-js"
+    ],
+    "*.{js,json,md}": [
+      "prettier-eslint --write",
+      "git add"
+    ]
   },
   "browserify": {
     "transform": [
