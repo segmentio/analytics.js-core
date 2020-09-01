@@ -70,8 +70,9 @@ function Analytics() {
   this.log = debug('analytics.js');
   bindAll(this);
 
-  var self = this;
-  this.on('initialize', function(settings, options) {
+
+  const self = this;
+  this.on('initialize', function(_, options) {
     if (options.initialPageview) self.page();
     self._parseQuery(window.location.search);
   });
@@ -170,13 +171,16 @@ Analytics.prototype.init = Analytics.prototype.initialize = function(
 
   // clean unknown integrations from settings
   var self = this;
-  each(function(_opts: unknown, name: string | number) {
-    var Integration = self.Integrations[name];
-    if (!Integration) delete settings[name];
-  }, settings);
+  Object.keys(settings).forEach(key => {
+    var Integration = self.Integrations[key];
+    if (!Integration) delete settings[key];
+  });
 
   // add integrations
-  each(function(opts: unknown, name: string | number) {
+  Object.keys(settings).forEach(key => {
+    const opts = settings[key]
+    const name = key
+
     // Don't load disabled integrations
     if (options.integrations) {
       if (
@@ -187,13 +191,13 @@ Analytics.prototype.init = Analytics.prototype.initialize = function(
       }
     }
 
-    var Integration = self.Integrations[name];
-    var clonedOpts = {};
+    const Integration = self.Integrations[name];
+    const clonedOpts = {};
     extend(true, clonedOpts, opts); // deep clone opts
-    var integration = new Integration(clonedOpts);
+    const integration = new Integration(clonedOpts);
     self.log('initialize %o - %o', name, opts);
     self.add(integration);
-  }, settings);
+  });
 
   var integrations = this._integrations;
 
@@ -220,14 +224,15 @@ Analytics.prototype.init = Analytics.prototype.initialize = function(
   // initialize integrations, passing ready
   // create a list of any integrations that did not initialize - this will be passed with all events for replay support:
   this.failedInitializations = [];
-  var initialPageSkipped = false;
-  each(function(integration) {
+  let initialPageSkipped = false;
+  Object.keys(integrations).forEach(key => {
+    const integration = integrations[key]
     if (
       options.initialPageview &&
       integration.options.initialPageview === false
     ) {
       // We've assumed one initial pageview, so make sure we don't count the first page call.
-      var page = integration.page;
+      let page = integration.page;
       integration.page = function() {
         if (initialPageSkipped) {
           return page.apply(this, arguments);
@@ -247,7 +252,7 @@ Analytics.prototype.init = Analytics.prototype.initialize = function(
       });
       integration.initialize();
     } catch (e) {
-      var integrationName = integration.name;
+      let integrationName = integration.name;
       metrics.increment('analytics_js.integration.invoke.error', {
         method: 'initialize',
         integration_name: integration.name
@@ -258,7 +263,7 @@ Analytics.prototype.init = Analytics.prototype.initialize = function(
 
       integration.ready();
     }
-  }, integrations);
+  });
 
   // backwards compat with angular plugin and used for init logic checks
   this.initialized = true;
@@ -467,37 +472,44 @@ Analytics.prototype.track = function(
  */
 
 Analytics.prototype.trackClick = Analytics.prototype.trackLink = function(
-  links: Element | Array<unknown>,
+  links: Element | Array<Element> | JQuery,
   event: any,
   properties?: any
 ): SegmentAnalytics {
+  let elements: Array<Element> = []
   if (!links) return this;
   // always arrays, handles jquery
-  if (type(links) === 'element') links = [links];
+  if (links instanceof Element) {
+    elements = [links]
+  } else if ("toArray" in links) {
+    elements = links.toArray()
+  } else {
+    elements = links as Array<Element>
+  }
 
-  var self = this;
-  each(function(el) {
+  elements.forEach(el => {
     if (type(el) !== 'element') {
       throw new TypeError('Must pass HTMLElement to `analytics.trackLink`.');
     }
-    on(el, 'click', function(e) {
-      var ev = is.fn(event) ? event(el) : event;
-      var props = is.fn(properties) ? properties(el) : properties;
-      var href =
+    on(el, 'click', (e) => {
+      const ev = is.fn(event) ? event(el) : event;
+      const props = is.fn(properties) ? properties(el) : properties;
+      const href =
         el.getAttribute('href') ||
         el.getAttributeNS('http://www.w3.org/1999/xlink', 'href') ||
         el.getAttribute('xlink:href');
 
-      self.track(ev, props);
+      this.track(ev, props);
 
+      // @ts-ignore
       if (href && el.target !== '_blank' && !isMeta(e)) {
         prevent(e);
-        self._callback(function() {
+        this._callback(function() {
           window.location.href = href;
         });
       }
     });
-  }, links);
+  });
 
   return this;
 };
@@ -523,18 +535,19 @@ Analytics.prototype.trackSubmit = Analytics.prototype.trackForm = function(
   // always arrays, handles jquery
   if (type(forms) === 'element') forms = [forms];
 
-  var self = this;
-  each(function(el: { submit: () => void }) {
+  const elements = forms as Array<unknown>
+
+  elements.forEach((el: { submit: () => void }) => {
     if (type(el) !== 'element')
       throw new TypeError('Must pass HTMLElement to `analytics.trackForm`.');
-    function handler(e) {
+    const handler = (e) => {
       prevent(e);
 
-      var ev = is.fn(event) ? event(el) : event;
-      var props = is.fn(properties) ? properties(el) : properties;
-      self.track(ev, props);
+      const ev = is.fn(event) ? event(el) : event;
+      const props = is.fn(properties) ? properties(el) : properties;
+      this.track(ev, props);
 
-      self._callback(function() {
+      this._callback(function() {
         el.submit();
       });
     }
@@ -547,7 +560,7 @@ Analytics.prototype.trackSubmit = Analytics.prototype.trackForm = function(
     } else {
       on(el, 'submit', handler);
     }
-  }, forms);
+  });
 
   return this;
 };
@@ -797,9 +810,11 @@ Analytics.prototype._invoke = function(
   return this;
 
   function applyIntegrationMiddlewares(facade) {
-    var failedInitializations = self.failedInitializations || [];
-    each(function(integration, name) {
-      var facadeCopy = extend(true, new Facade({}), facade);
+    let failedInitializations = self.failedInitializations || [];
+    Object.keys(self._integrations).forEach(key => {
+      const integration = self._integrations[key]
+      const { name } = integration
+      const facadeCopy = extend(true, new Facade({}), facade);
 
       if (!facadeCopy.enabled(name)) return;
       // Check if an integration failed to initialize.
@@ -883,7 +898,7 @@ Analytics.prototype._invoke = function(
           );
         }
       }
-    }, self._integrations);
+    });
   }
 };
 

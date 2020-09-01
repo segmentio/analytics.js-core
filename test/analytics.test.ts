@@ -8,6 +8,7 @@ var bind = require('component-event').bind;
 var createIntegration = require('@segment/analytics.js-integration');
 var extend = require('@ndhoule/extend');
 var type = require('component-type');
+// @ts-ignore
 var jQuery = require('jquery');
 var pageDefaults = require('../build/pageDefaults');
 var sinon = require('sinon');

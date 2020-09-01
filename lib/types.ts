@@ -1,8 +1,30 @@
 export interface SegmentAnalytics {
-  Integrations: { [name: string]: unknown };
+  Integrations: { [name: string]: (options: SegmentOpts) => void };
   options: InitOptions;
   require: any
   VERSION: any
+
+  // Analytics.JS Methods
+  page: (
+    category?: string,
+    name?: string,
+    properties?: any,
+    options?: any,
+    fn?: unknown
+  ) => void
+
+  // Private fields
+  _options: (options: Object) => void
+  _sourceMiddlewares:  unknown
+  _integrationMiddlewares: unknown
+  _destinationMiddlewares: unknown
+  _integrations: unknown
+  _readied: boolean
+  _timeout: number
+  _user: unknown
+  log: (args: string) => void
+  on: (event: string, callback: (settings: unknown, options: InitOptions) => void) => void
+  _parseQuery: (queryString: string) => void
 }
 
 export interface IntegrationsSettings {
