@@ -34,12 +34,9 @@ var cookie = require('./cookie');
 var metrics = require('./metrics');
 var debug = require('debug');
 var defaults = require('@ndhoule/defaults');
-var each = require('./utils/each');
-var foldl = require('@ndhoule/foldl');
 var group = require('./group');
 var is = require('is');
 var isMeta = require('@segment/is-meta');
-var keys = require('@ndhoule/keys');
 var memory = require('./memory');
 var nextTick = require('next-tick');
 var normalize = require('./normalize');
@@ -207,7 +204,7 @@ Analytics.prototype.init = Analytics.prototype.initialize = function(
 
   // make ready callback
   var readyCallCount = 0;
-  var integrationCount = keys(integrations).length;
+  var integrationCount = Object.keys(integrations).length;
   var ready = function() {
     readyCallCount++;
     if (readyCallCount >= integrationCount) {
@@ -609,7 +606,7 @@ Analytics.prototype.page = function(
   // Mirror user overrides to `options.context.page` (but exclude custom properties)
   // (Any page defaults get applied in `this.normalize` for consistency.)
   // Weird, yeah--moving special props to `context.page` will fix this in the long term.
-  var overrides = pick(keys(defs), properties);
+  var overrides = pick(Object.keys(defs), properties);
   if (!is.empty(overrides)) {
     options = options || {};
     options.context = options.context || {};
@@ -973,7 +970,7 @@ Analytics.prototype.normalize = function(msg: {
   context: { page };
   anonymousId: string;
 }): object {
-  msg = normalize(msg, keys(this._integrations));
+  msg = normalize(msg, Object.keys(this._integrations));
   if (msg.anonymousId) user.anonymousId(msg.anonymousId);
   msg.anonymousId = user.anonymousId();
 

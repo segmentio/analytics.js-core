@@ -33,7 +33,6 @@
     "@ndhoule/defaults": "^2.0.1",
     "@ndhoule/extend": "^2.0.0",
     "@ndhoule/includes": "^2.0.1",
-    "@ndhoule/keys": "^2.0.0",
     "@ndhoule/pick": "^2.0.0",
     "@segment/canonical": "^1.0.0",
     "@segment/cookie": "^1.1.5",
