@@ -1,7 +1,7 @@
 {
   "name": "@segment/analytics.js-core",
   "author": "Segment <friends@segment.com>",
-  "version": "4.0.1",
+  "version": "4.0.3",
   "description": "The hassle-free way to integrate analytics into any web application.",
   "types": "lib/index.d.ts",
   "keywords": [
@@ -50,7 +50,7 @@
     "component-querystring": "^2.0.0",
     "component-type": "^1.2.1",
     "component-url": "^0.2.1",
-    "debug": "^0.7.4",
+    "debug": "^2.6.9",
     "extend": "3.0.2",
     "inherits": "^2.0.1",
     "install": "^0.7.3",
@@ -87,7 +87,7 @@
     "eslint-plugin-require-path-exists": "^1.1.8",
     "express": "^4.17.1",
     "husky": "^0.14.3",
-    "jquery": "^3.2.1",
+    "jquery": "^3.5.0",
     "karma": "5.1.1",
     "karma-browserify": "^7.0.0",
     "karma-chrome-launcher": "^3.1.0",
@@ -101,7 +101,6 @@
     "lint-staged": "^10.2.13",
     "lodash": "^4.17.20",
     "mocha": "^4.1.0",
-    "node-fetch": "2.6.1",
     "np": "^6.5.0",
     "prettier-eslint-cli": "5.0.0",
     "proclaim": "^3.5.1",
@@ -131,6 +130,8 @@
     "buffer": "^4.9.2",
     "assert": "1.5.0",
     "browserify": "16.5.2",
-    "lodash": "4.17.20"
+    "lodash": "4.17.20",
+    "node-fetch": "2.6.1",
+    "elliptic": "^6.5.3"
   }
 }
