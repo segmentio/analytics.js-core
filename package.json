@@ -67,7 +67,7 @@
     "@segment/analytics.js-integration": "^3.2.2",
     "@segment/eslint-config": "^4.0.0",
     "@types/express": "^4.17.6",
-    "@types/lodash": "^4.14.155",
+    "@types/lodash": "^4.14.161",
     "@types/mocha": "^7.0.2",
     "@types/node": "^14.0.6",
     "@types/node-fetch": "^2.5.7",
@@ -99,7 +99,7 @@
     "karma-summary-reporter": "^1.8.0",
     "karma-typescript": "^5.1.0",
     "lint-staged": "^10.2.13",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.20",
     "mocha": "^4.1.0",
     "node-fetch": "2.6.1",
     "np": "^6.5.0",
@@ -111,7 +111,7 @@
     "ts-node": "^8.10.2",
     "typescript": "^4.0.2",
     "wait-on": "^5.0.1",
-    "watchify": "^3.7.0"
+    "watchify": "^3.11.1"
   },
   "lint-staged": {
     "*.{js,jsx}": [
@@ -129,6 +129,7 @@
   },
   "resolutions": {
     "buffer": "^4.9.2",
-    "assert": "1.5.0"
+    "assert": "1.5.0",
+    "browserify": "16.5.2"
   }
 }
