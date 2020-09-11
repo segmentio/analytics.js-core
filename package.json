@@ -75,7 +75,7 @@
     "browserify": "13.0.0",
     "browserify-istanbul": "^3.0.1",
     "buffer": "^4.9.2",
-    "codeceptjs": "^2.6.5",
+    "codeceptjs": "^2.6.10",
     "codecov": "^3.7.2",
     "compat-trigger-event": "^1.0.0",
     "component-each": "^0.2.6",
