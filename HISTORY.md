@@ -1,3 +1,7 @@
+# 4.0.3 / 2020-09-11
+
+- Bump `debug` to a version that fixed security vulnerabilities.
+
 # 4.0.2 / 2020-09-01
 
 - Replace @ndhoule/foldl with Array.prototype.reduce
