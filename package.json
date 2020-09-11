@@ -132,6 +132,7 @@
   "resolutions": {
     "buffer": "^4.9.2",
     "assert": "1.5.0",
-    "handlebars": "4.7.6"
+    "handlebars": "4.7.6",
+    "mocha": "8.1.3"
   }
 }
