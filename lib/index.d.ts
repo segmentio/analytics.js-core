@@ -130,10 +130,10 @@ export declare namespace SegmentAnalytics {
      * Identify a user by optional `id` and `traits`.
      */
     identify(
-      id: string,
-      traits: unknown,
-      options: SegmentOpts,
-      fn: Function | SegmentOpts
+      id?: string,
+      traits?: unknown,
+      options?: SegmentOpts,
+      fn?: Function | SegmentOpts
     ): AnalyticsJS;
 
     /**
@@ -147,9 +147,9 @@ export declare namespace SegmentAnalytics {
      */
     group(
       id: string,
-      traits: unknown,
-      options: unknown,
-      fn: unknown
+      traits?: unknown,
+      options?: unknown,
+      fn?: unknown
     ): AnalyticsJS;
 
     /**
@@ -157,9 +157,9 @@ export declare namespace SegmentAnalytics {
      */
     track(
       event: string,
-      properties: unknown,
-      options: unknown,
-      fn: unknown
+      properties?: unknown,
+      options?: unknown,
+      fn?: unknown
     ): AnalyticsJS;
 
     /**
@@ -220,11 +220,11 @@ export declare namespace SegmentAnalytics {
      * `name` and `properties`.
      */
     page(
-      category: string,
-      name: string,
-      properties: any,
-      options: any,
-      fn: unknown
+      category?: string,
+      name?: string,
+      properties?: any,
+      options?: any,
+      fn?: unknown
     ): AnalyticsJS;
 
     /**
