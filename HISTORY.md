@@ -1,6 +1,6 @@
 # 4.0.4 / 2020-09-11
 
-- Change the arguments of the main methods to be optional in the typedef to match the documentation. (#202)
+- Change the arguments of the main methods to be optional in the typedef to match the documentation. (#203)
 
 # 4.0.3 / 2020-09-11
 
