@@ -297,10 +297,10 @@ Analytics.prototype.add = function(integration: {
  */
 
 Analytics.prototype.identify = function(
-  id: string,
-  traits: unknown,
-  options: SegmentOpts,
-  fn: Function | SegmentOpts
+  id?: string,
+  traits?: unknown,
+  options?: SegmentOpts,
+  fn?: Function | SegmentOpts
 ): SegmentAnalytics {
   // Argument reshuffling.
   /* eslint-disable no-unused-expressions, no-sequences */
@@ -355,9 +355,9 @@ Analytics.prototype.user = function(): object {
 
 Analytics.prototype.group = function(
   id: string,
-  traits: unknown,
-  options: unknown,
-  fn: unknown
+  traits?: unknown,
+  options?: unknown,
+  fn?: unknown
 ): SegmentAnalytics {
   /* eslint-disable no-unused-expressions, no-sequences */
   if (!arguments.length) return group;
@@ -399,9 +399,9 @@ Analytics.prototype.group = function(
 
 Analytics.prototype.track = function(
   event: string,
-  properties: unknown,
-  options: unknown,
-  fn: unknown
+  properties?: unknown,
+  options?: unknown,
+  fn?: unknown
 ): SegmentAnalytics {
   // Argument reshuffling.
   /* eslint-disable no-unused-expressions, no-sequences */
@@ -564,11 +564,11 @@ Analytics.prototype.trackSubmit = Analytics.prototype.trackForm = function(
  */
 
 Analytics.prototype.page = function(
-  category: string,
-  name: string,
-  properties: any,
-  options: any,
-  fn: unknown
+  category?: string,
+  name?: string,
+  properties?: any,
+  options?: any,
+  fn?: unknown
 ): SegmentAnalytics {
   // Argument reshuffling.
   /* eslint-disable no-unused-expressions, no-sequences */
