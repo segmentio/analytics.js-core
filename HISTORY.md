@@ -1,3 +1,7 @@
+# 4.1.2 / 2020-09-16
+
+- Replaces `@ndhoule/extend` with `lodash.assignin`
+
 # 4.1.1 / 2020-09-15
 
 - Enable `esModuleInterop` in `tsconfig.json`

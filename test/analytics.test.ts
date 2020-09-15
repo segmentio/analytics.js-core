@@ -1,4 +1,4 @@
-'use strict';
+import assignIn from 'lodash.assignin'
 
 var Analytics = require('../build').constructor;
 var Facade = require('segmentio-facade');
@@ -6,7 +6,6 @@ var analytics = require('../build');
 var assert = require('proclaim');
 var bind = require('component-event').bind;
 var createIntegration = require('@segment/analytics.js-integration');
-var extend = require('@ndhoule/extend');
 var type = require('component-type');
 var pageDefaults = require('../build/pageDefaults');
 var sinon = require('sinon');
@@ -836,7 +835,7 @@ describe('Analytics', function() {
         assert.deepEqual(opts, { context: { page: defaults } });
         assert.deepEqual(
           props,
-          extend(defaults, { category: 'category', name: 'name' })
+          assignIn({ category: 'category', name: 'name' }, defaults)
         );
         done();
       });
