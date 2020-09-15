@@ -1,3 +1,7 @@
+# 4.1.1 / 2020-09-15
+
+- Enable `esModuleInterop` in `tsconfig.json`
+
 # 4.1.0 / 2020-09-14
 
 - Replaces `utils/clone` with `lodash.deepclone`
