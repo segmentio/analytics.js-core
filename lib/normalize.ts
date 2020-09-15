@@ -8,9 +8,7 @@ import { Message } from './types';
 
 var debug = require('debug')('analytics.js:normalize');
 var defaults = require('@ndhoule/defaults');
-var each = require('./utils/each');
 var includes = require('@ndhoule/includes');
-var map = require('./utils/map');
 var type = require('component-type');
 var uuid = require('uuid/v4');
 var md5 = require('spark-md5').hash;
@@ -45,9 +43,9 @@ interface NormalizedMessage {
 }
 
 function normalize(msg: Message, list: Array<any>): NormalizedMessage {
-  var lower = map(function(s) {
+  var lower = list?.map(function(s) {
     return s.toLowerCase();
-  }, list);
+  });
   var opts: Message = msg.options || {};
   var integrations = opts.integrations || {};
   var providers = opts.providers || {};
@@ -59,25 +57,25 @@ function normalize(msg: Message, list: Array<any>): NormalizedMessage {
   debug('<-', msg);
 
   // integrations.
-  each(function(value: string, key: string) {
+  Object.keys(opts).forEach(key => {
     if (!integration(key)) return;
-    if (!has.call(integrations, key)) integrations[key] = value;
+    if (!has.call(integrations, key)) integrations[key] = opts[key];
     delete opts[key];
-  }, opts);
+  });
 
   // providers.
   delete opts.providers;
-  each(function(value: string, key: string) {
+  Object.keys(providers).forEach(key => {
     if (!integration(key)) return;
     if (type(integrations[key]) === 'object') return;
     if (has.call(integrations, key) && typeof providers[key] === 'boolean')
       return;
-    integrations[key] = value;
-  }, providers);
+    integrations[key] = providers[key] as string;
+  });
 
   // move all toplevel options to msg
   // and the rest to context.
-  each(function(_value: any, key: string | number) {
+  Object.keys(opts).forEach(key => {
     if (includes(key, toplevel)) {
       ret[key] = opts[key];
     } else {

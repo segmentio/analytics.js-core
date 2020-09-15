@@ -1,3 +1,10 @@
+# 4.1.0 / 2020-09-14
+
+- Replaces `utils/clone` with `lodash.deepclone`
+- Replaces `utils/map` with `Array.prototype.map`
+- Replaces `utils/each` with `Array.prototype.each`
+- Removes the `utils` directory and tests
+
 # 4.0.4 / 2020-09-11
 
 - Change the arguments of the main methods to be optional in the typedef to match the documentation. (#203)

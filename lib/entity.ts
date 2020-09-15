@@ -1,12 +1,12 @@
 'use strict';
 
 import { InitOptions } from './types';
+import cloneDeep from 'lodash.clonedeep'
 
 /*
  * Module dependencies.
  */
 
-var clone = require('./utils/clone');
 var cookie = require('./cookie');
 var debug = require('debug')('analytics:entity');
 var defaults = require('@ndhoule/defaults');
@@ -198,7 +198,7 @@ Entity.prototype._getTraits = function(): object {
   var ret = this._options.persist
     ? store.get(this._options.localStorage.key)
     : this._traits;
-  return ret ? isodateTraverse(clone(ret)) : {};
+  return ret ? isodateTraverse(cloneDeep(ret)) : {};
 };
 
 /**
