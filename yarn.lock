@@ -315,10 +315,6 @@
   dependencies:
     "@ndhoule/each" "^2.0.1"
 
-"@ndhoule/pick@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@ndhoule/pick/-/pick-2.0.0.tgz#e1eb1a6ca3243eef56daa095c3a1612c74a52156"
-
 "@ndhoule/rest@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@ndhoule/rest/-/rest-2.0.0.tgz#0346b02a964a513ed2ba24d164f01d34f2107a0f"
@@ -6118,6 +6114,11 @@ lodash.mergewith@^4.6.2:
   version "4.6.2"
   resolved "https://registry.yarnpkg.com/lodash.mergewith/-/lodash.mergewith-4.6.2.tgz#617121f89ac55f59047c7aec1ccd6654c6590f55"
   integrity sha512-GK3g5RPZWTRSeLSpgP8Xhra+pnjBC56q9FZYe1d5RN3TJ35dbkGy3YqBSMbyCrlbi+CM9Z3Jk5yTL7RCsqboyQ==
+
+lodash.pick@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/lodash.pick/-/lodash.pick-4.4.0.tgz#52f05610fff9ded422611441ed1fc123a03001b3"
+  integrity sha1-UvBWEP/53tQiYRRB7R/BI6AwAbM=
 
 lodash.reduce@^4.6.0:
   version "4.6.0"

@@ -1,3 +1,7 @@
+# 4.1.3 / 2020-09-16
+
+- Replace `@ndhoule/pick` with `lodash.pick`
+
 # 4.1.2 / 2020-09-16
 
 - Replaces `@ndhoule/extend` with `lodash.assignin`
