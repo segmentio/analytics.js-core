@@ -1,6 +1,5 @@
-'use strict';
-
 import { Message } from './types';
+import includes from 'lodash.includes'
 
 /**
  * Module Dependencies.
@@ -8,7 +7,6 @@ import { Message } from './types';
 
 var debug = require('debug')('analytics.js:normalize');
 var defaults = require('@ndhoule/defaults');
-var includes = require('@ndhoule/includes');
 var type = require('component-type');
 var uuid = require('uuid/v4');
 var md5 = require('spark-md5').hash;
@@ -43,14 +41,14 @@ interface NormalizedMessage {
 }
 
 function normalize(msg: Message, list: Array<any>): NormalizedMessage {
-  var lower = list?.map(function(s) {
+  const lower = list?.map(function(s) {
     return s.toLowerCase();
   });
-  var opts: Message = msg.options || {};
-  var integrations = opts.integrations || {};
-  var providers = opts.providers || {};
-  var context = opts.context || {};
-  var ret: {
+  const opts: Message = msg.options || {};
+  const integrations = opts.integrations || {};
+  const providers = opts.providers || {};
+  const context = opts.context || {};
+  let ret: {
     integrations?: { [key: string]: string };
     context?: unknown;
   } = {};
@@ -76,7 +74,7 @@ function normalize(msg: Message, list: Array<any>): NormalizedMessage {
   // move all toplevel options to msg
   // and the rest to context.
   Object.keys(opts).forEach(key => {
-    if (includes(key, toplevel)) {
+    if (includes(toplevel, key)) {
       ret[key] = opts[key];
     } else {
       context[key] = opts[key];
@@ -96,9 +94,9 @@ function normalize(msg: Message, list: Array<any>): NormalizedMessage {
 
   function integration(name: string) {
     return !!(
-      includes(name, list) ||
+      includes(list, name) ||
       name.toLowerCase() === 'all' ||
-      includes(name.toLowerCase(), lower)
+      includes(lower, name.toLowerCase())
     );
   }
 }
