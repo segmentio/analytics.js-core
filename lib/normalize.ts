@@ -9,7 +9,6 @@ var debug = require('debug')('analytics.js:normalize');
 var type = require('component-type');
 var uuid = require('uuid/v4');
 var md5 = require('spark-md5').hash;
-var assign = require('lodash.assign')
 
 
 /**
@@ -89,7 +88,11 @@ function normalize(msg: Message, list: Array<any>): NormalizedMessage {
   delete msg.options;
   ret.integrations = integrations;
   ret.context = context;
-  ret = assign(msg, ret);
+  ret = {
+    ...msg,
+    ...ret
+  }
+
   debug('->', ret);
   return ret;
 

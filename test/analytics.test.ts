@@ -11,7 +11,6 @@ var pageDefaults = require('../build/pageDefaults');
 var sinon = require('sinon');
 var tick = require('next-tick');
 var trigger = require('compat-trigger-event');
-var assign = require('lodash.assign');
 
 var Identify = Facade.Identify;
 var cookie = Analytics.cookie;
@@ -1615,7 +1614,10 @@ describe('Analytics', function() {
       var track = analytics._invoke.args[0][1];
       assert.deepEqual(
         track.context().page,
-        assign(contextPage, { title: 'lol' })
+        {
+          ...contextPage,
+          title: 'lol'
+        }
       );
     });
 

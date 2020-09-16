@@ -8,7 +8,6 @@ import { StoreOptions } from './types';
 
 var bindAll = require('bind-all');
 var store = require('@segment/store');
-var assign = require('lodash.assign')
 
 /**
  * Initialize a new `Store` with `options`.
@@ -28,7 +27,10 @@ Store.prototype.options = function(options?: StoreOptions) {
   if (arguments.length === 0) return this._options;
 
   options = options || {};
-  options = assign({ enabled: true }, options);
+  options = {
+    enabled: true,
+    ...options
+  };
 
   this.enabled = options.enabled && store.enabled;
   this._options = options;

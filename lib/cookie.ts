@@ -11,7 +11,6 @@ var bindAll = require('bind-all');
 var cookie = require('@segment/cookie');
 var debug = require('debug')('analytics.js:cookie');
 var topDomain = require('@segment/top-domain');
-var assign = require('lodash.assign')
 
 const MAX_AGE_ONE_YEAR = 31536000000
 
@@ -44,7 +43,10 @@ Cookie.prototype.options = function(options?: CookieOptions) {
     sameSite: 'Lax'
   }
 
-  this._options = assign(defaults, options);
+  this._options = {
+    ...defaults,
+    ...options
+  };
 
   // http://curl.haxx.se/rfc/cookie_spec.html
   // https://publicsuffix.org/list/effective_tld_names.dat

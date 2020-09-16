@@ -49,7 +49,6 @@ var querystring = require('component-querystring');
 var store = require('./store');
 var user = require('./user');
 var type = require('component-type');
-var assign = require('lodash.assign')
 
 /**
  * Initialize a new `Analytics` instance.
@@ -614,13 +613,11 @@ Analytics.prototype.page = function(
 
   // Ensure properties has baseline spec properties.
   // TODO: Eventually move these entirely to `options.context.page`
-<<<<<<< HEAD
-  const defs = pageDefaults();
-  defaults(properties, defs);
-=======
-  var defs = pageDefaults();
-  assign(properties, defs)
->>>>>>> f1bfcd9... Replace @ndhoulse/defaults with lodash.assign and ES6 spread syntax merging
+  const defs = pageDefaults()
+  properties = {
+    ...properties,
+    ...defs
+  }
 
   // Mirror user overrides to `options.context.page` (but exclude custom properties)
   // (Any page defaults get applied in `this.normalize` for consistency.)
