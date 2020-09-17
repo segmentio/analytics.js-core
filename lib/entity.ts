@@ -10,7 +10,6 @@ import assignIn from 'lodash.assignin'
 
 var cookie = require('./cookie');
 var debug = require('debug')('analytics:entity');
-var defaults = require('@ndhoule/defaults');
 var memory = require('./memory');
 var store = require('./store');
 var isodateTraverse = require('@segment/isodate-traverse');
@@ -74,7 +73,10 @@ Entity.prototype.storage = function() {
 
 Entity.prototype.options = function(options?: InitOptions) {
   if (arguments.length === 0) return this._options;
-  this._options = defaults(options || {}, this.defaults || {});
+  this._options = {
+    ...this.defaults,
+    ...options
+  }
 };
 
 /**

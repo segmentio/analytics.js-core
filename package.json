@@ -1,7 +1,7 @@
 {
   "name": "@segment/analytics.js-core",
   "author": "Segment <friends@segment.com>",
-  "version": "4.1.4",
+  "version": "4.1.5",
   "description": "The hassle-free way to integrate analytics into any web application.",
   "types": "lib/index.d.ts",
   "keywords": [
@@ -30,7 +30,6 @@
   },
   "homepage": "https://github.com/segmentio/analytics.js-core#readme",
   "dependencies": {
-    "@ndhoule/defaults": "^2.0.1",
     "@segment/canonical": "^1.0.0",
     "@segment/cookie": "^1.1.5",
     "@segment/is-meta": "^1.0.0",

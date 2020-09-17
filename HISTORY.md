@@ -1,3 +1,7 @@
+# 4.1.5 / 2020-09-17
+
+- Replace @ndhoule/defaults with merging via ES6 spread syntax
+
 # 4.1.4 / 2020-09-16
 
 - Replace `@ndhoule/includes` with `lodash.includes`

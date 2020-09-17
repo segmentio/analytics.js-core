@@ -10,8 +10,9 @@ import cloneDeep from 'lodash.clonedeep'
 var bindAll = require('bind-all');
 var cookie = require('@segment/cookie');
 var debug = require('debug')('analytics.js:cookie');
-var defaults = require('@ndhoule/defaults');
 var topDomain = require('@segment/top-domain');
+
+const MAX_AGE_ONE_YEAR = 31536000000
 
 /**
  * Initialize a new `Cookie` with `options`.
@@ -32,16 +33,20 @@ Cookie.prototype.options = function(options?: CookieOptions) {
 
   options = options || {};
 
-  var domain = '.' + topDomain(window.location.href);
+  let domain = '.' + topDomain(window.location.href);
   if (domain === '.') domain = null;
 
-  this._options = defaults(options, {
-    // default to a year
-    maxage: 31536000000,
-    path: '/',
+  const defaults: CookieOptions  = {
+    maxage: MAX_AGE_ONE_YEAR,
     domain: domain,
+    path: '/',
     sameSite: 'Lax'
-  });
+  }
+
+  this._options = {
+    ...defaults,
+    ...options
+  };
 
   // http://curl.haxx.se/rfc/cookie_spec.html
   // https://publicsuffix.org/list/effective_tld_names.dat

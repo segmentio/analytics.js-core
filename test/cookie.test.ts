@@ -63,6 +63,15 @@ describe('cookie', function() {
       assert(cookie.options().maxage === 31536000000);
     });
 
+    it('should have default options', function() {
+      cookie.options({ domain: '' });
+
+      assert(cookie.options().maxage === 31536000000);
+      assert(cookie.options().path === '/');
+      assert(cookie.options().domain === '');
+      assert(cookie.options().sameSite === 'Lax');
+    });
+
     it('should set the domain correctly', function() {
       cookie.options({ domain: '' });
       assert(cookie.options().domain === '');
