@@ -772,6 +772,17 @@ describe('Analytics', function() {
       assert.deepEqual(page.options('AdRoll'), { opt: true });
     });
 
+    it('should use the initialize .integrations option', function() {
+      analytics.initialize(settings, {
+        integrations: {
+          Test: false
+        }
+      });
+      analytics.page({ prop: true });
+      var page = analytics._invoke.args[0][1];
+      assert.deepEqual(page.obj.integrations, { Test: false });
+    });
+
     it('should be able to override the initialize .integrations option', function() {
       analytics.initialize(settings, {
         integrations: {
