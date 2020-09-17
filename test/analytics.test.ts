@@ -829,6 +829,22 @@ describe('Analytics', function() {
       });
     });
 
+    it('should should not overwrite context.page values due to an existing bug', function() {
+      analytics.page({ prop: true, context: { page: { search: "lol" } } }, { context: { page: { search: "" } } });
+      var page = analytics._invoke.args[0][1];
+      // FIXME: This assert should fail once the bug is fixed
+      assert.notDeepEqual(page.context(), {
+        page: {
+          ...defaults,
+          search: "lol",
+        },
+      });
+      // FIXME: This assert should fail once the bug is fixed
+      assert.deepEqual(page.context(), {
+        page: defaults,
+      });
+    });
+
     it('should emit page', function(done) {
       analytics.once('page', function(category, name, props, opts) {
         assert(category === 'category');

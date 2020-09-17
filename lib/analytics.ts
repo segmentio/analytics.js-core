@@ -6,7 +6,7 @@ import {
   SegmentAnalytics,
   SegmentOpts,
   SegmentIntegration,
-  PageDefaults
+  PageDefaults, Message
 } from './types';
 
 import cloneDeep from 'lodash.clonedeep'
@@ -613,6 +613,10 @@ Analytics.prototype.page = function(
 
   // Ensure properties has baseline spec properties.
   // TODO: Eventually move these entirely to `options.context.page`
+  // FIXME: This is purposely not overriding `defs`. There was a bug in the logic implemented by `@ndhoule/defaults`.
+  //        This bug made it so we only would overwrite values in `defs` that were set to `undefined`.
+  //        In some cases, though, pageDefaults  will return defaults with values set to "" (such as `window.location.search` defaulting to "").
+  //        The decision to not fix this bus was made to preserve backwards compatibility.
   const defs = pageDefaults()
   properties = {
     ...properties,
@@ -993,6 +997,7 @@ Analytics.prototype._parseQuery = function(query: string): SegmentAnalytics {
  */
 
 Analytics.prototype.normalize = function(msg: {
+  options: { [key: string]: unknown }
   context: { page: Partial<PageDefaults> };
   anonymousId: string;
 }): object {
