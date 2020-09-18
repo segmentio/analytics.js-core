@@ -1,13 +1,13 @@
 import assignIn from 'lodash.assignin'
+import { pageDefaults} from '../build/pageDefaults';
+import assert from 'proclaim'
 
 var Analytics = require('../build').constructor;
 var Facade = require('segmentio-facade');
 var analytics = require('../build');
-var assert = require('proclaim');
 var bind = require('component-event').bind;
 var createIntegration = require('@segment/analytics.js-integration');
 var type = require('component-type');
-var pageDefaults = require('../build/pageDefaults');
 var sinon = require('sinon');
 var tick = require('next-tick');
 var trigger = require('compat-trigger-event');
