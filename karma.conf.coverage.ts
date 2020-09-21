@@ -9,7 +9,7 @@ module.exports = function(config) {
   config.set({
     singleRun: true,
 
-    reporters: ['spec', 'summary', 'junit', 'coverage'],
+    reporters: ['spec', 'summary', 'junit', 'karma-typescript'],
 
     specReporter: {
       suppressPassed: true
@@ -20,11 +20,18 @@ module.exports = function(config) {
       suite: require('./package.json').name
     },
 
-    coverageReporter: {
-      reporters: [
-        { type: 'lcovonly', subdir: '.' },
-        { type: 'json', subdir: '.' }
-      ]
+    karmaTypescriptConfig: {
+      coverageOptions: {
+        sourceMap: true
+      },
+      reports: {
+        "lcovonly": {
+          directory: "coverage"
+        },
+        "json": {
+          directory: "coverage"
+        },
+      }
     },
 
     browserify: {

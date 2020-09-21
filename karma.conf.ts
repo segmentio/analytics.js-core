@@ -20,7 +20,7 @@ module.exports = function(config) {
     reporters: ['spec'],
 
     preprocessors: {
-      'test/**/*.ts': 'karma-typescript'
+      '**/*.ts': 'karma-typescript'
     },
 
     browserNoActivityTimeout: TEST_TIMEOUT,
@@ -41,13 +41,9 @@ module.exports = function(config) {
         sourceMap: true,
       },
       compilerOptions: {
-        module: "commonjs",
-        target: "ES5",
-        allowJs: false,
-        esModuleInterop: true
+        sourceMap: true,
       },
-      include: ['test'],
-      exclude: ['node_modules', 'lib', 'test-e2e/*.ts']
+      include: ["lib", "test"],
     }
   });
 };

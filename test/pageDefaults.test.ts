@@ -1,6 +1,6 @@
 import { pageDefaults }  from '../build/pageDefaults'
 import * as assert from 'proclaim'
-import sinon from 'sinon'
+import * as sinon from 'sinon'
 
 const el = document.createElement("link")
 el.setAttribute("rel", "canonical")

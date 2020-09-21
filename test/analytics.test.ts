@@ -1,6 +1,6 @@
 import assignIn from 'lodash.assignin'
 import { pageDefaults} from '../build/pageDefaults';
-import assert from 'proclaim'
+import * as assert from 'proclaim'
 
 var Analytics = require('../build').constructor;
 var Facade = require('segmentio-facade');

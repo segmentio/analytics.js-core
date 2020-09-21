@@ -1,8 +1,6 @@
-'use strict';
+import Facade from 'segmentio-facade'
 
-var Facade = require('segmentio-facade');
-
-module.exports.SourceMiddlewareChain = function SourceMiddlewareChain() {
+export const SourceMiddlewareChain = function SourceMiddlewareChain() {
   var apply = middlewareChain(this);
 
   this.applyMiddlewares = function(facade, integrations, callback) {
@@ -20,7 +18,7 @@ module.exports.SourceMiddlewareChain = function SourceMiddlewareChain() {
   };
 };
 
-module.exports.IntegrationMiddlewareChain = function IntegrationMiddlewareChain() {
+export const IntegrationMiddlewareChain = function IntegrationMiddlewareChain() {
   var apply = middlewareChain(this);
 
   this.applyMiddlewares = function(facade, integration, callback) {
@@ -34,7 +32,7 @@ module.exports.IntegrationMiddlewareChain = function IntegrationMiddlewareChain(
   };
 };
 
-module.exports.DestinationMiddlewareChain = function DestinationMiddlewareChain() {
+export const DestinationMiddlewareChain = function DestinationMiddlewareChain() {
   var apply = middlewareChain(this);
 
   this.applyMiddlewares = function(facade, integration, callback) {
@@ -49,7 +47,7 @@ module.exports.DestinationMiddlewareChain = function DestinationMiddlewareChain(
 };
 
 // Chain is essentially a linked list of middlewares to run in order.
-function middlewareChain(dest) {
+export const middlewareChain = function middlewareChain(dest) {
   var middlewares = [];
 
   // Return a copy to prevent external mutations.
@@ -106,5 +104,3 @@ function executeChain(run, payload, middlewares, index) {
     }
   }
 }
-
-module.exports.middlewareChain = middlewareChain;
