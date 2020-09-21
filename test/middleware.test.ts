@@ -1,4 +1,4 @@
-import * as assert from 'proclaim'
+import assert from 'proclaim'
 
 const Facade = require('segmentio-facade');
 const SourceMiddlewareChain = require('../build/middleware')

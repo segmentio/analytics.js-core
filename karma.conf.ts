@@ -9,7 +9,8 @@ module.exports = function(config) {
     files: [
       { pattern: 'test/support/*.html', included: false },
       'test/support/global.ts', // NOTE: This must run before all tests
-      'test/**/*.test.ts'
+      'test/**/*.test.ts',
+      'lib/**/*.ts'
     ],
     browsers: ['ChromeHeadless'],
 
@@ -42,6 +43,7 @@ module.exports = function(config) {
       },
       compilerOptions: {
         sourceMap: true,
+        esModuleInterop: true
       },
       include: ["lib", "test"],
     }
