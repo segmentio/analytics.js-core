@@ -9,6 +9,8 @@ import {
   PageDefaults, Message
 } from './types';
 
+import { pageDefaults } from './pageDefaults';
+
 import cloneDeep from 'lodash.clonedeep'
 import pick from 'lodash.pick'
 
@@ -43,7 +45,6 @@ var memory = require('./memory');
 var nextTick = require('next-tick');
 var normalize = require('./normalize');
 var on = require('component-event').bind;
-var pageDefaults = require('./pageDefaults');
 var prevent = require('@segment/prevent-default');
 var querystring = require('component-querystring');
 var store = require('./store');

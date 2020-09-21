@@ -1,7 +1,7 @@
 {
   "name": "@segment/analytics.js-core",
   "author": "Segment <friends@segment.com>",
-  "version": "4.1.5",
+  "version": "4.1.6",
   "description": "The hassle-free way to integrate analytics into any web application.",
   "types": "lib/index.d.ts",
   "keywords": [
@@ -30,7 +30,6 @@
   },
   "homepage": "https://github.com/segmentio/analytics.js-core#readme",
   "dependencies": {
-    "@segment/canonical": "^1.0.0",
     "@segment/cookie": "^1.1.5",
     "@segment/is-meta": "^1.0.0",
     "@segment/isodate": "^1.0.2",
@@ -73,6 +72,8 @@
     "@types/mocha": "^7.0.2",
     "@types/node": "^14.0.6",
     "@types/node-fetch": "^2.5.7",
+    "@types/proclaim": "^3.6.1",
+    "@types/sinon": "^9.0.5",
     "@typescript-eslint/eslint-plugin": "^4.1.0",
     "@typescript-eslint/parser": "^4.1.0",
     "assert": "1.5.0",
@@ -109,7 +110,7 @@
     "prettier-eslint-cli": "5.0.0",
     "proclaim": "^3.5.1",
     "puppeteer": "^5.3.0",
-    "sinon": "^1.7.3",
+    "sinon": "^1.17.7",
     "snyk": "^1.393.0",
     "ts-node": "^8.10.2",
     "typescript": "^4.0.2",
