@@ -5,7 +5,14 @@ export declare namespace SegmentAnalytics {
     context?: object;
   }
 
-  interface IntegrationsSettings {
+  type IntegrationsSettings = IntegrationSettings | SegmentIOIntegrationSettings
+
+  interface IntegrationSettings {
+    [key: string]: unknown
+  }
+
+  // TODO: Long term, this should probably live in analytics.js-integrations
+  interface SegmentIOIntegrationSettings {
     addBundledMetadata: boolean;
     apiHost?: string;
     apiKey?: string;
