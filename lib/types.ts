@@ -122,22 +122,22 @@ export interface PageDefaults {
 }
 
 /**
- * A generic Integration Facade that gets returned via `createIntegration` in analytics.js-integration.
- * The `options` vary based on the integration itself.
+ * A generic Integration Facade used by every integration in `analytics.js-integrations`.
+ * The `options` vary based on the integration itself
  */
-export interface Integration extends Emitter {
+export interface Integration<Settings = {
+  addIntegration?: boolean
+  [setting: string]: unknown
+}> extends Emitter {
   /**
    * The name of the integration
    */
   name: string,
 
   /**
-   * The integration options.  Varies based on the integration.
+   * The integration settings.  Varies based on the integration.
    */
-  options: {
-    addIntegration: boolean
-    [option: string]: unknown
-  }
+  options: Settings
 
   /**
    * A logger provided via `debug`.  Namespaced to `analytics:integration` + a slug-ified name
@@ -164,6 +164,8 @@ export interface Integration extends Emitter {
    * A reference to Analytics.JS
    */
   analytics: SegmentAnalytics
+
+
 }
 
 /**
