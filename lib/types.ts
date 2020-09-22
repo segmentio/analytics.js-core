@@ -1,35 +1,47 @@
-export interface SegmentAnalytics {
-  Integrations: { [name: string]: (options: SegmentOpts) => void };
-  options: InitOptions;
-  require: any
-  VERSION: any
+/**
+ * The internal types used in analytics.js-core
+ */
+import debug from 'debug';
+import Emitter from 'component-emitter';
 
-  // Analytics.JS Methods
-  page: (
+export interface SegmentAnalytics extends Emitter {
+  Integrations: { [name: string]:  IntegrationConstructor };
+  options: InitOptions;
+  require: NodeJS.Require
+  VERSION: string
+  initialized: boolean
+
+  // AJS Methods
+  page(
     category?: string,
     name?: string,
     properties?: any,
     options?: any,
     fn?: unknown
-  ) => void
+  ): SegmentAnalytics;
+
+  // Public fields and methods
+  add(integration: Integration): SegmentAnalytics
+  log: debug.Debugger
+  failedInitializations: string[]
+
 
   // Private fields
   _options: (options: Object) => void
   _sourceMiddlewares:  unknown
   _integrationMiddlewares: unknown
   _destinationMiddlewares: unknown
-  _integrations: unknown
+  _integrations: { [name: string]:  Integration };
   _readied: boolean
   _timeout: number
   _user: unknown
-  log: (args: string) => void
-  on: (event: string, callback: (settings: unknown, options: InitOptions) => void) => void
   _parseQuery: (queryString: string) => void
 }
 
-export interface IntegrationsSettings {
-  // TODO remove `any`
-  [key: string]: any;
+export interface InitIntegrationsSettings {
+  [name: string]: {
+    [setting: string]: unknown
+  };
 }
 
 export interface CookieOptions {
@@ -108,3 +120,54 @@ export interface PageDefaults {
   title: string;
   url: string;
 }
+
+/**
+ * A generic Integration Facade that gets returned via `createIntegration` in analytics.js-integration.
+ * The `options` vary based on the integration itself.
+ */
+export interface Integration extends Emitter {
+  /**
+   * The name of the integration
+   */
+  name: string,
+
+  /**
+   * The integration options.  Varies based on the integration.
+   */
+  options: {
+    addIntegration: boolean
+    [option: string]: unknown
+  }
+
+  /**
+   * A logger provided via `debug`.  Namespaced to `analytics:integration` + a slug-ified name
+   */
+  debug: debug.Debug
+
+  /**
+   * Initializes the integration, triggering a "ready" event with `next-tick`
+   */
+  initialize: () => void
+
+  /**
+   * Emits a "ready" event via `Emitter`
+   */
+  ready: () => void
+
+  /**
+   * A wrapper around a call that noop the first page call if the integration assumes
+   * a pageview.
+   */
+  page: () => void
+
+  /**
+   * A reference to Analytics.JS
+   */
+  analytics: SegmentAnalytics
+}
+
+/**
+ * A type alias for the object constructor that analytics.js-integration uses to build integrations
+ */
+type IntegrationConstructor = (this: Integration, options: { [setting: string]: unknown } ) => void
+

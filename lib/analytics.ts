@@ -1,18 +1,19 @@
 'use strict';
 
 import {
-  IntegrationsSettings,
+  InitIntegrationsSettings,
   InitOptions,
   SegmentAnalytics,
   SegmentOpts,
   SegmentIntegration,
-  PageDefaults, Message
+  PageDefaults, Integration
 } from './types';
 
 import { pageDefaults } from './pageDefaults';
 
 import cloneDeep from 'lodash.clonedeep'
 import pick from 'lodash.pick'
+import extend from 'extend'
 
 var _analytics = global.analytics;
 
@@ -33,11 +34,9 @@ var DestinationMiddlewareChain = require('./middleware')
 var Page = require('segmentio-facade').Page;
 var Track = require('segmentio-facade').Track;
 var bindAll = require('bind-all');
-var extend = require('extend');
 var cookie = require('./cookie');
 var metrics = require('./metrics');
 var debug = require('debug');
-var defaults = require('@ndhoule/defaults');
 var group = require('./group');
 var is = require('is');
 var isMeta = require('@segment/is-meta');
@@ -55,7 +54,7 @@ var type = require('component-type');
  * Initialize a new `Analytics` instance.
  */
 
-function Analytics() {
+function Analytics(this: SegmentAnalytics) {
   this._options({});
   this.Integrations = {};
   this._sourceMiddlewares = new SourceMiddlewareChain();
@@ -70,10 +69,9 @@ function Analytics() {
   bindAll(this);
 
 
-  const self = this;
-  this.on('initialize', function(_, options) {
-    if (options.initialPageview) self.page();
-    self._parseQuery(window.location.search);
+  this.on('initialize', (_, options) =>{
+    if (options.initialPageview) this.page();
+    this._parseQuery(window.location.search);
   });
 }
 
@@ -99,9 +97,10 @@ Analytics.prototype.use = function(
  */
 
 Analytics.prototype.addIntegration = function(
+  this: SegmentAnalytics,
   Integration: (options: SegmentOpts) => void
 ): SegmentAnalytics {
-  var name = Integration.prototype.name;
+  const name = Integration.prototype.name;
   if (!name) throw new TypeError('attempted to add an invalid integration');
   this.Integrations[name] = Integration;
   return this;
@@ -159,7 +158,8 @@ Analytics.prototype.addDestinationMiddleware = function(
  */
 
 Analytics.prototype.init = Analytics.prototype.initialize = function(
-  settings?: IntegrationsSettings,
+  this: SegmentAnalytics,
+  settings?: InitIntegrationsSettings,
   options?: InitOptions
 ): SegmentAnalytics {
   settings = settings || {};
@@ -169,19 +169,17 @@ Analytics.prototype.init = Analytics.prototype.initialize = function(
   this._readied = false;
 
   // clean unknown integrations from settings
-  var self = this;
-  Object.keys(settings).forEach(key => {
-    var Integration = self.Integrations[key];
-    if (!Integration) delete settings[key];
+  Object.keys(settings).forEach(name => {
+    const Integration = this.Integrations[name];
+    if (!Integration) delete settings[name];
   });
 
   // add integrations
-  Object.keys(settings).forEach(key => {
-    const opts = settings[key]
-    const name = key
+  Object.keys(settings).forEach(name => {
+    const opts = settings[name]
 
-    // Don't load disabled integrations
     if (options.integrations) {
+      // Don't load disabled integrations
       if (
         options.integrations[name] === false ||
         (options.integrations.All === false && !options.integrations[name])
@@ -190,28 +188,30 @@ Analytics.prototype.init = Analytics.prototype.initialize = function(
       }
     }
 
-    const Integration = self.Integrations[name];
-    const clonedOpts = {};
-    extend(true, clonedOpts, opts); // deep clone opts
-    const integration = new Integration(clonedOpts);
-    self.log('initialize %o - %o', name, opts);
-    self.add(integration);
+    const Integration = this.Integrations[name];
+    const clonedOpts = {
+      ...opts
+    };
+
+    const integration: Integration = new Integration(clonedOpts);
+    this.log('initialize %o - %o', name, opts);
+    this.add(integration);
   });
 
-  var integrations = this._integrations;
+  const integrations = this._integrations;
 
   // load user now that options are set
   user.load();
   group.load();
 
   // make ready callback
-  var readyCallCount = 0;
-  var integrationCount = Object.keys(integrations).length;
-  var ready = function() {
+  let readyCallCount = 0;
+  const integrationCount = Object.keys(integrations).length;
+  const ready = () => {
     readyCallCount++;
     if (readyCallCount >= integrationCount) {
-      self._readied = true;
-      self.emit('ready');
+      this._readied = true;
+      this.emit('ready');
     }
   };
 
@@ -241,7 +241,7 @@ Analytics.prototype.init = Analytics.prototype.initialize = function(
       };
     }
 
-    integration.analytics = self;
+    integration.analytics = this;
 
     integration.once('ready', ready);
     try {
@@ -251,13 +251,13 @@ Analytics.prototype.init = Analytics.prototype.initialize = function(
       });
       integration.initialize();
     } catch (e) {
-      let integrationName = integration.name;
+      const integrationName = integration.name;
       metrics.increment('analytics_js.integration.invoke.error', {
         method: 'initialize',
         integration_name: integration.name
       });
-      self.failedInitializations.push(integrationName);
-      self.log('Error initializing %s integration: %o', integrationName, e);
+      this.failedInitializations.push(integrationName);
+      this.log('Error initializing %s integration: %o', integrationName, e);
       // Mark integration as ready to prevent blocking of anyone listening to analytics.ready()
 
       integration.ready();
@@ -284,9 +284,7 @@ Analytics.prototype.setAnonymousId = function(id: string): SegmentAnalytics {
  * Add an integration.
  */
 
-Analytics.prototype.add = function(integration: {
-  name: string | number;
-}): SegmentAnalytics {
+Analytics.prototype.add = function(integration: Integration): SegmentAnalytics {
   this._integrations[integration.name] = integration;
   return this;
 };

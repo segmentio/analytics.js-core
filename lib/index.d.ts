@@ -1,3 +1,6 @@
+/**
+ * The publicly available types for Analytics.JS
+ */
 export declare namespace SegmentAnalytics {
   interface SegmentOpts {
     integrations?: any;
@@ -66,8 +69,8 @@ export declare namespace SegmentAnalytics {
 
   interface AnalyticsJS {
     Integrations: { [name: string]: unknown };
-    require: any;
-    VERSION: any;
+    require: NodeJS.Require
+    VERSION: string;
 
     /**
      * Use a `plugin`.
