@@ -741,7 +741,7 @@ Analytics.prototype.timeout = function(timeout: number) {
  * Enable or disable debug.
  */
 
-Analytics.prototype.debug = function(str: string | boolean) {
+Analytics.prototype.debug = function(this: SegmentAnalytics, str: string | boolean) {
   if (!arguments.length || str) {
     debug.enable('analytics:' + (str || '*'));
   } else {

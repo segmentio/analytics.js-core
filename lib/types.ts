@@ -22,6 +22,10 @@ export interface SegmentAnalytics extends Emitter {
 
   // Public fields and methods
   add(integration: Integration): SegmentAnalytics
+
+  /**
+   * A debugger provided by `debug`.  Namespaced to `analytics.js`
+   */
   log: debug.Debugger
   failedInitializations: string[]
 
@@ -142,7 +146,7 @@ export interface Integration<Settings = {
   /**
    * A logger provided via `debug`.  Namespaced to `analytics:integration` + a slug-ified name
    */
-  debug: debug.Debug
+  debug: debug.Debugger
 
   /**
    * Initializes the integration, triggering a "ready" event with `next-tick`
