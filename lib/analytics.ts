@@ -1,19 +1,21 @@
 'use strict';
 
 import {
-  InitIntegrationsSettings,
+  InitIntegrationsWithSettings,
   InitOptions,
   SegmentAnalytics,
   SegmentOpts,
-  SegmentIntegration,
-  PageDefaults, Integration
+  DataFlowOptions,
+  PageDefaults, Integration, IntegrationConstructor
 } from './types';
 
 import { pageDefaults } from './pageDefaults';
+import { loadIntegrationsOnDemand } from './integrations';
 
 import cloneDeep from 'lodash.clonedeep'
 import pick from 'lodash.pick'
 import extend from 'extend'
+import debug from 'debug'
 
 var _analytics = global.analytics;
 
@@ -36,7 +38,6 @@ var Track = require('segmentio-facade').Track;
 var bindAll = require('bind-all');
 var cookie = require('./cookie');
 var metrics = require('./metrics');
-var debug = require('debug');
 var group = require('./group');
 var is = require('is');
 var isMeta = require('@segment/is-meta');
@@ -52,9 +53,10 @@ var type = require('component-type');
 
 /**
  * Initialize a new `Analytics` instance.
+ * @constructor
+ * @this {SegmentAnalytics}
  */
-
-function Analytics(this: SegmentAnalytics) {
+function Analytics() {
   this._options({});
   this.Integrations = {};
   this._sourceMiddlewares = new SourceMiddlewareChain();
@@ -94,11 +96,11 @@ Analytics.prototype.use = function(
 
 /**
  * Define a new `Integration`.
+ * @this {SegmentAnalytics}
  */
 
 Analytics.prototype.addIntegration = function(
-  this: SegmentAnalytics,
-  Integration: (options: SegmentOpts) => void
+  Integration: IntegrationConstructor
 ): SegmentAnalytics {
   const name = Integration.prototype.name;
   if (!name) throw new TypeError('attempted to add an invalid integration');
@@ -155,11 +157,13 @@ Analytics.prototype.addDestinationMiddleware = function(
  * Initialize with the given integration `settings` and `options`.
  *
  * Aliased to `init` for convenience.
+ * @this {SegmentAnalytics}
+ * @param {InitIntegrationsWithSettings} settings
+ * @param {InitOptions} options
+ * @return {SegmentAnalytics}
  */
-
 Analytics.prototype.init = Analytics.prototype.initialize = function(
-  this: SegmentAnalytics,
-  settings?: InitIntegrationsSettings,
+  settings?: InitIntegrationsWithSettings,
   options?: InitOptions
 ): SegmentAnalytics {
   settings = settings || {};
@@ -173,6 +177,18 @@ Analytics.prototype.init = Analytics.prototype.initialize = function(
     const Integration = this.Integrations[name];
     if (!Integration) delete settings[name];
   });
+
+  // Load integrations on the fly if turbo mode is configured and the Segment integration exists
+  // Otherwise, revert to old habits
+  if (!options.turboMode) {
+    this.log("🏎 turbo mode engaged")
+    const segment = settings["Segment.io"]
+
+    if (segment && !!segment.apiKey && typeof (segment.apiKey) === 'string') {
+
+      loadIntegrationsOnDemand(segment.apiKey)
+    }
+  }
 
   // add integrations
   Object.keys(settings).forEach(name => {
@@ -188,12 +204,14 @@ Analytics.prototype.init = Analytics.prototype.initialize = function(
       }
     }
 
-    const Integration = this.Integrations[name];
+    const Integration: IntegrationConstructor = this.Integrations[name];
+
     const clonedOpts = {
       ...opts
     };
 
     const integration: Integration = new Integration(clonedOpts);
+
     this.log('initialize %o - %o', name, opts);
     this.add(integration);
   });
@@ -282,8 +300,10 @@ Analytics.prototype.setAnonymousId = function(id: string): SegmentAnalytics {
 
 /**
  * Add an integration.
+ * @param {Integration} integration
+ * @this {SegmentAnalytics}
+ * @return {SegmentAnalytics}
  */
-
 Analytics.prototype.add = function(integration: Integration): SegmentAnalytics {
   this._integrations[integration.name] = integration;
   return this;
@@ -590,7 +610,7 @@ Analytics.prototype.page = function(
   category?: string,
   name?: string,
   properties?: any,
-  options?: any,
+  options?:  any,
   fn?: unknown
 ): SegmentAnalytics {
   // Argument reshuffling.
@@ -739,9 +759,10 @@ Analytics.prototype.timeout = function(timeout: number) {
 
 /**
  * Enable or disable debug.
+ * @this {SegmentAnalytics}
  */
 
-Analytics.prototype.debug = function(this: SegmentAnalytics, str: string | boolean) {
+Analytics.prototype.debug = function(str: string | boolean) {
   if (!arguments.length || str) {
     debug.enable('analytics:' + (str || '*'));
   } else {
@@ -1020,7 +1041,7 @@ Analytics.prototype.normalize = function(msg: {
  * @return {Object}                  The merged integrations.
  */
 Analytics.prototype._mergeInitializeAndPlanIntegrations = function(
-  planIntegrations: SegmentIntegration
+  planIntegrations: DataFlowOptions
 ): object {
   // Do nothing if there are no initialization integrations
   if (!this.options.integrations) {

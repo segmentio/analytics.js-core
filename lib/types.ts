@@ -16,17 +16,32 @@ export interface SegmentAnalytics extends Emitter {
     category?: string,
     name?: string,
     properties?: any,
-    options?: any,
+    options?: unknown | { integrations: DataFlowOptions },
     fn?: unknown
   ): SegmentAnalytics;
 
-  // Public fields and methods
+  /**
+   * Adds an initialized integration to the list of enabled integrations.
+   * @param integration - An integration that has been created with the repsective `analytics.js-integrations` package.
+   * @returns The instance of SegmentAnalytics
+   */
   add(integration: Integration): SegmentAnalytics
 
+
   /**
-   * A debugger provided by `debug`.  Namespaced to `analytics.js`
+   * Toggles debugging with the `debug` package.
+   * @param enable - If `false` is provided, debugging will be disabled.  If a `string` is provided, debugging will be enabled for that value under a namespace prefixed with `analytics`.
+   */
+  debug(enable?: string | boolean): void
+
+  /**
+   * A logger provided by `debug`.  Namespaced to `analytics.js`.
    */
   log: debug.Debugger
+
+  /**
+   * A collection of integrations that failed to load.
+   */
   failedInitializations: string[]
 
 
@@ -40,12 +55,6 @@ export interface SegmentAnalytics extends Emitter {
   _timeout: number
   _user: unknown
   _parseQuery: (queryString: string) => void
-}
-
-export interface InitIntegrationsSettings {
-  [name: string]: {
-    [setting: string]: unknown
-  };
 }
 
 export interface CookieOptions {
@@ -88,6 +97,9 @@ export interface GroupOptions {
   persist?: boolean;
 }
 
+/**
+ * A set of options that can provided to the `analytics.initialize` method to configure analytics.js.
+ */
 export interface InitOptions {
   initialPageview?: boolean;
   cookie?: CookieOptions;
@@ -95,12 +107,28 @@ export interface InitOptions {
   localStorage?: StoreOptions;
   user?: UserOptions;
   group?: GroupOptions;
-  integrations?: SegmentIntegration;
+  integrations?: DataFlowOptions;
+  turboMode?: boolean
 }
 
-export interface SegmentIntegration {
+/**
+ * A collection of integrations, with settings, that can be provided to the `analytics.initialize` method to load all the integrations at runtime.
+ */
+export interface InitIntegrationsWithSettings {
+  [name: string]: IntegrationSettings
+}
+
+/**
+ * An object that can be passed as the `options` parameter to various analytics.js methods.
+ * Used to control which destinations receive the data. By default, all destinations are enabled.
+ * @see You can read more about this feature in the [Analytics.JS Documentation]{@link https://segment.com/docs/connections/sources/catalog/libraries/website/javascript/#managing-data-flow-with-the-integrations-object}
+ */
+export interface DataFlowOptions {
+  /**
+   * When set to false, disable sending data to all destinations unless they are explicitly listed as true.
+   */
   All?: boolean;
-  [integration: string]: boolean | undefined;
+  [integration: string]: boolean;
 }
 
 export interface SegmentOpts {
@@ -126,13 +154,24 @@ export interface PageDefaults {
 }
 
 /**
+ * Type alias for a generic collection of integration settings
+ */
+export type IntegrationSettings = { [setting: string]: unknown }
+
+/**
+ * IntegrationSettings specific to the Segment.io Integration
+ * TODO: This should live in analytics.js-integrations
+ */
+export interface SegmentIOIntegrationSettings {
+  apiKey: string
+}
+
+/**
  * A generic Integration Facade used by every integration in `analytics.js-integrations`.
  * The `options` vary based on the integration itself
+ * TODO: This should live in analytics.js-integrations
  */
-export interface Integration<Settings = {
-  addIntegration?: boolean
-  [setting: string]: unknown
-}> extends Emitter {
+export interface Integration<T = IntegrationSettings> extends Emitter {
   /**
    * The name of the integration
    */
@@ -141,7 +180,7 @@ export interface Integration<Settings = {
   /**
    * The integration settings.  Varies based on the integration.
    */
-  options: Settings
+  options: T
 
   /**
    * A logger provided via `debug`.  Namespaced to `analytics:integration` + a slug-ified name
@@ -168,12 +207,11 @@ export interface Integration<Settings = {
    * A reference to Analytics.JS
    */
   analytics: SegmentAnalytics
-
-
 }
 
-/**
- * A type alias for the object constructor that analytics.js-integration uses to build integrations
- */
-type IntegrationConstructor = (this: Integration, options: { [setting: string]: unknown } ) => void
 
+/**
+ * A type alias for the function constructor that analytics.js-integration uses to build integrations
+ * TODO: This should live in analytics.js-integrations
+ */
+export type IntegrationConstructor = { prototype: unknown } & ((settings: IntegrationSettings) => void)
