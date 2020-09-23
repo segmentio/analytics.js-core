@@ -5,7 +5,7 @@ import debug from 'debug';
 import Emitter from 'component-emitter';
 
 export interface SegmentAnalytics extends Emitter {
-  Integrations: { [name: string]:  IntegrationConstructor };
+  Integrations: IntegrationConstructors;
   options: InitOptions;
   require: NodeJS.Require
   VERSION: string
@@ -154,9 +154,16 @@ export interface PageDefaults {
 }
 
 /**
+ * Type alias for a generic collection of integration constructors that are provided from analytics.js-integrations
+ */
+export type IntegrationConstructors = {
+  [name: string]: IntegrationConstructor
+}
+
+/**
  * Type alias for a generic collection of integration settings
  */
-export type IntegrationSettings = { [setting: string]: unknown }
+export type IntegrationSettings = { [setting: string]: unknown, version?: string }
 
 /**
  * IntegrationSettings specific to the Segment.io Integration

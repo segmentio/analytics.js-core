@@ -6,7 +6,7 @@ import {
   SegmentAnalytics,
   SegmentOpts,
   DataFlowOptions,
-  PageDefaults, Integration, IntegrationConstructor
+  PageDefaults, Integration, IntegrationConstructor, IntegrationConstructors
 } from './types';
 
 import { pageDefaults } from './pageDefaults';
@@ -178,21 +178,27 @@ Analytics.prototype.init = Analytics.prototype.initialize = function(
     if (!Integration) delete settings[name];
   });
 
-  // Load integrations on the fly if turbo mode is configured and the Segment integration exists
-  // Otherwise, revert to old habits
-  if (!options.turboMode) {
+  const segment = settings["Segment.io"]
+  let constructors: IntegrationConstructors = {}
+
+  // Handle the turboMode option, which dynamically pulls in the `analytics.js-integrations` we need instead of every integration that exists in `analytics.js-integrations`.
+  // In both scenarios, we extract out the constructor functions that are used to initialize the integration.
+  if (options.turboMode &&  segment && !!segment.apiKey && typeof (segment.apiKey) === 'string') {
     this.log("🏎 turbo mode engaged")
-    const segment = settings["Segment.io"]
-
-    if (segment && !!segment.apiKey && typeof (segment.apiKey) === 'string') {
-
-      loadIntegrationsOnDemand(segment.apiKey)
-    }
+    constructors = loadIntegrationsOnDemand(segment.apiKey)
+  } else {
+    Object.keys(settings).forEach(name => {
+      const Integration: IntegrationConstructor | undefined = this.Integrations[name];
+      if (Integration) {
+        constructors[name] = Integration
+      }
+    })
   }
 
   // add integrations
-  Object.keys(settings).forEach(name => {
+  Object.keys(constructors).forEach(name => {
     const opts = settings[name]
+    const Integration = constructors[name]
 
     if (options.integrations) {
       // Don't load disabled integrations
@@ -204,7 +210,6 @@ Analytics.prototype.init = Analytics.prototype.initialize = function(
       }
     }
 
-    const Integration: IntegrationConstructor = this.Integrations[name];
 
     const clonedOpts = {
       ...opts
