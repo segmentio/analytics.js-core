@@ -1,3 +1,7 @@
+# 4.1.6 / 2020-11-24
+
+- Update `trim` package to address ReDoS vulnerability
+
 # 4.1.5 / 2020-09-20
 
 - Remove `@segment/canonical` in favor of `document.querySelector`
