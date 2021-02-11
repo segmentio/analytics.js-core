@@ -1,6 +1,7 @@
 # 4.1.6 / 2020-11-24
 
 - Update `trim` package to address ReDoS vulnerability
+- Update `@segment/send-json` for `json3` deprecation
 
 # 4.1.5 / 2020-09-20
 
