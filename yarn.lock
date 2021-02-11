@@ -496,13 +496,13 @@
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@segment/prevent-default/-/prevent-default-1.0.0.tgz#2ac896ee8c0249dc7af4ac032f8df900fe31892e"
 
-"@segment/send-json@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@segment/send-json/-/send-json-3.0.0.tgz#f79e70efbd01b62361f5a2cf3fb67e91de43135e"
+"@segment/send-json@^4.0.2":
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/@segment/send-json/-/send-json-4.0.2.tgz#69dc4d320be6a6c7c904b44568b33b79ab293620"
+  integrity sha512-HFNr6FB+mvBDC+ZcQCMblOuaLE+b0D7mk5hgkIhcun2+S0AucL0HsD50P6PnncZrinc7AXHIoAcfWLn8FEPtlg==
   dependencies:
     "@segment/base64-encode" "^2.0.2"
     has-cors "^1.1.0"
-    json3 "^3.3.2"
     jsonp "^0.2.0"
 
 "@segment/store@^1.3.20":
