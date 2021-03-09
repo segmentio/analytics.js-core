@@ -18,7 +18,7 @@ If you use analytics.js-core as an npm module, you can use its types out of the 
 
 ### Using types with the AJS Snippet
 
-If you create a source at https://app.segment.com, Segement automatically generates a JS snippet that you can add to your website. (for more information visit our [documentation](https://segment.com/docs/connections/sources/catalog/libraries/website/javascript/quickstart/)).
+If you create a source at https://app.segment.com, Segment automatically generates a JS snippet that you can add to your website. (for more information visit our [documentation](https://segment.com/docs/connections/sources/catalog/libraries/website/javascript/quickstart/)).
 
 To use types with the snippet, add `analytics` as part of the global module.
 Something like this:
@@ -34,46 +34,49 @@ declare global {
 ```
 
 ## Using as a standalone `npm` package
-We recommend using the CDN version of `analytics.js` as it offers all the project and workspace specific settings, enabled integrations, and middleware. But if you prefer to use `analytics.js-core` as a standalone npm package using your own tooling & workflow, you can do the following: 
 
-1- Install the dependencies 
+We recommend using the CDN version of `analytics.js` as it offers all the project and workspace specific settings, enabled integrations, and middleware. But if you prefer to use `analytics.js-core` as a standalone npm package using your own tooling & workflow, you can do the following:
+
+1- Install the dependencies
+
 ```
 yarn add @segment/analytics.js-core
 yarn add @segment/analytics.js-integration-segmentio
 // you may need this depending on the bundler
-yarn add uuid@^3.4 
+yarn add uuid@^3.4
 ```
 
-2- Import the dependencies 
+2- Import the dependencies
+
 ```javascript
-import Analytics from "@segment/analytics.js-core/build/analytics";
-import SegmentIntegration from "@segment/analytics.js-integration-segmentio";
+import Analytics from '@segment/analytics.js-core/build/analytics';
+import SegmentIntegration from '@segment/analytics.js-integration-segmentio';
 ```
 
-3- Initialize Segment and add Segment's own integration 
+3- Initialize Segment and add Segment's own integration
+
 ```javascript
 // instantiate the library
 const analytics = new Analytics();
 
-// add Segment's own integration ( or any other device mode integration ) 
+// add Segment's own integration ( or any other device mode integration )
 analytics.use(SegmentIntegration);
 
-// define the integration settings object. 
-// Since we are using only Segment integration in this example, we only have 
+// define the integration settings object.
+// Since we are using only Segment integration in this example, we only have
 // "Segment.io" in the integrationSettings object
 const integrationSettings = {
-  "Segment.io": {
-    apiKey: "<YOUR SEGMENT WRITE KEY>",
+  'Segment.io': {
+    apiKey: '<YOUR SEGMENT WRITE KEY>',
     retryQueue: true,
     addBundledMetadata: true
   }
 };
 
-
 // Initialize the library
 analytics.initialize(integrationSettings);
 
-// Happy tracking! 
+// Happy tracking!
 analytics.track('🚀');
 ```
 
