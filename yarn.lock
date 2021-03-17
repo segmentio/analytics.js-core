@@ -2526,20 +2526,9 @@ component-props@*:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/component-props/-/component-props-1.1.1.tgz#f9b7df9b9927b6e6d97c9bd272aa867670f34944"
 
-component-querystring@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/component-querystring/-/component-querystring-2.0.0.tgz#84a95d18e471c8491b043df240f0d18d4db527ec"
-  dependencies:
-    component-type "1.1.0"
-    trim "0.0.1"
-
 component-type@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/component-type/-/component-type-1.0.0.tgz#1ed8812e32dd65099d433570757f111ea3d3d871"
-
-component-type@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/component-type/-/component-type-1.1.0.tgz#95b666aad53e5c8d1f2be135c45b5d499197c0c5"
 
 component-type@^1.2.0, component-type@^1.2.1:
   version "1.2.1"
