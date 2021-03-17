@@ -41,7 +41,6 @@
     "bind-all": "^1.0.0",
     "component-emitter": "^1.2.1",
     "component-event": "^0.1.4",
-    "component-querystring": "^2.0.0",
     "component-type": "^1.2.1",
     "component-url": "^0.2.1",
     "debug": "^2.6.9",

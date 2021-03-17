@@ -1,3 +1,7 @@
+# 4.1.7 / 2021-03-17
+
+- Fix Potential DOM-based XSS via prototype pollution
+
 # 4.1.6 / 2020-11-24
 
 - Update `trim` package to address ReDoS vulnerability

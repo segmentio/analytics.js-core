@@ -6,13 +6,14 @@ import {
   SegmentAnalytics,
   SegmentOpts,
   SegmentIntegration,
-  PageDefaults, Message
+  PageDefaults
 } from './types';
 
 import { pageDefaults } from './pageDefaults';
 
 import cloneDeep from 'lodash.clonedeep'
 import pick from 'lodash.pick'
+import url from 'component-url'
 
 var _analytics = global.analytics;
 
@@ -37,7 +38,6 @@ var extend = require('extend');
 var cookie = require('./cookie');
 var metrics = require('./metrics');
 var debug = require('debug');
-var defaults = require('@ndhoule/defaults');
 var group = require('./group');
 var is = require('is');
 var isMeta = require('@segment/is-meta');
@@ -46,7 +46,6 @@ var nextTick = require('next-tick');
 var normalize = require('./normalize');
 var on = require('component-event').bind;
 var prevent = require('@segment/prevent-default');
-var querystring = require('component-querystring');
 var store = require('./store');
 var user = require('./user');
 var type = require('component-type');
@@ -68,7 +67,6 @@ function Analytics() {
   this._user = user;
   this.log = debug('analytics.js');
   bindAll(this);
-
 
   const self = this;
   this.on('initialize', function(_, options) {
@@ -960,9 +958,22 @@ Analytics.prototype.reset = function() {
  * @api private
  */
 
+interface QueryStringParams {
+  [key: string]: string | null;
+}
+
 Analytics.prototype._parseQuery = function(query: string): SegmentAnalytics {
   // Parse querystring to an object
-  var q = querystring.parse(query);
+  const parsed = url.parse(query);
+
+  const q = parsed.query
+    .split('&')
+    .reduce((acc: QueryStringParams, str: string) => {
+      const [k, v] = str.split('=');
+      acc[k] = decodeURI(v).replace('+', ' ');
+      return acc;
+    }, {});
+
   // Create traits and properties objects, populate from querysting params
   var traits = pickPrefix('ajs_trait_', q);
   var props = pickPrefix('ajs_prop_', q);
