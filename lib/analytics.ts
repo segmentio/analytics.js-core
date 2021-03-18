@@ -8,7 +8,7 @@ import {
   SegmentIntegration
 } from './types';
 
-import url from 'component-url';
+var componentUrl = require('component-url');
 
 var _analytics = global.analytics;
 
@@ -919,7 +919,7 @@ Analytics.prototype.reset = function() {
 
 Analytics.prototype._parseQuery = function(query: string): SegmentAnalytics {
   // Parse querystring to an object
-  const parsed = url.parse(query);
+  const parsed = componentUrl.parse(query);
 
   const q = parsed.query.split('&').reduce((acc, str: string) => {
     const [k, v] = str.split('=');
