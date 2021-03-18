@@ -1,4 +1,4 @@
-# 4.0.5 / 2021-03-18
+# 4.0.6 / 2021-03-18
 
 - Fix Potential DOM-based XSS via prototype pollution
 
