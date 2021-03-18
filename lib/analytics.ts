@@ -8,6 +8,8 @@ import {
   SegmentIntegration
 } from './types';
 
+import url from 'component-url';
+
 var _analytics = global.analytics;
 
 /*
@@ -46,7 +48,6 @@ var on = require('component-event').bind;
 var pageDefaults = require('./pageDefaults');
 var pick = require('@ndhoule/pick');
 var prevent = require('@segment/prevent-default');
-var querystring = require('component-querystring');
 var store = require('./store');
 var user = require('./user');
 var type = require('component-type');
@@ -918,7 +919,13 @@ Analytics.prototype.reset = function() {
 
 Analytics.prototype._parseQuery = function(query: string): SegmentAnalytics {
   // Parse querystring to an object
-  var q = querystring.parse(query);
+  const parsed = url.parse(query);
+
+  const q = parsed.query.split('&').reduce((acc, str: string) => {
+    const [k, v] = str.split('=');
+    acc[k] = decodeURI(v).replace('+', ' ');
+    return acc;
+  }, {});
   // Create traits and properties objects, populate from querysting params
   var traits = pickPrefix('ajs_trait_', q);
   var props = pickPrefix('ajs_prop_', q);

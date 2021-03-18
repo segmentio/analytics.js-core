@@ -1,3 +1,7 @@
+# 4.0.5 / 2021-03-18
+
+- Fix Potential DOM-based XSS via prototype pollution
+
 # 4.0.4 / 2020-09-11
 
 - Change the arguments of the main methods to be optional in the typedef to match the documentation. (#203)
