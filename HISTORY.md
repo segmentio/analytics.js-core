@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 # 4.1.7 / 2021-03-17
 
@@ -32,6 +33,8 @@
 
 - Replaces `@ndhoule/extend` with `lodash.assignin`
 
+=======
+>>>>>>> parent of 017124b... Replace @ndhoule/extend with lodash.assignin (#206)
 # 4.1.1 / 2020-09-15
 
 - Enable `esModuleInterop` in `tsconfig.json`

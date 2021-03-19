@@ -2,7 +2,6 @@
 
 import { InitOptions } from './types';
 import cloneDeep from 'lodash.clonedeep'
-import assignIn from 'lodash.assignin'
 
 /*
  * Module dependencies.
@@ -11,6 +10,7 @@ import assignIn from 'lodash.assignin'
 var cookie = require('./cookie');
 var debug = require('debug')('analytics:entity');
 var defaults = require('@ndhoule/defaults');
+var extend = require('@ndhoule/extend');
 var memory = require('./memory');
 var store = require('./store');
 var isodateTraverse = require('@segment/isodate-traverse');
@@ -221,16 +221,10 @@ Entity.prototype._setTraits = function(traits: object) {
 
 Entity.prototype.identify = function(id?: string, traits?: object) {
   traits = traits || {};
-  const current = this.id();
-
-  if (current === null || current === id) {
-    traits = assignIn(this.traits(), traits);
-  }
-
-  if (id) {
-    this.id(id);
-  }
-
+  var current = this.id();
+  if (current === null || current === id)
+    traits = extend(this.traits(), traits);
+  if (id) this.id(id);
   this.debug('identify %o, %o', id, traits);
   this.traits(traits);
   this.save();
