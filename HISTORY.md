@@ -1,7 +1,3 @@
-# 4.1.7 / 2021-03-17
-
-- Fix Potential DOM-based XSS via prototype pollution
-
 # 4.1.6 / 2020-11-24
 
 - Update `trim` package to address ReDoS vulnerability
@@ -9,7 +5,14 @@
 # 4.1.5 / 2020-09-20
 
 - Remove `@segment/canonical` in favor of `document.querySelector`
+
+# 4.1.5 / 2020-09-17
+
 - Replace @ndhoule/defaults with merging via ES6 spread syntax
+
+# 4.1.4 / 2020-09-16
+
+- Replace `@ndhoule/includes` with `lodash.includes`
 
 # 4.1.3 / 2020-09-16
 
