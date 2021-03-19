@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 # 4.1.7 / 2021-03-17
 
@@ -25,6 +26,8 @@
 
 - Replace `@ndhoule/pick` with `lodash.pick`
 
+=======
+>>>>>>> parent of 6e33d3d... Replace @ndhoule/pick with lodash.pick (#210)
 # 4.1.2 / 2020-09-16
 
 - Replaces `@ndhoule/extend` with `lodash.assignin`

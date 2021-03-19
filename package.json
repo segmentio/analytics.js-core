@@ -1,7 +1,7 @@
 {
   "name": "@segment/analytics.js-core",
   "author": "Segment <friends@segment.com>",
-  "version": "4.1.3",
+  "version": "4.1.2",
   "description": "The hassle-free way to integrate analytics into any web application.",
   "types": "lib/index.d.ts",
   "keywords": [
@@ -32,6 +32,7 @@
   "dependencies": {
     "@ndhoule/defaults": "^2.0.1",
     "@ndhoule/includes": "^2.0.1",
+    "@ndhoule/pick": "^2.0.0",
     "@segment/canonical": "^1.0.0",
     "@segment/cookie": "^1.1.5",
     "@segment/is-meta": "^1.0.0",
@@ -53,7 +54,6 @@
     "is": "^3.1.0",
     "lodash.assignin": "^4.2.0",
     "lodash.clonedeep": "^4.5.0",
-    "lodash.pick": "^4.4.0",
     "new-date": "^1.0.0",
     "next-tick": "^0.2.2",
     "package-json-versionify": "^1.0.4",
