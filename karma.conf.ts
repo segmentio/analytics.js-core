@@ -44,7 +44,6 @@ module.exports = function(config) {
         module: "commonjs",
         target: "ES5",
         allowJs: false,
-        esModuleInterop: true
       },
       include: ['test'],
       exclude: ['node_modules', 'lib', 'test-e2e/*.ts']

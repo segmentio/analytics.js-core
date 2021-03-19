@@ -1,17 +1,32 @@
 import { PageDefaults } from './types';
 import includes from 'lodash.includes'
+import canonical from '@segment/canonical'
 import url from 'component-url'
+
+/**
+ * Return a default `options.context.page` object.
+ *
+ * https://segment.com/docs/spec/page/#properties
+ */
+
+function pageDefaults(): PageDefaults {
+  return {
+    path: canonicalPath(),
+    referrer: document.referrer,
+    search: location.search,
+    title: document.title,
+    url: canonicalUrl(location.search)
+  };
+}
 
 /**
  * Return the canonical path for the page.
  */
 
-const canonicalPath = (): string => {
-  const canon = document.querySelector("link[rel='canonical']")
+function canonicalPath(): string {
+  const canon = canonical();
   if (!canon) return window.location.pathname;
-  const href = canon.getAttribute("href")
-
-  const parsed = url.parse(href);
+  const parsed = url.parse(canon);
   return parsed.pathname;
 }
 
@@ -20,35 +35,16 @@ const canonicalPath = (): string => {
  * and strip the hash.
  */
 
-const canonicalUrl = (search: string): string => {
-  const canon = document.querySelector("link[rel='canonical']")
-  if (canon) {
-    const href = canon.getAttribute("href")
-    return includes(href, '?') ? href : href + search;
-  }
-
+function canonicalUrl(search: string): string {
+  const canon = canonical();
+  if (canon) return includes(canon, '?') ? canon : canon + search;
   const url = window.location.href;
   const i = url.indexOf('#');
   return i === -1 ? url : url.slice(0, i);
 }
 
-/**
- * Return a default `options.context.page` object.
- *
- * https://segment.com/docs/spec/page/#properties
+/*
+ * Exports.
  */
 
-export const pageDefaults = (): PageDefaults => {
-  const path = canonicalPath()
-  const { referrer, title } = document
-  const { search } = location
-  const url = canonicalUrl(search)
-
-  return {
-    path,
-    referrer,
-    search,
-    title,
-    url
-  };
-}
+module.exports = pageDefaults;

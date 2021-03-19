@@ -4,8 +4,7 @@
     "module": "commonjs",
     "target": "ES5",
     "allowJs": true,
-    "outDir": "build",
-    "lib": ["dom"]
+    "outDir": "build"
   },
   "include": ["lib"],
   "exclude": ["node_modules", "*.md", "Makefile", "karma.*", "test", "test-e2e"]
