@@ -1,7 +1,4 @@
-/* eslint-env node */
-'use strict';
-
-var baseConfig = require('./karma.conf');
+const baseConfig = require('./karma.conf');
 
 module.exports = function(config) {
   baseConfig(config);
@@ -9,36 +6,24 @@ module.exports = function(config) {
   config.set({
     singleRun: true,
 
-    reporters: ['spec', 'summary', 'junit', 'coverage'],
-
-    specReporter: {
-      suppressPassed: true
-    },
+    reporters: ['progress', 'summary', 'junit', 'karma-typescript'],
 
     junitReporter: {
       outputDir: 'junit-reports',
       suite: require('./package.json').name
     },
 
-    coverageReporter: {
-      reporters: [
-        { type: 'lcovonly', subdir: '.' },
-        { type: 'json', subdir: '.' }
-      ]
+    karmaTypescriptConfig: {
+      reports: {
+        "lcovonly": {
+          directory: "coverage",
+          subdirectory: "."
+        },
+        "json": {
+          directory: "coverage",
+          subdirectory: "."
+        },
+      }
     },
-
-    browserify: {
-      debug: true,
-      transform: [
-        [
-          'browserify-istanbul',
-          {
-            instrumenterConfig: {
-              embedSource: true
-            }
-          }
-        ]
-      ]
-    }
   });
 };
