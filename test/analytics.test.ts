@@ -8,10 +8,12 @@ var bind = require('component-event').bind;
 var createIntegration = require('@segment/analytics.js-integration');
 var extend = require('@ndhoule/extend');
 var type = require('component-type');
+var jQuery = require('jquery');
 var pageDefaults = require('../build/pageDefaults');
 var sinon = require('sinon');
 var tick = require('next-tick');
 var trigger = require('compat-trigger-event');
+
 var Identify = Facade.Identify;
 var cookie = Analytics.cookie;
 var group = analytics.group();
@@ -1639,14 +1641,12 @@ describe('Analytics', function() {
       link = document.createElement('a');
       link.href = '#';
       document.body.appendChild(link);
-      (window as any).jQuery = require('jquery')
     });
 
     afterEach(function() {
       window.location.hash = '';
       if (wrap) document.body.removeChild(wrap);
       document.body.removeChild(link);
-      (window as any).jQuery = null
     });
 
     it('should trigger a track on an element click', function() {
@@ -1759,11 +1759,11 @@ describe('Analytics', function() {
     var submit;
 
     before(function() {
-      (window as any).jQuery = require('jquery')
+      window.jQuery = jQuery;
     });
 
     after(function() {
-      (window as any).jQuery = null;
+      window.jQuery = null;
     });
 
     beforeEach(function() {

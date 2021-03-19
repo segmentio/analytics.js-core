@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-
 # 4.1.7 / 2021-03-17
 
 - Fix Potential DOM-based XSS via prototype pollution
@@ -15,26 +11,14 @@
 - Remove `@segment/canonical` in favor of `document.querySelector`
 - Replace @ndhoule/defaults with merging via ES6 spread syntax
 
-# 4.1.4 / 2020-09-16
-
-- Replace `@ndhoule/includes` with `lodash.includes`
-
-=======
-
-> > > > > > > parent of c70c3af... Replace @ndhoule/includes with lodash.includes (#211)
-
 # 4.1.3 / 2020-09-16
 
 - Replace `@ndhoule/pick` with `lodash.pick`
 
-=======
->>>>>>> parent of 6e33d3d... Replace @ndhoule/pick with lodash.pick (#210)
 # 4.1.2 / 2020-09-16
 
 - Replaces `@ndhoule/extend` with `lodash.assignin`
 
-=======
->>>>>>> parent of 017124b... Replace @ndhoule/extend with lodash.assignin (#206)
 # 4.1.1 / 2020-09-15
 
 - Enable `esModuleInterop` in `tsconfig.json`

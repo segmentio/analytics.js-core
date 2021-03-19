@@ -4,9 +4,8 @@
  * Module Dependencies.
  */
 
-import cloneDeep from 'lodash.clonedeep'
-
 var bindAll = require('bind-all');
+var clone = require('./utils/clone');
 
 /**
  * HOP.
@@ -33,7 +32,7 @@ function Memory() {
  */
 
 Memory.prototype.set = function(key: string, value: unknown): boolean {
-  this.store[key] = cloneDeep(value);
+  this.store[key] = clone(value);
   return true;
 };
 
@@ -43,7 +42,7 @@ Memory.prototype.set = function(key: string, value: unknown): boolean {
 
 Memory.prototype.get = function(key: string): unknown | undefined {
   if (!has.call(this.store, key)) return;
-  return cloneDeep(this.store[key]);
+  return clone(this.store[key]);
 };
 
 /**
