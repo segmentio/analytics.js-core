@@ -9,8 +9,7 @@ module.exports = function(config) {
     files: [
       { pattern: 'test/support/*.html', included: false },
       'test/support/global.ts', // NOTE: This must run before all tests
-      'test/**/*.test.ts',
-      'lib/**/*.ts'
+      'test/**/*.test.ts'
     ],
     browsers: ['ChromeHeadless'],
 
@@ -21,7 +20,7 @@ module.exports = function(config) {
     reporters: ['spec'],
 
     preprocessors: {
-      '**/*.ts': 'karma-typescript'
+      'test/**/*.ts': 'karma-typescript'
     },
 
     browserNoActivityTimeout: TEST_TIMEOUT,
@@ -42,10 +41,13 @@ module.exports = function(config) {
         sourceMap: true,
       },
       compilerOptions: {
-        sourceMap: true,
+        module: "commonjs",
+        target: "ES5",
+        allowJs: false,
         esModuleInterop: true
       },
-      include: ["lib", "test"],
+      include: ['test'],
+      exclude: ['node_modules', 'lib', 'test-e2e/*.ts']
     }
   });
 };

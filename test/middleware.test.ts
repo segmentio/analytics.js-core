@@ -1,11 +1,12 @@
-import assert from 'proclaim'
+'use strict';
 
-const Facade = require('segmentio-facade');
-const SourceMiddlewareChain = require('../build/middleware')
+var assert = require('proclaim');
+var Facade = require('segmentio-facade');
+var SourceMiddlewareChain = require('../build/middleware')
   .SourceMiddlewareChain;
-const IntegrationMiddlewareChain = require('../build/middleware')
+var IntegrationMiddlewareChain = require('../build/middleware')
   .IntegrationMiddlewareChain;
-const middlewareChain = require('../build/middleware').middlewareChain;
+var middlewareChain = require('../build/middleware').middlewareChain;
 
 describe('middlewareChain', function() {
   var chain;
