@@ -1,7 +1,14 @@
+'use strict';
+
 import { PageDefaults } from './types';
-import includes from 'lodash.includes'
-import canonical from '@segment/canonical'
-import url from 'component-url'
+
+/*
+ * Module dependencies.
+ */
+
+var canonical = require('@segment/canonical');
+var includes = require('@ndhoule/includes');
+var url = require('component-url');
 
 /**
  * Return a default `options.context.page` object.
@@ -24,9 +31,9 @@ function pageDefaults(): PageDefaults {
  */
 
 function canonicalPath(): string {
-  const canon = canonical();
+  var canon = canonical();
   if (!canon) return window.location.pathname;
-  const parsed = url.parse(canon);
+  var parsed = url.parse(canon);
   return parsed.pathname;
 }
 
@@ -36,10 +43,10 @@ function canonicalPath(): string {
  */
 
 function canonicalUrl(search: string): string {
-  const canon = canonical();
-  if (canon) return includes(canon, '?') ? canon : canon + search;
-  const url = window.location.href;
-  const i = url.indexOf('#');
+  var canon = canonical();
+  if (canon) return includes('?', canon) ? canon : canon + search;
+  var url = window.location.href;
+  var i = url.indexOf('#');
   return i === -1 ? url : url.slice(0, i);
 }
 

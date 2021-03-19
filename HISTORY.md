@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+
 # 4.1.7 / 2021-03-17
 
 - Fix Potential DOM-based XSS via prototype pollution
@@ -14,6 +16,10 @@
 # 4.1.4 / 2020-09-16
 
 - Replace `@ndhoule/includes` with `lodash.includes`
+
+=======
+
+> > > > > > > parent of c70c3af... Replace @ndhoule/includes with lodash.includes (#211)
 
 # 4.1.3 / 2020-09-16
 
