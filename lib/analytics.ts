@@ -11,9 +11,9 @@ import {
 
 import { pageDefaults } from './pageDefaults';
 
-import cloneDeep from 'lodash.clonedeep'
-import pick from 'lodash.pick'
-import url from 'component-url'
+import cloneDeep from 'lodash.clonedeep';
+import pick from 'lodash.pick';
+var url = require('component-url');
 
 var _analytics = global.analytics;
 
@@ -175,8 +175,8 @@ Analytics.prototype.init = Analytics.prototype.initialize = function(
 
   // add integrations
   Object.keys(settings).forEach(key => {
-    const opts = settings[key]
-    const name = key
+    const opts = settings[key];
+    const name = key;
 
     // Don't load disabled integrations
     if (options.integrations) {
@@ -223,7 +223,7 @@ Analytics.prototype.init = Analytics.prototype.initialize = function(
   this.failedInitializations = [];
   let initialPageSkipped = false;
   Object.keys(integrations).forEach(key => {
-    const integration = integrations[key]
+    const integration = integrations[key];
     if (
       options.initialPageview &&
       integration.options.initialPageview === false
@@ -329,7 +329,7 @@ Analytics.prototype.identify = function(
     msg.integrations = {
       ...this.options.integrations,
       ...msg.integrations
-    }
+    };
   }
 
   this._invoke('identify', new Identify(msg));
@@ -390,7 +390,7 @@ Analytics.prototype.group = function(
     msg.integrations = {
       ...this.options.integrations,
       ...msg.integrations
-    }
+    };
   }
 
   this._invoke('group', new Group(msg));
@@ -459,7 +459,7 @@ Analytics.prototype.track = function(
   msg.integrations = {
     ...this._mergeInitializeAndPlanIntegrations(planIntegrationOptions),
     ...msg.integrations
-  }
+  };
 
   this._invoke('track', new Track(msg));
 
@@ -485,22 +485,22 @@ Analytics.prototype.trackClick = Analytics.prototype.trackLink = function(
   event: any,
   properties?: any
 ): SegmentAnalytics {
-  let elements: Array<Element> = []
+  let elements: Array<Element> = [];
   if (!links) return this;
   // always arrays, handles jquery
   if (links instanceof Element) {
-    elements = [links]
-  } else if ("toArray" in links) {
-    elements = links.toArray()
+    elements = [links];
+  } else if ('toArray' in links) {
+    elements = links.toArray();
   } else {
-    elements = links as Array<Element>
+    elements = links as Array<Element>;
   }
 
   elements.forEach(el => {
     if (type(el) !== 'element') {
       throw new TypeError('Must pass HTMLElement to `analytics.trackLink`.');
     }
-    on(el, 'click', (e) => {
+    on(el, 'click', e => {
       const ev = is.fn(event) ? event(el) : event;
       const props = is.fn(properties) ? properties(el) : properties;
       const href =
@@ -544,12 +544,12 @@ Analytics.prototype.trackSubmit = Analytics.prototype.trackForm = function(
   // always arrays, handles jquery
   if (type(forms) === 'element') forms = [forms];
 
-  const elements = forms as Array<unknown>
+  const elements = forms as Array<unknown>;
 
   elements.forEach((el: { submit: () => void }) => {
     if (type(el) !== 'element')
       throw new TypeError('Must pass HTMLElement to `analytics.trackForm`.');
-    const handler = (e) => {
+    const handler = e => {
       prevent(e);
 
       const ev = is.fn(event) ? event(el) : event;
@@ -559,7 +559,7 @@ Analytics.prototype.trackSubmit = Analytics.prototype.trackForm = function(
       this._callback(function() {
         el.submit();
       });
-    }
+    };
 
     // Support the events happening through jQuery or Zepto instead of through
     // the normal DOM API, because `el.submit` doesn't bubble up events...
@@ -616,11 +616,11 @@ Analytics.prototype.page = function(
   //        This bug made it so we only would overwrite values in `defs` that were set to `undefined`.
   //        In some cases, though, pageDefaults  will return defaults with values set to "" (such as `window.location.search` defaulting to "").
   //        The decision to not fix this bus was made to preserve backwards compatibility.
-  const defs = pageDefaults()
+  const defs = pageDefaults();
   properties = {
     ...properties,
     ...defs
-  }
+  };
 
   // Mirror user overrides to `options.context.page` (but exclude custom properties)
   // (Any page defaults get applied in `this.normalize` for consistency.)
@@ -646,7 +646,7 @@ Analytics.prototype.page = function(
     msg.integrations = {
       ...this.options.integrations,
       ...msg.integrations
-    }
+    };
   }
 
   this._invoke('page', new Page(msg));
@@ -704,7 +704,7 @@ Analytics.prototype.alias = function(
     msg.integrations = {
       ...this.options.integrations,
       ...msg.integrations
-    }
+    };
   }
 
   this._invoke('alias', new Alias(msg));
@@ -838,8 +838,8 @@ Analytics.prototype._invoke = function(
   function applyIntegrationMiddlewares(facade) {
     let failedInitializations = self.failedInitializations || [];
     Object.keys(self._integrations).forEach(key => {
-      const integration = self._integrations[key]
-      const { name } = integration
+      const integration = self._integrations[key];
+      const { name } = integration;
       const facadeCopy = extend(true, new Facade({}), facade);
 
       if (!facadeCopy.enabled(name)) return;
@@ -1009,7 +1009,7 @@ Analytics.prototype._parseQuery = function(query: string): SegmentAnalytics {
  */
 
 Analytics.prototype.normalize = function(msg: {
-  options: { [key: string]: unknown }
+  options: { [key: string]: unknown };
   context: { page: Partial<PageDefaults> };
   anonymousId: string;
 }): object {
