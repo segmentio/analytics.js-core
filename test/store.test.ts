@@ -43,11 +43,5 @@ describe('store', function() {
       assert(store.options().enabled === false);
       assert(store.enabled === false);
     });
-
-    it('should have default options', function() {
-      store.options({});
-
-      assert(store.options().enabled);
-    });
   });
 });

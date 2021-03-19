@@ -37,7 +37,6 @@ export interface CookieOptions {
   domain?: string;
   path?: string;
   secure?: boolean;
-  sameSite?: string
 }
 
 export interface MetricsOptions {
@@ -47,7 +46,7 @@ export interface MetricsOptions {
   maxQueueSize?: number;
 }
 
-export interface StoreOptions {
+interface StoreOptions {
   enabled?: boolean;
 }
 

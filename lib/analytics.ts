@@ -5,13 +5,12 @@ import {
   InitOptions,
   SegmentAnalytics,
   SegmentOpts,
-  SegmentIntegration,
-  PageDefaults
+  SegmentIntegration
 } from './types';
 var url = require('component-url');
 
-import cloneDeep from 'lodash.clonedeep'
-import pick from 'lodash.pick'
+import cloneDeep from 'lodash.clonedeep';
+import pick from 'lodash.pick';
 
 var _analytics = global.analytics;
 
@@ -45,6 +44,7 @@ var normalize = require('./normalize');
 var on = require('component-event').bind;
 var pageDefaults = require('./pageDefaults');
 var prevent = require('@segment/prevent-default');
+var defaults = require('@ndhoule/defaults');
 var store = require('./store');
 var user = require('./user');
 var type = require('component-type');
@@ -322,13 +322,8 @@ Analytics.prototype.identify = function(
   });
 
   // Add the initialize integrations so the server-side ones can be disabled too
-  // NOTE: We need to merge integrations, not override them with assign
-  // since it is possible to change the initialized integrations at runtime.
   if (this.options.integrations) {
-    msg.integrations = {
-      ...this.options.integrations,
-      ...msg.integrations
-    };
+    defaults(msg.integrations, this.options.integrations);
   }
 
   this._invoke('identify', new Identify(msg));
@@ -383,13 +378,8 @@ Analytics.prototype.group = function(
   });
 
   // Add the initialize integrations so the server-side ones can be disabled too
-  // NOTE: We need to merge integrations, not override them with assign
-  // since it is possible to change the initialized integrations at runtime.
   if (this.options.integrations) {
-    msg.integrations = {
-      ...this.options.integrations,
-      ...msg.integrations
-    };
+    defaults(msg.integrations, this.options.integrations);
   }
 
   this._invoke('group', new Group(msg));
@@ -453,12 +443,10 @@ Analytics.prototype.track = function(
   }
 
   // Add the initialize integrations so the server-side ones can be disabled too
-  // NOTE: We need to merge integrations, not override them with assign
-  // since it is possible to change the initialized integrations at runtime.
-  msg.integrations = {
-    ...this._mergeInitializeAndPlanIntegrations(planIntegrationOptions),
-    ...msg.integrations
-  };
+  defaults(
+    msg.integrations,
+    this._mergeInitializeAndPlanIntegrations(planIntegrationOptions)
+  );
 
   this._invoke('track', new Track(msg));
 
@@ -611,15 +599,8 @@ Analytics.prototype.page = function(
 
   // Ensure properties has baseline spec properties.
   // TODO: Eventually move these entirely to `options.context.page`
-  // FIXME: This is purposely not overriding `defs`. There was a bug in the logic implemented by `@ndhoule/defaults`.
-  //        This bug made it so we only would overwrite values in `defs` that were set to `undefined`.
-  //        In some cases, though, pageDefaults  will return defaults with values set to "" (such as `window.location.search` defaulting to "").
-  //        The decision to not fix this bus was made to preserve backwards compatibility.
   const defs = pageDefaults();
-  properties = {
-    ...properties,
-    ...defs
-  };
+  defaults(properties, defs);
 
   // Mirror user overrides to `options.context.page` (but exclude custom properties)
   // (Any page defaults get applied in `this.normalize` for consistency.)
@@ -639,13 +620,8 @@ Analytics.prototype.page = function(
   });
 
   // Add the initialize integrations so the server-side ones can be disabled too
-  // NOTE: We need to merge integrations, not override them with assign
-  // since it is possible to change the initialized integrations at runtime.
   if (this.options.integrations) {
-    msg.integrations = {
-      ...this.options.integrations,
-      ...msg.integrations
-    };
+    defaults(msg.integrations, this.options.integrations);
   }
 
   this._invoke('page', new Page(msg));
@@ -697,13 +673,8 @@ Analytics.prototype.alias = function(
   });
 
   // Add the initialize integrations so the server-side ones can be disabled too
-  // NOTE: We need to merge integrations, not override them with assign
-  // since it is possible to change the initialized integrations at runtime.
   if (this.options.integrations) {
-    msg.integrations = {
-      ...this.options.integrations,
-      ...msg.integrations
-    };
+    defaults(msg.integrations, this.options.integrations);
   }
 
   this._invoke('alias', new Alias(msg));
@@ -1002,8 +973,7 @@ Analytics.prototype._parseQuery = function(query: string): SegmentAnalytics {
  */
 
 Analytics.prototype.normalize = function(msg: {
-  options: { [key: string]: unknown };
-  context: { page: Partial<PageDefaults> };
+  context: { page };
   anonymousId: string;
 }): object {
   msg = normalize(msg, Object.keys(this._integrations));
@@ -1011,10 +981,7 @@ Analytics.prototype.normalize = function(msg: {
   msg.anonymousId = user.anonymousId();
 
   // Ensure all outgoing requests include page data in their contexts.
-  msg.context.page = {
-    ...pageDefaults(),
-    ...msg.context.page
-  };
+  msg.context.page = defaults(msg.context.page || {}, pageDefaults());
 
   return msg;
 };
