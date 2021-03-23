@@ -34,7 +34,6 @@ var metrics = require('./metrics');
 var debug = require('debug');
 var defaults = require('@ndhoule/defaults');
 var each = require('./utils/each');
-var foldl = require('@ndhoule/foldl');
 var group = require('./group');
 var is = require('is');
 var isMeta = require('@segment/is-meta');
@@ -46,7 +45,7 @@ var on = require('component-event').bind;
 var pageDefaults = require('./pageDefaults');
 var pick = require('@ndhoule/pick');
 var prevent = require('@segment/prevent-default');
-var querystring = require('component-querystring');
+var url = require('component-url');
 var store = require('./store');
 var user = require('./user');
 var type = require('component-type');
@@ -918,7 +917,14 @@ Analytics.prototype.reset = function() {
 
 Analytics.prototype._parseQuery = function(query: string): SegmentAnalytics {
   // Parse querystring to an object
-  var q = querystring.parse(query);
+  const parsed = url.parse(query);
+
+  const q = parsed.query.split('&').reduce((acc, str) => {
+    const [k, v] = str.split('=');
+    acc[k] = decodeURI(v).replace('+', ' ');
+    return acc;
+  }, {});
+
   // Create traits and properties objects, populate from querysting params
   var traits = pickPrefix('ajs_trait_', q);
   var props = pickPrefix('ajs_prop_', q);
