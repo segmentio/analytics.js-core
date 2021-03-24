@@ -47,7 +47,6 @@
     "bind-all": "^1.0.0",
     "component-emitter": "^1.2.1",
     "component-event": "^0.1.4",
-    "component-querystring": "^2.0.0",
     "component-type": "^1.2.1",
     "component-url": "^0.2.1",
     "debug": "^2.6.9",
@@ -58,7 +57,7 @@
     "new-date": "^1.0.0",
     "next-tick": "^0.2.2",
     "package-json-versionify": "^1.0.4",
-    "segmentio-facade": "^3.0.2",
+    "segmentio-facade": "^3.2.7",
     "spark-md5": "^2.0.2",
     "uuid": "^3.4.0"
   },
