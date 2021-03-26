@@ -1,3 +1,7 @@
+# 4.1.9 / 2020-03-26
+
+- updates elliptic, ini, socket.io and debug
+
 # 4.1.8 / 2020-03-23
 
 - Fix Potential DOM-based XSS via prototype pollution
