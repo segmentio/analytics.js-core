@@ -131,6 +131,7 @@
     "browserify": "16.5.2",
     "lodash": "4.17.20",
     "node-fetch": "2.6.1",
-    "elliptic": "^6.5.3"
+    "elliptic": "^6.5.3",
+    "component-cookie/debug": "2.6.9"
   }
 }
