@@ -1,3 +1,7 @@
+# 4.1.10 / 2020-04-14
+
+- updates top-domain to 3.0.1
+
 # 4.1.9 / 2020-03-26
 
 - updates elliptic, ini, socket.io and debug
