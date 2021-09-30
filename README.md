@@ -1,3 +1,6 @@
+⚠️ Be sure to check out the next generation of analytics.js! https://github.com/segmentio/analytics-next 🎉 
+If you have an existing JavaScript source with Segment, you can enable Analytics Next in the settings of the source.
+
 # analytics.js-core
 
 [![CircleCI](https://circleci.com/gh/segmentio/analytics.js-core.svg?style=shield)](https://circleci.com/gh/segmentio/analytics.js-core)
