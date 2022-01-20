@@ -37,6 +37,7 @@
     "@ndhoule/pick": "^2.0.0",
     "@segment/canonical": "^1.0.0",
     "@segment/cookie": "^1.1.5",
+    "@segment/facade": "^3.4.0",
     "@segment/is-meta": "^1.0.0",
     "@segment/isodate": "^1.0.2",
     "@segment/isodate-traverse": "^1.0.1",
@@ -57,7 +58,6 @@
     "new-date": "^1.0.0",
     "next-tick": "^0.2.2",
     "package-json-versionify": "^1.0.4",
-    "segmentio-facade": "^3.2.7",
     "spark-md5": "^2.0.2",
     "uuid": "^3.4.0"
   },
