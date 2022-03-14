@@ -1,6 +1,6 @@
 'use strict';
 
-var Facade = require('segmentio-facade');
+import { Facade } from '@segment/facade'
 
 module.exports.SourceMiddlewareChain = function SourceMiddlewareChain() {
   var apply = middlewareChain(this);

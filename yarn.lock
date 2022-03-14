@@ -447,6 +447,16 @@
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@segment/eslint-config/-/eslint-config-4.0.0.tgz#574a6a02e2e5eaadd4e0cd559be7e3c9bc77273b"
 
+"@segment/facade@^3.4.8":
+  version "3.4.8"
+  resolved "https://registry.yarnpkg.com/@segment/facade/-/facade-3.4.8.tgz#6a8b669115c9a0b1903d3ee2364f62e267a47cc6"
+  integrity sha512-WFtyFUcDPHaUB1Rikrn8dZVCLPkdJmkkHSTgL5gwI8qKuZzRkpsKyeFUmmehmYbF1Jw+sESzKXzf23DFkKFm3A==
+  dependencies:
+    "@segment/isodate-traverse" "^1.1.1"
+    inherits "^2.0.4"
+    new-date "^1.0.3"
+    obj-case "0.2.1"
+
 "@segment/fmt@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@segment/fmt/-/fmt-1.0.0.tgz#7b2db58a12d8420b0a004889af048ab22765557f"
@@ -455,7 +465,7 @@
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@segment/is-meta/-/is-meta-1.0.0.tgz#d911b3f2327b39f8abb16a282954fa26edd3b27c"
 
-"@segment/isodate-traverse@^1.0.0", "@segment/isodate-traverse@^1.0.1":
+"@segment/isodate-traverse@^1.0.1":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@segment/isodate-traverse/-/isodate-traverse-1.1.0.tgz#4fb36f30d94c2c5a3c8a75d25c1504822a1bb9ab"
   dependencies:
@@ -463,11 +473,18 @@
     component-each "^0.2.6"
     component-type "^1.2.1"
 
+"@segment/isodate-traverse@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@segment/isodate-traverse/-/isodate-traverse-1.1.1.tgz#37e1a68b5e48a841260145f1be86d342995dfc64"
+  integrity sha512-+G6e1SgAUkcq0EDMi+SRLfT48TNlLPF3QnSgFGVs0V9F3o3fq/woQ2rHFlW20W0yy5NnCUH0QGU3Am2rZy/E3w==
+  dependencies:
+    "@segment/isodate" "^1.0.3"
+
 "@segment/isodate@1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@segment/isodate/-/isodate-1.0.2.tgz#71fef69e816b77593a80b4cfbf2d22443222eafe"
 
-"@segment/isodate@^1.0.0", "@segment/isodate@^1.0.2":
+"@segment/isodate@1.0.3", "@segment/isodate@^1.0.0", "@segment/isodate@^1.0.2", "@segment/isodate@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@segment/isodate/-/isodate-1.0.3.tgz#f44e8202d5edd277ce822785239474b2c9411d4a"
 
@@ -4923,10 +4940,6 @@ is-docker@^2.0.0:
   resolved "https://registry.yarnpkg.com/is-docker/-/is-docker-2.1.1.tgz#4125a88e44e450d384e09047ede71adc2d144156"
   integrity sha512-ZOoqiXfEwtGknTiuDEy8pN2CfE3TxMHprvNer1mXiqwkOT77Rw3YVrUQ52EqAOU3QAWDQ+bQdx7HJzrv7LS2Hw==
 
-is-email@0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/is-email/-/is-email-0.1.0.tgz#e7eb1aefe8d4a3183980a7172b851272ebd04a95"
-
 is-extendable@^0.1.0, is-extendable@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/is-extendable/-/is-extendable-0.1.1.tgz#62b110e289a471418e3ec36a617d472e301dfc89"
@@ -6625,6 +6638,13 @@ new-date@^1.0.0:
     "@segment/isodate" "1.0.2"
     is "^3.1.0"
 
+new-date@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/new-date/-/new-date-1.0.3.tgz#a5956086d3f5ed43d0b210d87a10219ccb7a2326"
+  integrity sha512-0fsVvQPbo2I18DT2zVHpezmeeNYV2JaJSrseiHLc17GNOxJzUdx5mvSigPu8LtIfZSij5i1wXnXFspEs2CD6hA==
+  dependencies:
+    "@segment/isodate" "1.0.3"
+
 new-github-release-url@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/new-github-release-url/-/new-github-release-url-1.0.0.tgz#493847e6fecce39c247e9d89929be773d2e7f777"
@@ -6774,9 +6794,10 @@ oauth-sign@~0.9.0:
   resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.9.0.tgz#47a7b016baa68b5fa0ecf3dee08a85c679ac6455"
   integrity sha512-fexhUFFPTGV8ybAtSIGbV6gOkSv8UtRbDBnAyLQw4QPKkgNlsH2ByPGtMUqdWkos6YCRmAqViwgZrJc/mRDzZQ==
 
-obj-case@0.x:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/obj-case/-/obj-case-0.2.0.tgz#841c0b26784fc329968396fd871f830255c1ff2d"
+obj-case@0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/obj-case/-/obj-case-0.2.1.tgz#13a554d04e5ca32dfd9d566451fd2b0e11007f1a"
+  integrity sha512-PquYBBTy+Y6Ob/O2574XHhDtHJlV1cJHMCgW+rDRc9J5hhmRelJB3k5dTK/3cVmFVtzvAKuENeuLpoyTzMzkOg==
 
 object-assign@^4, object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
   version "4.1.1"
@@ -8088,20 +8109,6 @@ script-onload@^1.0.2:
 secure-keys@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/secure-keys/-/secure-keys-1.0.0.tgz#f0c82d98a3b139a8776a8808050b824431087fca"
-
-segmentio-facade@^3.2.7:
-  version "3.2.7"
-  resolved "https://registry.yarnpkg.com/segmentio-facade/-/segmentio-facade-3.2.7.tgz#49241c9e16f78c72cccfaa2cb9fe8d07c0358910"
-  integrity sha512-DCxlTVG9gKIgpCD9MCBhRxxyj99k9V8ztoiwChfg2KgesIY2zZ2O91cgtMyIoK8NYwVTvSFtmY+X2vIBnMSyDw==
-  dependencies:
-    "@ndhoule/clone" "^1.0.0"
-    "@segment/isodate-traverse" "^1.0.0"
-    inherits "^2.0.1"
-    is-email "0.1.0"
-    new-date "^1.0.0"
-    obj-case "0.x"
-    trim "1.0.0"
-    type-component "0.0.1"
 
 semver-compare@^1.0.0:
   version "1.0.0"
@@ -9418,11 +9425,6 @@ trim-right@^1.0.1:
   resolved "https://registry.yarnpkg.com/trim-right/-/trim-right-1.0.1.tgz#cb2e1203067e0c8de1f614094b9fe45704ea6003"
   integrity sha1-yy4SAwZ+DI3h9hQJS5/kVwTqYAM=
 
-trim@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/trim/-/trim-1.0.0.tgz#fd1f30b878bdd2d8435fa0f2cc9cbb55f518be7d"
-  integrity sha512-UgtES1lYpE+f4WiGY5lyJlHchuGhTa/xMPH96g/B7gc+pEQPiL41s6ECm7Ky3hkhARG/u1SHGFcleJodAvQOKQ==
-
 ts-node@^8.10.2:
   version "8.10.2"
   resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-8.10.2.tgz#eee03764633b1234ddd37f8db9ec10b75ec7fb8d"
@@ -9479,10 +9481,6 @@ type-check@~0.3.2:
   resolved "https://registry.yarnpkg.com/type-check/-/type-check-0.3.2.tgz#5884cab512cf1d355e3fb784f30804b2b520db72"
   dependencies:
     prelude-ls "~1.1.2"
-
-type-component@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/type-component/-/type-component-0.0.1.tgz#952a6c81c21efd24d13d811d0c8498cb860e1956"
 
 type-fest@^0.10.0:
   version "0.10.0"

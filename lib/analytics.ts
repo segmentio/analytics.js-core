@@ -8,24 +8,21 @@ import {
   SegmentIntegration
 } from './types';
 
+import { Alias, Group, Identify, Page, Track, Facade } from '@segment/facade'
+
 var _analytics = global.analytics;
 
 /*
  * Module dependencies.
  */
 
-var Alias = require('segmentio-facade').Alias;
+
 var Emitter = require('component-emitter');
-var Facade = require('segmentio-facade');
-var Group = require('segmentio-facade').Group;
-var Identify = require('segmentio-facade').Identify;
 var SourceMiddlewareChain = require('./middleware').SourceMiddlewareChain;
 var IntegrationMiddlewareChain = require('./middleware')
   .IntegrationMiddlewareChain;
 var DestinationMiddlewareChain = require('./middleware')
   .DestinationMiddlewareChain;
-var Page = require('segmentio-facade').Page;
-var Track = require('segmentio-facade').Track;
 var bindAll = require('bind-all');
 var clone = require('./utils/clone');
 var extend = require('extend');
