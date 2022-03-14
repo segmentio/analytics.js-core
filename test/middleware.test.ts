@@ -1,7 +1,8 @@
 'use strict';
+import { Facade } from '@segment/facade'
+
 
 var assert = require('proclaim');
-var Facade = require('segmentio-facade');
 var SourceMiddlewareChain = require('../build/middleware')
   .SourceMiddlewareChain;
 var IntegrationMiddlewareChain = require('../build/middleware')
