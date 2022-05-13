@@ -37,11 +37,11 @@ interface User {
 User.defaults = {
   persist: true,
   cookie: {
-    key: 'ajs_user_id',
-    oldKey: 'ajs_user'
+    key: 'fp_user_id',
+    oldKey: 'fp_user'
   },
   localStorage: {
-    key: 'ajs_user_traits'
+    key: 'fp_user_traits'
   }
 };
 
@@ -111,27 +111,27 @@ User.prototype.anonymousId = function(anonymousId?: string): string | User {
 
   // set / remove
   if (arguments.length) {
-    store.set('ajs_anonymous_id', anonymousId);
+    store.set('fp_anonymous_id', anonymousId);
     this._setAnonymousIdInLocalStorage(anonymousId);
     return this;
   }
 
   // new
-  anonymousId = store.get('ajs_anonymous_id');
+  anonymousId = store.get('fp_anonymous_id');
   if (anonymousId) {
     // value exists in cookie, copy it to localStorage
     this._setAnonymousIdInLocalStorage(anonymousId);
     // refresh cookie to extend expiry
-    store.set('ajs_anonymous_id', anonymousId);
+    store.set('fp_anonymous_id', anonymousId);
     return anonymousId;
   }
 
   if (!this._options.localStorageFallbackDisabled) {
     // if anonymousId doesn't exist in cookies, check localStorage
-    anonymousId = localStorage.get('ajs_anonymous_id');
+    anonymousId = localStorage.get('fp_anonymous_id');
     if (anonymousId) {
       // Write to cookies if available in localStorage but not cookies
-      store.set('ajs_anonymous_id', anonymousId);
+      store.set('fp_anonymous_id', anonymousId);
       return anonymousId;
     }
   }
@@ -140,7 +140,7 @@ User.prototype.anonymousId = function(anonymousId?: string): string | User {
   anonymousId = rawCookie('_sio');
   if (anonymousId) {
     anonymousId = anonymousId.split('----')[0];
-    store.set('ajs_anonymous_id', anonymousId);
+    store.set('fp_anonymous_id', anonymousId);
     this._setAnonymousIdInLocalStorage(anonymousId);
     store.remove('_sio');
     return anonymousId;
@@ -148,9 +148,9 @@ User.prototype.anonymousId = function(anonymousId?: string): string | User {
 
   // empty
   anonymousId = uuid.v4();
-  store.set('ajs_anonymous_id', anonymousId);
+  store.set('fp_anonymous_id', anonymousId);
   this._setAnonymousIdInLocalStorage(anonymousId);
-  return store.get('ajs_anonymous_id');
+  return store.get('fp_anonymous_id');
 };
 
 /**
@@ -159,7 +159,7 @@ User.prototype.anonymousId = function(anonymousId?: string): string | User {
 
 User.prototype._setAnonymousIdInLocalStorage = function(id: string) {
   if (!this._options.localStorageFallbackDisabled) {
-    localStorage.set('ajs_anonymous_id', id);
+    localStorage.set('fp_anonymous_id', id);
   }
 };
 

@@ -1,5 +1,5 @@
 {
-  "name": "@segment/analytics.js-core",
+  "name": "firstparty-analytics.js-core",
   "author": "Segment <friends@segment.com>",
   "version": "4.1.11",
   "description": "The hassle-free way to integrate analytics into any web application.",
@@ -18,11 +18,12 @@
     "precommit": "lint-staged",
     "np": "np --no-publish",
     "cz": "git-cz",
+    "compile": "./node_modules/typescript/bin/tsc ./lib/index.ts",
     "check-js": "if [[ $(git status  -s | egrep '^(A|R)' | egrep 'jsx?\"?$' | wc -l | awk '{print $1}')  > 0 ]] ; then exit 125; else echo 🎉 ; fi; echo"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/segmentio/analytics.js-core"
+    "url": "https://github.com/kd-at-mi/analytics.js-core"
   },
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
@@ -107,7 +108,7 @@
     "sinon": "^1.7.3",
     "snyk": "^1.393.0",
     "ts-node": "^8.10.2",
-    "typescript": "^4.0.2",
+    "typescript": "^4.5.5",
     "wait-on": "^5.0.1",
     "watchify": "^3.11.1"
   },
