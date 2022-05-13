@@ -10,3 +10,4 @@ test-e2e/output
 test-e2e/staging
 test-e2e/static/analytics.js
 
+.idea
