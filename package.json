@@ -18,7 +18,7 @@
     "precommit": "lint-staged",
     "np": "np --no-publish",
     "cz": "git-cz",
-    "compile": "./node_modules/typescript/bin/tsc ./lib/index.ts",
+    "compile": "./node_modules/typescript/bin/tsc -p tsconfig.json && ./node_modules/typescript/bin/tsc ./lib/index.ts",
     "check-js": "if [[ $(git status  -s | egrep '^(A|R)' | egrep 'jsx?\"?$' | wc -l | awk '{print $1}')  > 0 ]] ; then exit 125; else echo 🎉 ; fi; echo"
   },
   "repository": {
