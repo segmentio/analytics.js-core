@@ -18,10 +18,10 @@ var inherit = require('inherits');
 Group.defaults = {
   persist: true,
   cookie: {
-    key: 'ajs_group_id'
+    key: 'fp_group_id'
   },
   localStorage: {
-    key: 'ajs_group_properties'
+    key: 'fp_group_properties'
   }
 };
 

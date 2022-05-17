@@ -3,10 +3,11 @@ node_modules
 package-lock.json
 junit-reports
 
-build/
 .DS_Store
 
 test-e2e/output
 test-e2e/staging
 test-e2e/static/analytics.js
+
+.idea
 
