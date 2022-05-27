@@ -1,3 +1,7 @@
+# 4.1.11 / 2022-05-27
+
+- updates uuid@3.4.0 (deprecated) to uuid@8.0.0
+
 # 4.1.10 / 2020-04-14
 
 - updates top-domain to 3.0.1

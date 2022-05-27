@@ -12,7 +12,7 @@ var each = require('./utils/each');
 var includes = require('@ndhoule/includes');
 var map = require('./utils/map');
 var type = require('component-type');
-var uuid = require('uuid/v4');
+var { v4: uuidv4 } = require('uuid');
 var md5 = require('spark-md5').hash;
 
 /**
@@ -45,7 +45,7 @@ interface NormalizedMessage {
 }
 
 function normalize(msg: Message, list: Array<any>): NormalizedMessage {
-  var lower = map(function(s) {
+  var lower = map(function (s) {
     return s.toLowerCase();
   }, list);
   var opts: Message = msg.options || {};
@@ -59,7 +59,7 @@ function normalize(msg: Message, list: Array<any>): NormalizedMessage {
   debug('<-', msg);
 
   // integrations.
-  each(function(value: string, key: string) {
+  each(function (value: string, key: string) {
     if (!integration(key)) return;
     if (!has.call(integrations, key)) integrations[key] = value;
     delete opts[key];
@@ -67,7 +67,7 @@ function normalize(msg: Message, list: Array<any>): NormalizedMessage {
 
   // providers.
   delete opts.providers;
-  each(function(value: string, key: string) {
+  each(function (value: string, key: string) {
     if (!integration(key)) return;
     if (type(integrations[key]) === 'object') return;
     if (has.call(integrations, key) && typeof providers[key] === 'boolean')
@@ -77,7 +77,7 @@ function normalize(msg: Message, list: Array<any>): NormalizedMessage {
 
   // move all toplevel options to msg
   // and the rest to context.
-  each(function(_value: any, key: string | number) {
+  each(function (_value: any, key: string | number) {
     if (includes(key, toplevel)) {
       ret[key] = opts[key];
     } else {
@@ -86,7 +86,7 @@ function normalize(msg: Message, list: Array<any>): NormalizedMessage {
   }, opts);
 
   // generate and attach a messageId to msg
-  msg.messageId = 'ajs-' + md5(window.JSON.stringify(msg) + uuid());
+  msg.messageId = 'ajs-' + md5(window.JSON.stringify(msg) + uuidv4());
 
   // cleanup
   delete msg.options;
