@@ -59,7 +59,7 @@
     "package-json-versionify": "^1.0.4",
     "segmentio-facade": "^3.2.7",
     "spark-md5": "^2.0.2",
-    "uuid": "^3.4.0"
+    "uuid": "^8.0.0"
   },
   "devDependencies": {
     "@codeceptjs/mock-request": "^0.3.0",

@@ -11,7 +11,7 @@ var cookie = require('./cookie');
 var debug = require('debug')('analytics:user');
 var inherit = require('inherits');
 var rawCookie = require('@segment/cookie');
-var uuid = require('uuid');
+var { v4: uuidv4 } = require('uuid');
 var localStorage = require('./store');
 
 /**
@@ -38,11 +38,11 @@ User.defaults = {
   persist: true,
   cookie: {
     key: 'ajs_user_id',
-    oldKey: 'ajs_user'
+    oldKey: 'ajs_user',
   },
   localStorage: {
-    key: 'ajs_user_traits'
-  }
+    key: 'ajs_user_traits',
+  },
 };
 
 /**
@@ -86,7 +86,7 @@ inherit(User, Entity);
  * assert.notEqual(anonymousId, user.anonymousId());
  */
 
-User.prototype.id = function(id?: string): string | undefined {
+User.prototype.id = function (id?: string): string | undefined {
   var prev = this._getId();
   var ret = Entity.prototype.id.apply(this, arguments);
   if (prev == null) return ret;
@@ -106,7 +106,7 @@ User.prototype.id = function(id?: string): string | undefined {
  * @return {String|User}
  */
 
-User.prototype.anonymousId = function(anonymousId?: string): string | User {
+User.prototype.anonymousId = function (anonymousId?: string): string | User {
   var store = this.storage();
 
   // set / remove
@@ -147,7 +147,7 @@ User.prototype.anonymousId = function(anonymousId?: string): string | User {
   }
 
   // empty
-  anonymousId = uuid.v4();
+  anonymousId = uuidv4();
   store.set('ajs_anonymous_id', anonymousId);
   this._setAnonymousIdInLocalStorage(anonymousId);
   return store.get('ajs_anonymous_id');
@@ -157,7 +157,7 @@ User.prototype.anonymousId = function(anonymousId?: string): string | User {
  * Set the user's `anonymousid` in local storage.
  */
 
-User.prototype._setAnonymousIdInLocalStorage = function(id: string) {
+User.prototype._setAnonymousIdInLocalStorage = function (id: string) {
   if (!this._options.localStorageFallbackDisabled) {
     localStorage.set('ajs_anonymous_id', id);
   }
@@ -167,7 +167,7 @@ User.prototype._setAnonymousIdInLocalStorage = function(id: string) {
  * Remove anonymous id on logout too.
  */
 
-User.prototype.logout = function() {
+User.prototype.logout = function () {
   Entity.prototype.logout.call(this);
   this.anonymousId(null);
 };
@@ -176,7 +176,7 @@ User.prototype.logout = function() {
  * Load saved user `id` or `traits` from storage.
  */
 
-User.prototype.load = function() {
+User.prototype.load = function () {
   if (this._loadOldCookie()) return;
   Entity.prototype.load.call(this);
 };
@@ -187,7 +187,7 @@ User.prototype.load = function() {
  * @api private
  */
 
-User.prototype._loadOldCookie = function(): boolean {
+User.prototype._loadOldCookie = function (): boolean {
   var user = cookie.get(this._options.cookie.oldKey);
   if (!user) return false;
 
