@@ -1,5 +1,7 @@
-⚠️ Be sure to check out the next generation of analytics.js! https://github.com/segmentio/analytics-next 🎉 
+### ⚠️ This package is deprecated. Please migrate to: https://github.com/segmentio/analytics-next 🎉 
+###  End of life for security updates: August 31st, 2022
 If you have an existing JavaScript source with Segment, you can enable Analytics Next in the settings of the source.
+
 
 # analytics.js-core
 
