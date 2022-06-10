@@ -732,12 +732,12 @@ Analytics.prototype._parseQuery = function (query) {
     var traits = pickPrefix('fp_trait_', q);
     var props = pickPrefix('fp_prop_', q);
     // Trigger based on callable parameters in the URL
-    if (q.ajs_uid)
-        this.identify(q.ajs_uid, traits);
-    if (q.ajs_event)
-        this.track(q.ajs_event, props);
-    if (q.ajs_aid)
-        user.anonymousId(q.ajs_aid);
+    if (q.fp_uid)
+        this.identify(q.fp_uid, traits);
+    if (q.fp_event)
+        this.track(q.fp_event, props);
+    if (q.fp_aid)
+        user.anonymousId(q.fp_aid);
     return this;
     /**
      * Create a shallow copy of an input object containing only the properties
