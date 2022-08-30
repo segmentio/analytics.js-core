@@ -1,5 +1,8 @@
-⚠️ Be sure to check out the next generation of analytics.js! https://github.com/segmentio/analytics-next 🎉 
-If you have an existing JavaScript source with Segment, you can enable Analytics Next in the settings of the source.
+⚠️ This library is in **End of Support** status as of 08/31/2022 and is replaced with Analytics.js 2.0.
+
+https://github.com/segmentio/analytics-next
+
+If you have an existing JavaScript source with Segment, you can enable Analytics.js 2.0 in the settings of the source.
 
 # analytics.js-core
 
